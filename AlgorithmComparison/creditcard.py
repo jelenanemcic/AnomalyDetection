@@ -91,8 +91,7 @@ if __name__ == '__main__':
     print('Number of positive / negative samples: {} / {}'.format(num_pos, num_neg))
     print('Fraction of positives: {:.2%}'.format(num_pos / num_neg))
 
+
  #   run_KMeans()
  #   run_DBSCAN()
     run_GaussianMixture()
-
-
