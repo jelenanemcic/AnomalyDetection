@@ -4,6 +4,23 @@ import pandas as pd
 from sklearn.cluster import DBSCAN, KMeans
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import RobustScaler
+from sklearn.mixture import GaussianMixture
+
+
+def calculate_Gaussian(X, y, threshold):
+    gaussianMixture = GaussianMixture(n_components=2, covariance_type='full', init_params='random').fit(X)
+
+    densities = gaussianMixture.score_samples(X)
+    pred = gaussianMixture.predict_proba(X)
+    density_threshold = np.percentile(densities, 4)
+
+#    density_threshold = 10
+    indices = densities < threshold
+
+    print('number of anomalies {:d}, number of true positives {} (fraction: {:.3%})'.format(
+            indices[indices==True].sum(), y[indices == 1].sum(), y[indices == 1].mean()))
+
+    return indices
 
 
 def calculate_DBSCAN(X, y, eps, min_samples):
@@ -15,7 +32,7 @@ def calculate_DBSCAN(X, y, eps, min_samples):
 
     n_noise = np.where(dbscan.labels_ == -1)
     print('Found {:d} outliers'.format(len(n_noise[0])))
-    y_pred = set_outlier_labels(dbscan.labels_)
+    y_pred = set_outlier_labels_dbscan(dbscan.labels_)
     return y_pred
 
 
@@ -34,7 +51,7 @@ def calculate_KMeans(X, y, k, threshold):
     return y_pred
 
 
-def set_outlier_labels(labels):
+def set_outlier_labels_dbscan(labels):
     # y_pred = labels
     # if len(np.unique(labels)) > 2:
     #     y_pred[labels == 1] = len(np.unique(labels)) - 1

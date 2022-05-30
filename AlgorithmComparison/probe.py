@@ -34,6 +34,33 @@ def run_DBSCAN():
                      f1_scores, accuracies)
 
 
+def run_GaussianMixture():
+    max_j = 1
+    threshold = 2.5
+
+    y_trues = []
+    y_predictions = []
+
+    for j in range(0, max_j):
+        X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.5, frac_negative=0.5, verbose=1,
+                                                    random_state=random.randint(0, 10000), scaler=None)
+
+        y_pred = algorithms.calculate_Gaussian(X, y, threshold)
+
+        y_trues.append(y)
+        y_predictions.append(y_pred)
+
+    fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
+    accuracies = helper.calculate_metrics(y_trues, y_predictions)
+
+    helper.save("dbscan-credit", fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions,
+                recalls,
+                f1_scores, accuracies)
+
+    helper.print_all(fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
+                     f1_scores, accuracies)
+
+
 def run_KMeans():
     k = 1
     max_j = 3
@@ -71,5 +98,6 @@ if __name__ == '__main__':
 
     df = pd.concat([X, y], axis=1)
 
-    run_KMeans()
+  #  run_KMeans()
  #   run_DBSCAN()
+    run_GaussianMixture()
