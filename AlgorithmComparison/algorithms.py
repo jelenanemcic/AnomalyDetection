@@ -7,18 +7,23 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.mixture import GaussianMixture
 
 
-def calculate_Gaussian(X, y, threshold):
-    gaussianMixture = GaussianMixture(n_components=2, covariance_type='full', init_params='random').fit(X)
+def calculate_Gaussian(X, y, n_components, percentile):
+    gaussianMixture = GaussianMixture(n_components=n_components, covariance_type='full', init_params='random').fit(X)
 
     densities = gaussianMixture.score_samples(X)
+    print(densities)
     pred = gaussianMixture.predict_proba(X)
-    density_threshold = np.percentile(densities, 4)
+    print(pred)
 
-#    density_threshold = 10
-    indices = densities < threshold
+   # find_best_n_components(X)
 
-    print('number of anomalies {:d}, number of true positives {} (fraction: {:.3%})'.format(
-            indices[indices==True].sum(), y[indices == 1].sum(), y[indices == 1].mean()))
+    density_threshold = np.percentile(densities, percentile)
+    print(density_threshold)
+    #    density_threshold = 10
+    indices = densities < density_threshold
+
+    print('Number of anomalies {:d}, number of true positives {} (fraction: {:.3%})'.format(
+        indices[indices == True].sum(), y[indices == 1].sum(), y[indices == 1].mean()))
 
     return indices
 
@@ -37,7 +42,6 @@ def calculate_DBSCAN(X, y, eps, min_samples):
 
 
 def calculate_KMeans(X, y, k, threshold):
-
     kmeans = KMeans(n_clusters=k).fit(X)
 
     distances = kmeans.transform(X)
@@ -89,6 +93,22 @@ def find_best_k(X):
     plt.show()
 
 
+def find_best_n_components(X):
+    distortions = []
+    K = range(1, 10, 1)
+    for k in K:
+        gaussian_mixture = GaussianMixture(n_components=k)
+        gaussian_mixture.fit(X)
+        distortions.append(gaussian_mixture.bic(X))
+
+    plt.figure(figsize=(16, 8))
+    plt.plot(K, distortions, 'bx-')
+    plt.xlabel('k')
+    plt.ylabel('Distortion')
+    plt.title('The Elbow Method showing the optimal number of components')
+    plt.show()
+
+
 def downsample_scale_split_df(df_full, y_column='class', frac_negative=1, frac_positive=1, scaler=RobustScaler,
                               random_state=1, verbose=False):
     """ Returns downsampled X, y DataFrames, with prescribed downsampling of positives and negatives
@@ -121,4 +141,3 @@ def downsample_scale_split_df(df_full, y_column='class', frac_negative=1, frac_p
         print('Number of points: {}, number of positives: {} ({:.2%})'.format(
             len(y_downsampled), y_downsampled.sum(), y_downsampled.mean()))
     return X_downsampled, y_downsampled
-

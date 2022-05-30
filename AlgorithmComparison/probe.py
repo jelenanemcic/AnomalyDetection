@@ -35,8 +35,9 @@ def run_DBSCAN():
 
 
 def run_GaussianMixture():
-    max_j = 1
-    threshold = 2.5
+    max_j = 5
+    n_components = 8
+    percentile = 10
 
     y_trues = []
     y_predictions = []
@@ -45,7 +46,7 @@ def run_GaussianMixture():
         X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.5, frac_negative=0.5, verbose=1,
                                                     random_state=random.randint(0, 10000), scaler=None)
 
-        y_pred = algorithms.calculate_Gaussian(X, y, threshold)
+        y_pred = algorithms.calculate_Gaussian(X, y, n_components, percentile)
 
         y_trues.append(y)
         y_predictions.append(y_pred)
@@ -53,7 +54,7 @@ def run_GaussianMixture():
     fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
     accuracies = helper.calculate_metrics(y_trues, y_predictions)
 
-    helper.save("dbscan-credit", fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions,
+    helper.save("gaussian-probe", fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions,
                 recalls,
                 f1_scores, accuracies)
 
