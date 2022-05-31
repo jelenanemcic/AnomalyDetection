@@ -1,10 +1,11 @@
 from sklearn.metrics import accuracy_score, roc_auc_score, average_precision_score, \
-    f1_score, precision_score, recall_score
+    f1_score, precision_score, recall_score, silhouette_score, calinski_harabasz_score, davies_bouldin_score
 import numpy as np
+import DBCV
+from hdbscan import validity_index
 
 
 def calculate_metrics(y_true, y_pred):
-    fractions = np.zeros(len(y_pred))
     number_of_positives = np.zeros(len(y_pred))
     total_number = np.zeros(len(y_pred))
     auc_roc = np.zeros(len(y_pred))
@@ -15,7 +16,6 @@ def calculate_metrics(y_true, y_pred):
     accuracies = np.zeros(len(y_pred))
 
     for i in range(0, len(y_pred)):
-        fractions[i] = y_true[i][y_pred[i] == 1].mean()
         number_of_positives[i] = y_true[i][y_pred[i] == 1].sum()
         total_number[i] = np.sum(y_pred[i] == 1)
         auc_roc[i] = roc_auc_score(y_true[i], y_pred[i])
@@ -25,8 +25,16 @@ def calculate_metrics(y_true, y_pred):
         f1_scores[i] = f1_score(y_true[i], y_pred[i])
         accuracies[i] = accuracy_score(y_true[i], y_pred[i])
 
-    return fractions.mean(), number_of_positives.mean(), total_number.mean(), auc_roc.mean(), average_precisions.mean(),\
+    return number_of_positives.mean(), total_number.mean(), auc_roc.mean(), average_precisions.mean(), \
            precisions.mean(), recalls.mean(), f1_scores.mean(), accuracies.mean()
+
+
+def calculate_clustering_metrics(X, y_pred):
+    silhouette = silhouette_score(X, y_pred)
+    calinski = calinski_harabasz_score(X, y_pred)
+    davies = davies_bouldin_score(X, y_pred)
+#    DBCVs = validity_index(X, y_pred)
+    return silhouette, calinski, davies
 
 
 def save(name, *to_save):

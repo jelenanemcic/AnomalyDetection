@@ -1,6 +1,21 @@
 \documentclass[utf8, diplomski, numeric]{fer}
 \usepackage{booktabs}
 \usepackage[final]{pdfpages}
+\usepackage{beramono}
+
+\usepackage{listings}
+\lstset{
+    language=C,
+    basicstyle=\small\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    showstringspaces=false,
+     morekeywords={gg, printf},
+      literate={đ}{{\dj}}1
+          		{ž}{{\v{z}}}1
+}
+
+\renewcommand{\lstlistingname}{Pseudokod}
 
 \begin{document}
 
@@ -113,6 +128,7 @@ Otkivanje anomalija svodi se na problem definiranja očekivanog ponašanja podat
 \item Učinkovito modeliranje normalnih vrijednosti i ponašanja može biti vrlo izazovan problem. Često je teško nabrojati sva moguća normalna ponašanja nekog objekta i klasificirati neki podatak kao anomaliju. Također, granica  između normalnih podataka i anomalija može biti vrlo nejasna.
 \item Svaki problem zahtjeva specifičan način detekcije anomalija jer su odabir mjere sličnosti i modeliranje odnosa ovisni o svojstvima tog problema. Zbog toga nije moguć razvoj univerzalno primjenjive metode otkivanja anomalija.
 \item Prikupljeni podaci često sadrže šum koji može imati vrijednosti koje znatno odstupaju od normalnih ili čak nedostaju. Šum smanjuje kvalitetu podataka i otežava definiranje granica između normalnih podataka i anomalija te se često šum može pogrešno identificirati kao anomalija i obrnuto.
+\item Mnogi načini otkrivanja anomalija postaju neučinkoviti u slučaju velike dimenzionalnosti skupa podataka. Podaci su tada rijetki i udaljenosti među podacima su sve veće te se puno točaka može pogrešno klasificirati kao anomalija.
 \item U nekim primjenama, korisnik ne želi samo identificirati anomalije već i razumjeti zašto su ti podaci detektirani kao abnormalni. Zbog toga metoda otkrivanja anomalija mora biti razumljiva, smislena i pružiti opravdanje detekciji.
 \end{itemize}
 
@@ -140,10 +156,11 @@ Metode koje se temelje na grupiranju pretpostavljaju da normalni podaci pripadaj
 U ovom radu za detekciju anomalija koristit će se algoritmi temeljeni na grupiranju. Za usporedbu su izabrani algoritmi K-Means, DBSCAN i Gaussova mješavina.
 
 
-\chapter{Algoritmi grupiranja za otkrivanje anomalija}
+\chapter{Algoritmi grupiranja}
 \section{O algoritmima grupiranja}
 Grupiranje je podjela skupa podataka u grupe, tako da su podaci u istoj grupi sličniji jedni drugima nego podacima iz ostalih grupa. Cilj jest pronalaženje intrinzičnih grupa u skupu podataka. Algoritmi grupiranja pripadaju u skupinu nenadziranih metoda strojnog učenja jer su ulazni podaci dani bez ciljnih vrijednosti odnosno nisu označeni. 
 
+\subsection{Podjela}
 Grupiranje se može podijeliti u dvije kategorije:
 
 \begin{enumerate}
@@ -162,10 +179,151 @@ Osim po tipu grupiranja koje provode, algoritmi grupiranja razlikuju se i po tom
 
 Ne postoji objektivno najbolji algoritam grupiranja, već odabir algoritma ovisi o problemu koji se rješava. Algoritam se može odabrati na temelju modela grupe ili eksperimentalno. Također, algoritam dizajniran za jednu vrstu modela grupe općenito neće raditi na skupu podataka koji sadrži drugačiji tip grupa.
 
-Vrednovanje algoritma grupiranja
+\subsection{Vrednovanje}
+Rezultati algoritama grupiranja mogu se vrednovati na dva načina. Prvi je vredovanje korištenjem podataka za koje su poznate oznake grupa. Takva evaluacija mjeri koliko je dobiveno grupiranje blizu unaprijed određenoj podjeli. Metode vrednovanja često su prilagođene varijante metoda koje se koriste za vrednovanje klasifikacije. Neke od tih metrika su:
 
+\begin{enumerate}
+\item Matrica zabune (eng. \textit{Confusion Matrix})
+
+Matrica koja opisuje uspješnost modela prikazom broja istinski pozitivnih (eng. \textit{True Positive - TP}), lažno positivnih (eng. \textit{False Positive - FP}), istinski negativnih (eng. \textit{True Negative - TN}) i lažno negativnih (eng.  \textit{False Negative - FP}) primjera.
+\item Točnost (eng. \textit{Accuracy})
+
+Točnost je udio točno klasificiranih primjera u skupu svih primjera i računa se kao:
+\begin{equation*} \label{eq:accuracy}
+Acc = \frac{TP+TN}{TP+TN+FP+FN}
+\end{equation*}
+
+\item Preciznost (eng. \textit{Precision})
+
+Preciznost predstavlja udio točno klasificiranih primjera među onima koje je model deklarirao kao pozitivne.
+\begin{equation*} \label{eq:precision}
+P = \frac{TP}{TP+FP}
+\end{equation*}
+
+\item Odziv (eng. \textit{Recall})
+
+Odziv je udio točno klasificiranih primjera u skupu svih stvarno pozitivnih primjera.
+\begin{equation*} \label{eq:recall}
+R = \frac{TP}{TP+FN}
+\end{equation*}
+
+\item F1-mjera (eng. \textit{F1-score})
+
+F1-mjera jest harmonijska sredina preciznosti i odziva i najčešće korištena mjera za usporedbu klasifikatora.
+\begin{equation*} \label{eq:f1}
+F1 = \frac{2PR}{P+R}
+\end{equation*}
+
+\item AUC mjera
+
+ROC krivulja (eng. \textit{Receiver Operating Characteristic curve}) jest graf koji prikazuje odnos stope istiniski pozitivnih primjera (eng. \textit{True Positive Rate - TPR}) odnosno odziva i stope lažno pozitivnih primjera (eng. \textit{False Positive Rate - FPR}), koja se računa kao: 
+\begin{math}
+\frac{FP}{FP+TN}
+\end{math}. Njihov odnos prikazuje se na svim mogućim pragovima klasifikacije. AUC mjera (eng. \textit{Area under the ROC curve}) predstavlja površinu ispod cijele ROC krivulje.
+
+\end{enumerate}
+
+Drugi način vrednovanja algoritama grupiranja jest korištenje metrika koje ne zahtjevaju oznake podataka kako bi izračunale efikasnost algoritma. Najčešće korištene metrike su:
+
+\begin{enumerate}
+\item Koeficijent siluete (eng. \textit{Silhouette Coefficient})
+
+Koeficijent siluete definira se na temelju udaljenosti unutar grupe i između različitih grupa i računa se kao:
+\begin{equation*} \label{eq:silouette}
+S = \frac{1}{N}\sum_{i=0}^{N}\frac{b_i-a_i}{max(a_i,b_i)} 
+\end{equation*}
+gdje je:
+\begin{itemize}
+\item \textit{a} - srednja udaljenost između uzorka \textit{i} i svih ostalih podataka u toj grupi
+\item \textit{b} - srednja udaljenost između uzorka \textit{i} i svih ostalih podataka u drugoj najbližoj grupi
+\end{itemize}
+
+Vrijednost koeficijenta siluete nalazi se u skupu \begin{math}[-1,1] \end{math} i što je ona veća, grupe su jasnije odijeljene i grupiranje se smatra točnijim.
+
+\item Dunnov indeks
+
+Dunnov indeks zahtjeva da su udaljenosti primjera unutar grupe male, a udaljenosti između različitih grupa što veće. Računa se kao:
+\begin{equation*} \label{eq:silouette}
+D = \frac{\min_{1\leq i < j \leq m} \delta(C_i,C_j)}{\max_{1\leq k \leq m} \Delta_k}
+\end{equation*}
+gdje je:
+\begin{itemize}
+\item $\delta(C_i,C_j)$ - udaljenost između grupa $C_i$ i $C_j$ (udaljenost između dva najbliža primjera, dva najudaljenija primjera ili prosječna udaljenost)
+\item $\Delta_k$ - udaljenost primjera unutar iste grupe (najveća udaljenost između dva primjera, prosječna udaljenost ili udaljenost primjera od centroida grupe)
+\end{itemize}
+
+Što je vrijednost Dunnovog indeksa veća, bolje je grupiranje.
+
+\item Davies Bouldin indeks
+
+Davies Bouldin indeks računa se kao prosjek sličnosti svake grupe s grupom koja joj je najsličnija: 
+\begin{equation*} \label{eq:silouette}
+DB = \frac{1}{K}\sum_{i = 1}^{K} \max_{j\neq i} \frac{\Delta_i + \Delta_j}{\delta(C_i,C_j)}
+\end{equation*}
+
+Razlikuje se od ostalih metrika jer manja vrijednost ovog indeksa označava bolje grupiranje.
+
+\item Randov indeks
+
+\end{enumerate}
+
+Za evaluaciju algoritama u ovom radu koristit će se sve navedene metode osim točnosti koja je nepouzdana u slučaju neuravnoteženih razreda, kao što je to slučaj u detekciji anomalija.
 
 \section{K-Means}
+K-Means je najpoznatiji algoritam grupiranja koji se temelji na centroidnom modelu. U ovom algoritmu, svaka grupa ima centroid koji se računa kao srednja vrijednost članova grupe i predstavlja tu grupu. Primjeri se iz neoznačenog skupa podataka grupiraju u $K$ grupa na način da svaki podatak pripada onoj grupi čijem je centroidu najbliži. 
+
+Kriterijska funkcija algoritma grupiranja jest funkcija koju taj algoritam nastoji minimizirati. Za algoritam K-Means to je funkcija koja zbraja koliko primjeri odstupaju od centroida grupe u kojoj se nalaze i glasi:
+\begin{equation*} \label{eq:silouette}
+J = \sum_{k = 1}^{K}\sum_{x \in C_k} \lVert x - \mu_k \rVert ^{2}
+\end{equation*}
+
+Algoritam očekuje broj grupa $K$ kao hiperparameter i njegova se vrijednost može odrediti na više načina, a najpoznatiji su:
+\begin{itemize}
+\item Metoda lakta (eng. \textit{Elbow method})
+
+U metodi lakta grafički se prikazuje ovisnost funkcije gubitka o broju grupa $K$. S porastom broja grupa vrijednost funckije će se smanjivati te je cilj pronaći ``lakat'' funkcije, odnosno broj grupa nakon kojeg se vrijednosti funkcija počinju smanjivati vrlo sporo.
+
+\item Analiza siluete (eng. \textit{Silhouette analysis})
+
+Ova je metoda grafička metoda koja se temelji na ranije objašnjenom koeficijentu siluete. Njegova vrijednost prikaže se za svaki primjer iz skupa podataka ovisno o grupi u koju je primjer raspoređen te se izabere onaj broj grupa za koji svi primjeri imaju približno jednak koeficijent siluete.
+
+\end{itemize}
+
+Osim odabira broja grupa, potrebno je definirati i način odabira početnih centroida. Neki od mogućih prisupa su:
+\begin{itemize}
+\item Nasumičan odabir $K$ primjera.
+\item Nasumična dodjela grupe svakom primjeru i izračun centroida na temelju primjera u grupi.
+\item Izračun srednje vrijednosti sviju primjera i dodavanje $K$ slučajnih vektora toj vrijednosti.
+\item Nasumičan odabir prvog centroida, nakon čega se svaki sljedeći bira na način da bude što dalje od postojećih. Verzija algoritma koja implementira ovakav pristup zove se \textit{k-means++}.
+
+\end{itemize}
+
+Postupak grupiranja K-Means algoritma je iterativan. Nakon inicijalizacije početnih centroida, svi se primjeri stavljaju u onu grupu čiji im je centroid najbliži. U sljedećem se koraku, na temelju razvrstanih primjera, ponovno računaju novi centroidi za svaku grupu. Dalje se ponavljaju ova dva koraka sve do konvergencije odnosno do trenutka kad više nema promjene u podjeli primjera grupama i u vrijednostima centroida. Ovaj postupak prikazan je i pseudokodom \ref{alg:kmeans}.
+
+ \begin{lstlisting}[caption = Pseudokod algoritma K-Means, label = {alg:kmeans}, escapeinside={*}{+}]
+ definiraj broj grupa *$K$+
+ inicijaliziraj centroide *$\mu_k$+, *$k = 1, ..., K$+
+ ponavljaj
+ 	za svaki *$x_i \in D$+
+ 		pronađi najbliži centroid
+ 		dodjeli *$x_i$+ toj grupi
+	za svaki *$\mu_k$+, *$k = 1, ..., K$+
+		ažuriraj vrijednost centroida
+ dok svi *$\mu_k$+ ne konvergiraju
+ }
+}
+\end{lstlisting}
+
+K-Means je algoritam koji se dobro nosi s velikim skupovima podataka jer ima linearne vremensku složenosti $O(nkdi)$, gdje je:
+\begin{itemize}
+\item n - veličina skupa podataka
+\item k - broj grupa
+\item d - dimenzionalnost podataka
+\item i - broj iteracija algoritma
+\end{itemize}
+
+Međutim, K-Means algoritam uvijek traži grupe sfernog oblika te ne može identificirati nekonveksne grupe. Također, jako je osjetljiv na prisutnost anomalija i šuma u podacima.
+
 \section{DBSCAN}
 \section{Gaussova mješavina}
 

@@ -5,16 +5,18 @@
 \contentsline {section}{\numberline {2.2}Klasifikacija anomalija}{3}{}%
 \contentsline {section}{\numberline {2.3}Problem otkrivanja anomalija}{4}{}%
 \contentsline {section}{\numberline {2.4}Metode otkrivanja anomalija}{6}{}%
-\contentsline {chapter}{\numberline {3}Algoritmi grupiranja za otkrivanje anomalija}{7}{}%
-\contentsline {section}{\numberline {3.1}O algoritmima grupiranja}{7}{}%
-\contentsline {section}{\numberline {3.2}K-Means}{8}{}%
-\contentsline {section}{\numberline {3.3}DBSCAN}{8}{}%
-\contentsline {section}{\numberline {3.4}Gaussova mje^^c5^^a1avina}{8}{}%
-\contentsline {chapter}{\numberline {4}Kori^^c5^^a1teni skupovi podataka}{9}{}%
-\contentsline {section}{\numberline {4.1}prvi}{9}{}%
-\contentsline {section}{\numberline {4.2}drugi}{9}{}%
-\contentsline {section}{\numberline {4.3}tre^^c4^^87i}{9}{}%
-\contentsline {chapter}{\numberline {5}Implementacija}{10}{}%
-\contentsline {chapter}{\numberline {6}Rezultati}{11}{}%
-\contentsline {chapter}{\numberline {7}Zaklju^^c4^^8dak}{12}{}%
-\contentsline {chapter}{Literatura}{13}{}%
+\contentsline {chapter}{\numberline {3}Algoritmi grupiranja}{8}{}%
+\contentsline {section}{\numberline {3.1}O algoritmima grupiranja}{8}{}%
+\contentsline {subsection}{\numberline {3.1.1}Podjela}{8}{}%
+\contentsline {subsection}{\numberline {3.1.2}Vrednovanje}{9}{}%
+\contentsline {section}{\numberline {3.2}K-Means}{11}{}%
+\contentsline {section}{\numberline {3.3}DBSCAN}{13}{}%
+\contentsline {section}{\numberline {3.4}Gaussova mje^^c5^^a1avina}{13}{}%
+\contentsline {chapter}{\numberline {4}Kori^^c5^^a1teni skupovi podataka}{14}{}%
+\contentsline {section}{\numberline {4.1}prvi}{14}{}%
+\contentsline {section}{\numberline {4.2}drugi}{14}{}%
+\contentsline {section}{\numberline {4.3}tre^^c4^^87i}{14}{}%
+\contentsline {chapter}{\numberline {5}Implementacija}{15}{}%
+\contentsline {chapter}{\numberline {6}Rezultati}{16}{}%
+\contentsline {chapter}{\numberline {7}Zaklju^^c4^^8dak}{17}{}%
+\contentsline {chapter}{Literatura}{18}{}%
