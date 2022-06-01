@@ -23,14 +23,13 @@ def run_DBSCAN():
         y_trues.append(y)
         y_predictions.append(y_pred)
 
-    fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
+    number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
     accuracies = helper.calculate_metrics(y_trues, y_predictions)
 
-    helper.save("dbscan-probe", fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions,
-                recalls,
-                f1_scores, accuracies)
+    helper.save("dbscan-probe", number_of_positives, total_number, auc_roc, average_precisions, precisions,
+                recalls, f1_scores, accuracies)
 
-    helper.print_all(fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
+    helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                      f1_scores, accuracies)
 
 
@@ -100,6 +99,6 @@ if __name__ == '__main__':
     df = pd.concat([X, y], axis=1)
 
   #  run_KMeans()
- #   run_DBSCAN()
-    run_GaussianMixture()
+    run_DBSCAN()
+ #   run_GaussianMixture()
 

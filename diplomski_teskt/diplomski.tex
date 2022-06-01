@@ -2,18 +2,24 @@
 \usepackage{booktabs}
 \usepackage[final]{pdfpages}
 \usepackage{beramono}
-
+\usepackage{subcaption}
 \usepackage{listings}
+
+\newcommand\keywordstyle[1]{{\bfseries{#1}}}%
 \lstset{
     language=C,
     basicstyle=\small\ttfamily,
     numbers=left,
     numberstyle=\tiny,
     showstringspaces=false,
-     morekeywords={gg, printf},
-      literate={đ}{{\dj}}1
+     morekeywords={definiraj, inicijaliziraj, za, ako, onda, dok, inače, inace, nastavi, ponavljaj},
+     literate={đ}{{\dj}}1
           		{ž}{{\v{z}}}1
-}
+          		{č}{{\v{c}}}1
+          		{ć}{{\'c}}1
+          		{š}{{\v{s}}}1
+          		{inače}{{\keywordstyle{ina\v{c}e}}}5,
+  }
 
 \renewcommand{\lstlistingname}{Pseudokod}
 
@@ -46,7 +52,7 @@ Anomalijom se smatra svaki događaj ili opažanje koje značajno odstupa od već
 
 Otkrivanje anomalija pronalazi primjenu u mnogim domenama uključujući kibernetičku sigurnost, medicinu, računalni vid, statistiku, neuroznanost i oružane snage. Koristi se također i za otkrivanje financijskih prijevara, industrijskih oštećenja i poremećaja u ekosustavu. Anomalije mogu predstavljati problem te su tada tražene radi namjernog izostavljanja iz skupa podataka kako bi se dobila točnija statistička analiza ili bolje predviđanje nekog modela strojnog učenja. Međutim, u mnogim su primjenama anomalije najzanimiljiviji dio skupa podataka i predstavljaju novu pojavu koju je potrebno identificirati i dalje istražiti.
 
-Jedna od tehnika otkrivanja anomalija jest korištenje algoritama grupiranja s ciljem pronalaženja elemenata koji ne pripadaju niti jednoj grupi. U ovom radu dano je objašnjenje problema pronalaska anomalija, opis različitih algoritama grupiranja i korištenih skupova podataka te usporedba izvedbe tih algoritama u postupcima otkrivanja anomalija. Algoritmi odabrani za usporedbu su K-Means, DBSCAN i Gaussova mješavina, a testirani su na problemima otkrivanja ...
+Jedna od tehnika otkrivanja anomalija jest korištenje algoritama grupiranja s ciljem pronalaženja elemenata koji ne pripadaju niti jednoj grupi. U ovom radu dano je objašnjenje problema pronalaska anomalija, opis različitih algoritama grupiranja i korištenih skupova podataka te usporedba izvedbe tih algoritama u postupcima otkrivanja anomalija. Algoritmi odabrani za usporedbu su algoritam K-sredina, DBSCAN i Gaussova mješavina, a testirani su na problemima otkrivanja ...
 
 
 \chapter{Anomalije}
@@ -153,7 +159,7 @@ Metode temeljene na gustoći koriste broj podataka koji se nalaze unutar definir
 
 Metode koje se temelje na grupiranju pretpostavljaju da normalni podaci pripadaju velikim i gustim grupama, dok anomalije pripadaju malim i rijetkim grupama ili ne pripadaju niti jednoj. Razlika između grupiranja i metoda temeljenih na gustoći je u tome što grupiranje dijeli podatke u grupe dok metode temeljene na gustoći dijele podatkovni prostor.
 \end{enumerate}
-U ovom radu za detekciju anomalija koristit će se algoritmi temeljeni na grupiranju. Za usporedbu su izabrani algoritmi K-Means, DBSCAN i Gaussova mješavina.
+U ovom radu za detekciju anomalija koristit će se algoritmi temeljeni na grupiranju. Za usporedbu su izabrani algoritmi K-sredina, DBSCAN i Gaussova mješavina.
 
 
 \chapter{Algoritmi grupiranja}
@@ -174,10 +180,12 @@ Osim po tipu grupiranja koje provode, algoritmi grupiranja razlikuju se i po tom
 \item Modeli povezanosti - na temelju udaljenosti podataka stvara se hijerarhijsko stablo grupa 
 \item Centroidni modeli - podaci se organiziraju u nehijerarhijske grupe ovisno o udaljenosti od centroida te grupe
 \item Modeli distribucije - grupe se modeliraju pomoću vjerojatnosti da podaci pripadaju istoj statističkoj distribuciji
-\item Modeli gustoće - područja iste gustoće povezuju se u grupe
+\item Modeli gustoće - područja veće gustoće povezuju se u grupe
 \end{enumerate}
 
 Ne postoji objektivno najbolji algoritam grupiranja, već odabir algoritma ovisi o problemu koji se rješava. Algoritam se može odabrati na temelju modela grupe ili eksperimentalno. Također, algoritam dizajniran za jednu vrstu modela grupe općenito neće raditi na skupu podataka koji sadrži drugačiji tip grupa.
+
+U ovom radu uspoređivat će se tri različita modela: algoritam K-sredina kao predstavnik centroidnih modela, DBSCAN algoritam kao model gustoće i model Gaussove mješavine koji pripada modelima distribucije.
 
 \subsection{Vrednovanje}
 Rezultati algoritama grupiranja mogu se vrednovati na dva načina. Prvi je vredovanje korištenjem podataka za koje su poznate oznake grupa. Takva evaluacija mjeri koliko je dobiveno grupiranje blizu unaprijed određenoj podjeli. Metode vrednovanja često su prilagođene varijante metoda koje se koriste za vrednovanje klasifikacije. Neke od tih metrika su:
@@ -269,10 +277,10 @@ Razlikuje se od ostalih metrika jer manja vrijednost ovog indeksa označava bolj
 
 Za evaluaciju algoritama u ovom radu koristit će se sve navedene metode osim točnosti koja je nepouzdana u slučaju neuravnoteženih razreda, kao što je to slučaj u detekciji anomalija.
 
-\section{K-Means}
-K-Means je najpoznatiji algoritam grupiranja koji se temelji na centroidnom modelu. U ovom algoritmu, svaka grupa ima centroid koji se računa kao srednja vrijednost članova grupe i predstavlja tu grupu. Primjeri se iz neoznačenog skupa podataka grupiraju u $K$ grupa na način da svaki podatak pripada onoj grupi čijem je centroidu najbliži. 
+\section{K-sredine}
+Algoritam K-sredina najpoznatiji je algoritam grupiranja koji se temelji na centroidnom modelu. U ovom algoritmu, svaka grupa ima centroid koji se računa kao srednja vrijednost članova grupe i predstavlja tu grupu. Primjeri se iz neoznačenog skupa podataka grupiraju u $K$ grupa na način da svaki podatak pripada onoj grupi čijem je centroidu najbliži. 
 
-Kriterijska funkcija algoritma grupiranja jest funkcija koju taj algoritam nastoji minimizirati. Za algoritam K-Means to je funkcija koja zbraja koliko primjeri odstupaju od centroida grupe u kojoj se nalaze i glasi:
+Kriterijska funkcija algoritma grupiranja jest funkcija koju taj algoritam nastoji minimizirati. Za algoritam K-sredina to je funkcija koja zbraja euklidske udaljenosti odstupanja primjera od centroida grupe u kojoj se nalaze i glasi:
 \begin{equation*} \label{eq:silouette}
 J = \sum_{k = 1}^{K}\sum_{x \in C_k} \lVert x - \mu_k \rVert ^{2}
 \end{equation*}
@@ -294,13 +302,13 @@ Osim odabira broja grupa, potrebno je definirati i način odabira početnih cent
 \item Nasumičan odabir $K$ primjera.
 \item Nasumična dodjela grupe svakom primjeru i izračun centroida na temelju primjera u grupi.
 \item Izračun srednje vrijednosti sviju primjera i dodavanje $K$ slučajnih vektora toj vrijednosti.
-\item Nasumičan odabir prvog centroida, nakon čega se svaki sljedeći bira na način da bude što dalje od postojećih. Verzija algoritma koja implementira ovakav pristup zove se \textit{k-means++}.
+\item Nasumičan odabir prvog centroida, nakon čega se svaki sljedeći bira na način da bude što dalje od postojećih. Verzija algoritma koja implementira ovakav pristup zove se \textit{K-sredine++}.
 
 \end{itemize}
 
-Postupak grupiranja K-Means algoritma je iterativan. Nakon inicijalizacije početnih centroida, svi se primjeri stavljaju u onu grupu čiji im je centroid najbliži. U sljedećem se koraku, na temelju razvrstanih primjera, ponovno računaju novi centroidi za svaku grupu. Dalje se ponavljaju ova dva koraka sve do konvergencije odnosno do trenutka kad više nema promjene u podjeli primjera grupama i u vrijednostima centroida. Ovaj postupak prikazan je i pseudokodom \ref{alg:kmeans}.
+Postupak grupiranja algoritma K-sredina je iterativan. Nakon inicijalizacije početnih centroida, svi se primjeri stavljaju u onu grupu čiji im je centroid najbliži. U sljedećem se koraku, na temelju razvrstanih primjera, ponovno računaju novi centroidi za svaku grupu. Dalje se ponavljaju ova dva koraka sve do konvergencije odnosno do trenutka kad više nema promjene u podjeli primjera grupama i u vrijednostima centroida. Ovaj postupak prikazan je i pseudokodom \ref{alg:kmeans}.
 
- \begin{lstlisting}[caption = Pseudokod algoritma K-Means, label = {alg:kmeans}, escapeinside={*}{+}]
+ \begin{lstlisting}[caption = Pseudokod algoritma K-sredina, label = {alg:kmeans}, escapeinside={*}{+}]
  definiraj broj grupa *$K$+
  inicijaliziraj centroide *$\mu_k$+, *$k = 1, ..., K$+
  ponavljaj
@@ -310,11 +318,9 @@ Postupak grupiranja K-Means algoritma je iterativan. Nakon inicijalizacije poče
 	za svaki *$\mu_k$+, *$k = 1, ..., K$+
 		ažuriraj vrijednost centroida
  dok svi *$\mu_k$+ ne konvergiraju
- }
-}
 \end{lstlisting}
 
-K-Means je algoritam koji se dobro nosi s velikim skupovima podataka jer ima linearne vremensku složenosti $O(nkdi)$, gdje je:
+Bitna karakteristika algoritma K-sredina je da pripada algoritmima tvrdog grupiranja, što znači da će svaku točku dodijeliti jednoj i točno jednoj grupi. Algoritam se dobro nosi s velikim skupovima podataka jer ima linearnu vremensku složenosti $O(nkdi)$, gdje je:
 \begin{itemize}
 \item n - veličina skupa podataka
 \item k - broj grupa
@@ -322,10 +328,153 @@ K-Means je algoritam koji se dobro nosi s velikim skupovima podataka jer ima lin
 \item i - broj iteracija algoritma
 \end{itemize}
 
-Međutim, K-Means algoritam uvijek traži grupe sfernog oblika te ne može identificirati nekonveksne grupe. Također, jako je osjetljiv na prisutnost anomalija i šuma u podacima.
+Međutim, algoritam K-sredina uvijek traži grupe sfernog oblika te ne može identificirati nekonveksne grupe. Također, jako je osjetljiv na prisutnost anomalija i šuma u podacima.
 
 \section{DBSCAN}
+DBSCAN algoritam (eng. \textit{Density-based spatial clustering of applications with noise}) priprada u skupinu algoritama grupiranja temeljenih na gustoći. On grupira zajedno točke koje su blizu jedna drugoj odnosno točke s mnogo susjednih točaka. Primjere koji nisu svrstani niti u jednu grupu i nalaze se u područjima niske gustoće algoritam označava kao anomalije. Kao i algoritam K-sredina, i DBSCAN je algoritam tvrdog grupiranja.
+
+Glavna ideja algoritma DBSCAN jest da grupa mora sadržavati određeni minimalni broj točaka unutar definiranog polumjera. Zato algoritam zahtjeva dva parametra: 
+\begin{enumerate}
+\item \textit{minPts} 
+
+Parametar \textit{minPts} predstavlja najmanji broj točaka u grupi da bi se ona smatrala gusto popunjenom. Za njegovu procjenu može se primjeniti generalno pravilo $minPts \geq D + 1$, gdje je $D$ broj dimenzija skupa podataka. Također, što je veći skup podataka potrebno je odabrati veći \textit{minPts} i tada se može koristiti pravilo $minPts = 2*D$. Veće vrijednosti obično daju bolje rezultate kada je u podacima prisutan šum.
+\item $\epsilon$
+
+Parametar $\epsilon$ jest polumjer unutar kojeg se traže susjedne točke. Pri odabiru vrijednosti $\epsilon$ nema generalnog pravila. Vrijednost ne smije biti ni prevelika niti premala i mora biti u skladu s udaljenostima među podacima. 
+\end{enumerate}
+
+DBCAN algoritam pridjeljuje svakoj točki jednu od tri moguće oznake:
+\begin{enumerate}
+\item Središnja točka (eng. \textit{Core point}) - točka oko koje se nalazi minimalno \textit{minPts} drugih točaka u polumjeru $\epsilon$
+\item Granična točka (eng. \textit{Border point}) - točka koja ima barem jednu središnju točku na udaljenosti manjoj od $\epsilon$, ali nalazi se na rubu grupe i broj točaka oko nje manji je od \textit{minPts} 
+\item Točka šuma (eng. \textit{Noise point}) - točka koja nije niti središnja niti granična točka; nije nužno anomalija, već samo točka od koje DBSCAN nije znao formirati grupu
+\end{enumerate}
+
+Na slici \ref{fig:dbscan-points} prikazane su grafički različite vrste točaka.
+
+\begin{figure}[htb]
+\includegraphics[width=0.8\textwidth]{images/dbscan-points.png}
+\centering
+\caption{Primjer središnje točke, granične točke i točke šuma uz $minPts$ = 3. Preuzeto s  https://machinelearninggeek.com/dbscan-clustering/}
+\label{fig:dbscan-points}
+\end{figure}
+
+Središnja točka $p$ formira grupu zajedno sa svim središnjim i graničnim točkama koje su iz nje dohvatljive. Točka $q$ može biti:
+\begin{itemize}
+\item Izravno dohvatljiva - ako se nalazi unutar udaljenosti $\epsilon$ od točke $p$
+\item Dohvatljiva - ako postoji put $p_1, ..., p_n$, pri čemu je $p_1 = p$ i $p_n = q$ i svaka točka $p_{i+1}$ izravno je dohvatljiva iz točke $p_i$
+\end{itemize}
+
+Dohvatljivost nije simetrična relacija, već samo središnje točke mogu dohvatiti granične. Zbog toga je uveden pojam povezanosti, kojim se formalno definira opseg grupe. Dvije točke $p$ i $q$ povezane su ako postoji točka $o$ takva da su i $p$ i $q$ dohvatljive iz $o$. Ova relacija je simetrična i grupa tada zadovoljava sljedeća svojstva:
+\begin{itemize}
+\item Sve točke unutar grupe međusobno su povezane.
+\item Ako je točka dohvatljiva iz bilo koje točke koja pripada grupe, tada ona također pripada grupi.
+\end{itemize}
+
+Svojstva izravne dohvatljivosti, dohvatljivosti i povezanosti prikazana su grafički na slici \ref{fig:dbscan-dohvatljivost}.
+
+\begin{figure}[htp]
+\begin{subfigure}{.3\textwidth}
+\centering
+\includegraphics[width=1\textwidth]{images/dbscan1.png}
+\caption{Točka $q$ je izravno dohvatljiva iz točke $p$}
+\end{subfigure}
+\begin{subfigure}{.3\textwidth}
+\centering
+\includegraphics[width=1\textwidth]{images/dbscan2.png}
+\caption{Točka $q$ je dohvatljiva iz točke $p$ preko točke $r$}
+\end{subfigure}
+\begin{subfigure}{.3\textwidth}
+\centering
+\includegraphics[width=1\textwidth]{images/dbscan3.png}
+\caption{Točka $p$ i točka $q$ su povezane preko točke $o$}
+\end{subfigure}
+\caption{Prikaz izravne dohvatljivosti, dohvatljivosti i povezanosti na primjeru gdje je $minPts = 6$. Slike su preuzete s https://www.geeksforgeeks.org/ml-dbscan-reachability-and-connectivity/}
+\label{fig:dbscan-dohvatljivost}
+\end{figure}
+
+Na početku algoritma odabire se nasumična točka od koje se formira grupa ako ona zadovoljava navedeni kriterij. Grupe se zatim rekurzivno proširuju obilaženjem ostalih članova grupe. Kad se grupa više ne može proširiti, odabire se nasumično nova točka iz skupa podataka i algoritam se ponavlja dok sve točke nisu obiđene. Pseudokod \ref{alg:dbscan} prikazuje pseudokod algoritma DBSCAN.
+
+\begin{lstlisting}[caption = Pseudokod algoritma DBSCAN, label = {alg:dbscan}, escapeinside={*}{-}]
+ definiraj minimalan broj članova grupe *$minPts$+ i udaljenost *$\epsilon$-
+ inicijaliziraj početni broj grupa: *$C = 0$-
+ za svaku točku *$p \in D$-
+ 	ako je točka *$p$- već označena
+       		nastavi
+    	pronađi skup točaka *$S$- izravno dohvatljivih iz *$p$-
+    	ako je *$|S| < minPts$- onda 
+ 		označi *$p$- kao točku šuma
+ 	   	nastavi
+ 	*$C = C + 1$-
+ 	dodaj *$p$- u grupu *$C$-
+	za svaku točku *$q \in S$-
+	  	ako točka *$q$- već pripada grupi
+	  		nastavi
+	      	dodaj *$q$- u grupu *$C$-
+	      	pronađi skup točaka *$N$- izravno dohvatljivih iz *$q$-
+	      	ako je *$|N| \geq minPts$- onda 
+	         	dodaj točke iz *$N$- u skup *$S$-
+
+\end{lstlisting}
+
+Ako je skup podataka pohranjen tako da se upiti o susjedstvu mogu izvoditi u logaritamskom vremenu, složenost DBSCAN algoritma je $O(n log n)$, gdje je $n$ broj podataka. Ako nema strukture indeksiranja, složenost raste na $O(n^2)$.
+
+Prednosti algoritma DBSCAN su što ne zahtjeva definiranje broja grupa unaprijed, može pronaći grupe proizvoljnog oblika i otporan je na prisutnost šuma i anomalija. Nedostatak mu je što ne može dobro grupirati skup podataka u kojem je prisutna velika razlika u gustoći među grupama jer se tada ne može odabrati kombinacija parametara \textit{minPts} i $\epsilon$ koja bi bila prikladna za sve grupe. 
+
 \section{Gaussova mješavina}
+
+Gaussova mješavina je model distribucije koji pretpostavlja da su sve točke iz skupa podataka generirane iz mješavine konačnog broja Gaussovih distribucija s nepoznatim parametrima. Model zatim grupira podatke na način da svaka grupa sadrži podatke iz jedne distribucije.
+
+Gaussova distribucija još se naziva normalnom distribuciju i ima karakterističan zvonolik oblik. Funkcija gustoće vjerojatnosti Gaussove distribucije u jednoj dimenziji glasi:
+\begin{equation} \label{eq:gauss1}
+\mathcal{N}(x|\mu,\sigma) = \frac{1}{{\sigma \sqrt {2\pi } }}e^{{{ - \left( {x - \mu } \right)^2 } \mathord{\left/ {\vphantom {{ - \left( {x - \mu } \right)^2 } {2\sigma ^2 }}} \right. \kern-\nulldelimiterspace} {2\sigma ^2 }}}
+\end{equation}
+
+pri čemu je:
+\begin{itemize}
+\item $\mu$ - srednja vrijednost skupa podataka; određuje ``visinu'' krivulju
+\item $\sigma$ - standardna devijacija podataka; odeđuje ``širinu'' krivulje
+\end{itemize}
+
+Slika \ref{fig:gauss1} prikazuje funkciju gustoće vjerojatnosti za različite vrijednosti parametara $\mu$ i $\sigma$.
+
+\begin{figure}[htb]
+\includegraphics[width=0.8\textwidth]{images/gauss1.png}
+\centering
+\caption{Funkcija gustoće vjerojatnosti Gaussove distrubucije za različite vrijednosti parametara $\mu$ i $\sigma$. Preuzeto s  https://en.wikipedia.org/wiki/Normal\_distribution}
+\label{fig:gauss1}
+\end{figure}
+
+U slučaju više dimenzionalnog skupa podataka, formula multivarijatna (višedimenzijske) Gaussove razdiobe glasi:
+
+\begin{equation}
+\mathcal{N}(X|\mu,\Sigma)  =\frac{1}{\sqrt{(2\pi)^{k}|\Sigma|}}exp(-\frac{1}{2}(X-\mu)^T\Sigma^{-1}(X-\mu))
+\end{equation}
+
+U tom je slučaju $k$ broj dimenzija skupa podatka, $\mu$ $k$-dimenzionalni vektor srednjih vrijednosti, a $\Sigma$ kovarijacijska matrica veličine $k \times k$.
+
+Gaussova je mješavina funkcija koja se sastoji od onoliko Gaussovih funkcija koliko ima grupa u skupu podataka. Svaka Gaussov funkcija u mješavini ima sljedeće parametare:
+\begin{itemize}
+\item Srednju vrijednost $\mu$ koja definira središte.
+\item Kovarijancu $\Sigma$  koja odeđuje ``širinu'' funckije.
+\item Vjerojatnost miješanja $\pi$ koja definira koliko će Gaussova funkcija biti mala ili velika. Za vjerojatnosti miješanja mora vrijediti: 
+\begin{equation}
+\sum_{k=1}^{K}\pi_k = 1
+\end{equation}
+\end{itemize}
+
+Slika \ref{fig:gauss-mixture} prikazuje kako model Gaussove mješavine grupira podatke u slučaju kada imamo tri grupe.
+
+\begin{figure}[htb]
+\includegraphics[width=0.8\textwidth]{images/gauss_mixture.png}
+\centering
+\caption{Primjer Gaussove mješavine za tri grupe podataka. Preuzeto s  https://towardsdatascience.com/gaussian-mixture-models-explained-6986aaf5a95}
+\label{fig:gauss-mixture}
+\end{figure}
+
+Model Gaussove mješavine radi na principu generativnog modeliranja
+
+Why are we using the Gaussian distribution? The Expectation-Maximization algorithm is actually more broad than just the normal distribution, but what makes Gaussians so special? It turns out that many dataset distributions are actually Gaussian! We find these Gaussians in nature, mathematics, physics, biology, and just about every other field! They are ubiquitous! There is a famous theorem in statistics called the Central Limit Theorem that states that as we collect more and more samples from a dataset, they tend to resemble a Gaussian, even if the original dataset distribution is not Gaussian! This makes Gaussian very powerful and versatile!
 
 \chapter{Korišteni skupovi podataka}
 \section{prvi}

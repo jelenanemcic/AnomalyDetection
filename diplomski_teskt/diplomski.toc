@@ -9,14 +9,14 @@
 \contentsline {section}{\numberline {3.1}O algoritmima grupiranja}{8}{}%
 \contentsline {subsection}{\numberline {3.1.1}Podjela}{8}{}%
 \contentsline {subsection}{\numberline {3.1.2}Vrednovanje}{9}{}%
-\contentsline {section}{\numberline {3.2}K-Means}{11}{}%
+\contentsline {section}{\numberline {3.2}K-sredine}{11}{}%
 \contentsline {section}{\numberline {3.3}DBSCAN}{13}{}%
-\contentsline {section}{\numberline {3.4}Gaussova mje^^c5^^a1avina}{13}{}%
-\contentsline {chapter}{\numberline {4}Kori^^c5^^a1teni skupovi podataka}{14}{}%
-\contentsline {section}{\numberline {4.1}prvi}{14}{}%
-\contentsline {section}{\numberline {4.2}drugi}{14}{}%
-\contentsline {section}{\numberline {4.3}tre^^c4^^87i}{14}{}%
-\contentsline {chapter}{\numberline {5}Implementacija}{15}{}%
-\contentsline {chapter}{\numberline {6}Rezultati}{16}{}%
-\contentsline {chapter}{\numberline {7}Zaklju^^c4^^8dak}{17}{}%
-\contentsline {chapter}{Literatura}{18}{}%
+\contentsline {section}{\numberline {3.4}Gaussova mje^^c5^^a1avina}{16}{}%
+\contentsline {chapter}{\numberline {4}Kori^^c5^^a1teni skupovi podataka}{19}{}%
+\contentsline {section}{\numberline {4.1}prvi}{19}{}%
+\contentsline {section}{\numberline {4.2}drugi}{19}{}%
+\contentsline {section}{\numberline {4.3}tre^^c4^^87i}{19}{}%
+\contentsline {chapter}{\numberline {5}Implementacija}{20}{}%
+\contentsline {chapter}{\numberline {6}Rezultati}{21}{}%
+\contentsline {chapter}{\numberline {7}Zaklju^^c4^^8dak}{22}{}%
+\contentsline {chapter}{Literatura}{23}{}%
