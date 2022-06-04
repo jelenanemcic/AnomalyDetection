@@ -58,17 +58,17 @@ def read_breast_dataset(df):
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('datasets/breast-cancer.csv')
+    df = pd.read_csv('datasets/thyroid.csv')
  #   df = pd.DataFrame(data[0])
  #   df = df.select_dtypes([object])
   #  df = df.stack().str.decode('utf-8').unstack()
     print(df.head)
 
- #   X = df.iloc[:, 0:6]
-  #  print(X.head())
+    X = df.iloc[:, 0:21]
+    print(X.head())
 
-  #  y = df.iloc[:, 6]
-  #  print(y.head())
+    y = df.iloc[:, 21]
+    print(y.head())
 
     #   count = 0
     #   for index, row in X.iterrows():
@@ -79,8 +79,8 @@ if __name__ == '__main__':
 
  #   X = encode_ordinal(X)
  #   y = y.astype(int)
-  #  y.to_csv('u2r_labels.csv', index=False)
+    X.to_csv('thyroid_X.csv', index=False)
+    y.to_csv('thyroid_y.csv', index=False)
 
-    read_breast_dataset(df)
 
 

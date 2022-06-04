@@ -2,23 +2,24 @@ import random
 
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import RobustScaler
 
 import algorithms
 import helper
 
 
 def run_DBSCAN(df):
-    eps = 0.25
-    samples = 25
-    max_j = 5
+    eps = 5.5
+    samples = 60 # najbolje eps 3.5, samples 3; eps 5 ili 5.5, s 60 najbolje
+    max_j = 10
 
     y_trues = []
     y_predictions = []
     silhouette, davies = np.zeros(max_j), np.zeros(max_j)
 
     for j in range(0, max_j):
-        X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.2, frac_negative=0.1, verbose=1,
-                                                    random_state=random.randint(0, 10000), scaler=None)
+        X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.1, frac_negative=1, verbose=1,
+                                                    random_state=random.randint(0, 10000), scaler=RobustScaler)
 
         y_pred = algorithms.calculate_DBSCAN(X, y, eps, samples)
 
@@ -32,7 +33,7 @@ def run_DBSCAN(df):
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
     accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
 
-    helper.save("dbscan-credit", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
+    helper.save("dbscan-cancer", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
 
     helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores,
@@ -40,17 +41,17 @@ def run_DBSCAN(df):
 
 
 def run_GaussianMixture(df):
-    max_j = 5
-    n_components = 10
-    percentile = 1
+    max_j = 10
+    n_components = 2
+    percentile = 15
 
     y_trues = []
     y_predictions = []
     silhouette, davies = np.zeros(max_j), np.zeros(max_j)
 
     for j in range(0, max_j):
-        X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.2, frac_negative=0.1, verbose=1,
-                                                    random_state=random.randint(0, 10000), scaler=None)
+        X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.1, frac_negative=1, verbose=1,
+                                                    random_state=random.randint(0, 10000), scaler=RobustScaler)
 
         y_pred = algorithms.calculate_Gaussian(X, y, n_components, percentile)
 
@@ -64,7 +65,7 @@ def run_GaussianMixture(df):
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
     accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
 
-    helper.save("gaussian-credit", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
+    helper.save("gaussian-cancer", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
 
     helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores,
@@ -74,29 +75,29 @@ def run_GaussianMixture(df):
 def run_KMeans(df):
     k = 1
     max_j = 1
-    threshold = 0.52
+    percentile = 90
 
     y_trues = []
     y_predictions = []
     silhouette, davies = np.zeros(max_j), np.zeros(max_j)
 
     for j in range(0, max_j):
-        X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.2, frac_negative=0.1, verbose=1,
+        X, y = algorithms.downsample_scale_split_df(df, frac_positive=1, frac_negative=1, verbose=1,
                                                     random_state=random.randint(0, 10000), scaler=None)
 
-        y_pred = algorithms.calculate_KMeans(X, y, k, threshold)
+        y_pred = algorithms.calculate_KMeans(X, y, k, percentile)
 
         y_trues.append(y)
         y_predictions.append(y_pred)
 
-        s, d = helper.calculate_clustering_metrics(X.to_numpy(), y_pred)
+        s, d = helper.calculate_clustering_metrics(X, y_pred)
         silhouette[j] = s
         davies[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
     accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
 
-    helper.save("kmeans-credit", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
+    helper.save("kmeans-thyroid", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
          f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
 
     helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores,
@@ -104,13 +105,15 @@ def run_KMeans(df):
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('datasets/creditcardfraud_normalised.csv')
-    num_neg = (df["class"] == 0).sum()
-    num_pos = df["class"].sum()
+    X = pd.read_csv('datasets/thyroid_X.csv')
+    y = pd.read_csv('datasets/thyroid_y.csv')
+    y.columns = ["class"]
+
+    num_neg = len(y[y == 0])
+    num_pos = int(y[y == 1].sum())
     print('Number of positive / negative samples: {} / {}'.format(num_pos, num_neg))
     print('Fraction of positives: {:.2%}'.format(num_pos / num_neg))
 
-
-#    run_KMeans(df)
-    run_DBSCAN(df)
- #   run_GaussianMixture(df)
+    run_KMeans(pd.concat([X, y], axis=1))
+  #  run_DBSCAN(pd.concat([X, y], axis=1))
+  #  run_GaussianMixture(pd.concat([X, y], axis=1))
