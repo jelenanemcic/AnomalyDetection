@@ -11,11 +11,9 @@ def calculate_Gaussian(X, y, n_components, percentile):
     gaussianMixture = GaussianMixture(n_components=n_components, covariance_type='full', init_params='random').fit(X)
 
     densities = gaussianMixture.score_samples(X)
-    print(densities)
     pred = gaussianMixture.predict_proba(X)
-    print(pred)
 
-   # find_best_n_components(X)
+  #  find_best_n_components(X)
 
     density_threshold = np.percentile(densities, percentile)
     print(density_threshold)
@@ -31,6 +29,8 @@ def calculate_Gaussian(X, y, n_components, percentile):
 def calculate_DBSCAN(X, y, eps, min_samples):
     dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(X)
 
+  #  calculate_Nearest_Neighbors(X, min_samples)
+
     for i in set(dbscan.labels_):
         print('class {}: number of points {:d}, number of positives {} (fraction: {:.3%})'.format(
             i, np.sum(dbscan.labels_ == i), y[dbscan.labels_ == i].sum(), y[dbscan.labels_ == i].mean()))
@@ -41,16 +41,19 @@ def calculate_DBSCAN(X, y, eps, min_samples):
     return y_pred
 
 
-def calculate_KMeans(X, y, k, threshold):
+def calculate_KMeans(X, y, k, percentile):
     kmeans = KMeans(n_clusters=k).fit(X)
 
     distances = kmeans.transform(X)
     min_distances = np.min(distances, axis=1)
-    indexes = np.argwhere(min_distances > threshold).flatten()
 
-    print('Found {:d} outliers'.format(len(indexes)))
+    threshold = np.percentile(min_distances, percentile)
+    print(threshold)
+    indices = np.argwhere(min_distances > threshold).flatten()
+
+    print('Found {:d} outliers'.format(len(indices)))
     y_pred = np.zeros(len(y))
-    y_pred[indexes] = 1
+    y_pred[indices] = 1
 
     return y_pred
 
@@ -95,7 +98,7 @@ def find_best_k(X):
 
 def find_best_n_components(X):
     distortions = []
-    K = range(1, 10, 1)
+    K = range(1, 15, 1)
     for k in K:
         gaussian_mixture = GaussianMixture(n_components=k)
         gaussian_mixture.fit(X)

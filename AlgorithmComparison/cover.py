@@ -1,6 +1,7 @@
 import random
 
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import RobustScaler
 
 import algorithms
@@ -15,6 +16,8 @@ def run_DBSCAN(df):
     y_trues = []
     y_predictions = []
 
+    silhouette, calinski, davies = np.zeros(max_j), np.zeros(max_j), np.zeros(max_j)
+
     for e in eps:
         for sample in samples:
             for j in range(0, max_j):
@@ -27,15 +30,19 @@ def run_DBSCAN(df):
                 y_trues.append(y)
                 y_predictions.append(y_pred)
 
-            fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
+                s, c, d = helper.calculate_clustering_metrics(X, y_pred)
+                silhouette[j] = s
+                calinski[j] = c
+                davies[j] = d
+
+            number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
             accuracies = helper.calculate_metrics(y_trues, y_predictions)
 
-            helper.save("dbscan-cover", fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions,
-                        recalls,
-                        f1_scores, accuracies)
+            helper.save("dbscan-cover", number_of_positives, total_number, auc_roc, average_precisions, precisions,
+                        recalls, f1_scores, accuracies, silhouette.mean(), calinski.mean(), davies.mean())
 
-            helper.print_all(fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions,
-                             recalls, f1_scores, accuracies)
+            helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions,
+                             recalls, f1_scores, accuracies, silhouette.mean(), calinski.mean(), davies.mean())
 
 
 def run_KMeans(df):

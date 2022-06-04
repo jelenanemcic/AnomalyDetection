@@ -1,5 +1,6 @@
 from scipy.io import arff
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 
 
@@ -42,18 +43,32 @@ def encode_onehot(X):
     return X
 
 
-if __name__ == '__main__':
-    data = arff.loadarff('datasets/u2rvsnormal.arff')
-    df = pd.DataFrame(data[0])
-    df = df.select_dtypes([object])
-    df = df.stack().str.decode('utf-8').unstack()
-    print(df.head())
-
-    X = df.iloc[:, 0:6]
+def read_breast_dataset(df):
+    X = df.iloc[:, 2:]
     print(X.head())
+    X = X.iloc[:, 0:30]
+    X.to_csv('cancer_X.csv', index=False)
 
-    y = df.iloc[:, 6]
+    y = df.iloc[:, 1]
     print(y.head())
+
+    y = pd.Series(np.where(y.values == 'M', 1, 0), y.index)
+    print(y.head())
+    y.to_csv('cancer_y.csv', index=False)
+
+
+if __name__ == '__main__':
+    df = pd.read_csv('datasets/breast-cancer.csv')
+ #   df = pd.DataFrame(data[0])
+ #   df = df.select_dtypes([object])
+  #  df = df.stack().str.decode('utf-8').unstack()
+    print(df.head)
+
+ #   X = df.iloc[:, 0:6]
+  #  print(X.head())
+
+  #  y = df.iloc[:, 6]
+  #  print(y.head())
 
     #   count = 0
     #   for index, row in X.iterrows():
@@ -62,6 +77,10 @@ if __name__ == '__main__':
     #           row["service"] = "other"
     #           count = count + 1
 
-    X = encode_ordinal(X)
-    y = y.astype(int)
-    y.to_csv('u2r_labels.csv', index=False)
+ #   X = encode_ordinal(X)
+ #   y = y.astype(int)
+  #  y.to_csv('u2r_labels.csv', index=False)
+
+    read_breast_dataset(df)
+
+
