@@ -9,16 +9,16 @@ import helper
 
 
 def run_DBSCAN(df):
-    eps = 5.5
-    samples = 60 # najbolje eps 3.5, samples 3; eps 5 ili 5.5, s 60 najbolje
-    max_j = 10
+    eps = 1.4
+    samples = 40
+    max_j = 1
 
     y_trues = []
     y_predictions = []
     silhouette, davies = np.zeros(max_j), np.zeros(max_j)
 
     for j in range(0, max_j):
-        X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.1, frac_negative=1, verbose=1,
+        X, y = algorithms.downsample_scale_split_df(df, frac_positive=1, frac_negative=1, verbose=1,
                                                     random_state=random.randint(0, 10000), scaler=RobustScaler)
 
         y_pred = algorithms.calculate_DBSCAN(X, y, eps, samples)
@@ -41,16 +41,16 @@ def run_DBSCAN(df):
 
 
 def run_GaussianMixture(df):
-    max_j = 10
-    n_components = 2
-    percentile = 15
+    max_j = 3
+    n_components = 1
+    percentile = 20
 
     y_trues = []
     y_predictions = []
     silhouette, davies = np.zeros(max_j), np.zeros(max_j)
 
     for j in range(0, max_j):
-        X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.1, frac_negative=1, verbose=1,
+        X, y = algorithms.downsample_scale_split_df(df, frac_positive=1, frac_negative=1, verbose=1,
                                                     random_state=random.randint(0, 10000), scaler=RobustScaler)
 
         y_pred = algorithms.calculate_Gaussian(X, y, n_components, percentile)
@@ -75,7 +75,7 @@ def run_GaussianMixture(df):
 def run_KMeans(df):
     k = 1
     max_j = 1
-    percentile = 90
+    percentile = 50
 
     y_trues = []
     y_predictions = []
@@ -114,6 +114,6 @@ if __name__ == '__main__':
     print('Number of positive / negative samples: {} / {}'.format(num_pos, num_neg))
     print('Fraction of positives: {:.2%}'.format(num_pos / num_neg))
 
-    run_KMeans(pd.concat([X, y], axis=1))
-  #  run_DBSCAN(pd.concat([X, y], axis=1))
+  #  run_KMeans(pd.concat([X, y], axis=1))
+    run_DBSCAN(pd.concat([X, y], axis=1))
   #  run_GaussianMixture(pd.concat([X, y], axis=1))

@@ -52,14 +52,14 @@ Anomalijom se smatra svaki događaj ili opažanje koje značajno odstupa od već
 
 Otkrivanje anomalija pronalazi primjenu u mnogim domenama uključujući kibernetičku sigurnost, medicinu, računalni vid, statistiku, neuroznanost i oružane snage. Koristi se također i za otkrivanje financijskih prijevara, industrijskih oštećenja i poremećaja u ekosustavu. Anomalije mogu predstavljati problem te su tada tražene radi namjernog izostavljanja iz skupa podataka kako bi se dobila točnija statistička analiza ili bolje predviđanje nekog modela strojnog učenja. Međutim, u mnogim su primjenama anomalije najzanimiljiviji dio skupa podataka i predstavljaju novu pojavu koju je potrebno identificirati i dalje istražiti.
 
-Jedna od tehnika otkrivanja anomalija jest korištenje algoritama grupiranja s ciljem pronalaženja elemenata koji ne pripadaju niti jednoj grupi. U ovom radu dano je objašnjenje problema pronalaska anomalija, opis različitih algoritama grupiranja i korištenih skupova podataka te usporedba izvedbe tih algoritama u postupcima otkrivanja anomalija. Algoritmi odabrani za usporedbu su algoritam K-sredina, DBSCAN i Gaussova mješavina, a testirani su na problemima otkrivanja ...
+Jedna od tehnika otkrivanja anomalija jest korištenje algoritama grupiranja s ciljem pronalaženja elemenata koji ne pripadaju niti jednoj grupi. U ovom radu dano je objašnjenje problema pronalaska anomalija, opis različitih algoritama grupiranja i korištenih skupova podataka te usporedba izvedbe tih algoritama u postupcima otkrivanja anomalija. Algoritmi odabrani za usporedbu su algoritmi K-sredina, DBSCAN i Gaussova mješavina, a testirani su na problemima otkrivanja ...
 
 
 \chapter{Anomalije}
 \section{Pojava anomalija i njeni uzroci}
-Postoji više pokušaja definiranja anomalija, a većina njih opisuje anomaliju kao opažanje čiji se obrazac ponašanja razlikuje od očekivanog, najčešće se pojavljuje vrlo rijetko u skupu podataka i njegova su obilježja značajno drugačije od onih većine preostalih opažanja. Također, anomalijom se može smatrati podatak koji se čini nedosljedan i relativno udaljen od drugih podataka iz skupa ili izaziva sumnju da ga generira drugačiji mehanizam.
+Postoji više pokušaja definiranja anomalija, a većina njih opisuje anomaliju kao opažanje čiji se obrazac ponašanja razlikuje od očekivanog, najčešće se pojavljuje vrlo rijetko u skupu podataka i njegova su obilježja značajno drugačija od onih većine preostalih opažanja. Također, anomalijom se može smatrati podatak koji se čini nedosljedan i relativno udaljen od drugih podataka iz skupa ili izaziva sumnju da ga generira drugačiji mehanizam.
 
-Anomalije se mogu pojaviti u bilo kojem skupu podataka i ponekad njihovo otkrivanje može biti od izuzetne važnosti. Često se otkrivanje anomalija provodi u predobradi kako bi se mogle ukloniti iz skupa podataka. Time se dobiva točnija statistika podataka, bolje predviđanje modela strojnog učenja i bolja vizualizacija podataka. S druge strane, anomalije mogu biti najvažnija i najzanimljivija opažanja i tada se otkrivanje anomalija provodi radi njih samih. Primjeri takve primjene su otkrivanje upada u području kibernetičke sigurnosti, otkrivanje financijskih prijevara i lažnih informacija, otkrivanje kvarova i pogrešaka, praćenje stanja sustava i vremenskih serija, detekciju događaja u senzorskim mrežama, otkrivanje poremećaja u ekosustavu, otkrivanje nedostataka na slikama pomoću računalnog vida te za postavljanje medicinske dijagnoze i provođenje zakona.
+Anomalije se mogu pojaviti u bilo kojem skupu podataka i ponekad njihovo otkrivanje može biti od izuzetne važnosti. Često se otkrivanje anomalija provodi u predobradi kako bi se mogle ukloniti iz skupa podataka. Time se dobiva točnija statistika podataka, bolje predviđanje modela strojnog učenja i bolja vizualizacija podataka. S druge strane, anomalije mogu biti najvažnija i najzanimljivija opažanja i tada se otkrivanje anomalija provodi radi njih samih. Primjeri takve primjene su otkrivanje upada u području kibernetičke sigurnosti, otkrivanje financijskih prijevara i lažnih informacija, otkrivanje kvarova i pogrešaka, praćenje stanja sustava i vremenskih serija, detekcija događaja u senzorskim mrežama, otkrivanje poremećaja u ekosustavu, otkrivanje nedostataka na slikama pomoću računalnog vida te postavljanje medicinske dijagnoze i provođenje zakona.
 
 Mogući uzroci pojave anomalija su:
 \begin{enumerate}
@@ -83,7 +83,6 @@ Mogući uzroci pojave anomalija su:
 \end{enumerate}
 
 U ovom radu razmatrat će se samo anomalije koje se javljaju kao posljedica toga što podaci prirodno pripadaju različitim razredima.
-
 
 \section{Klasifikacija anomalija}
 Kako bi sustav za otkrivanje anomalija mogao točno identificirati potencijalna odstupanja, nužno je znati koja vrsta anomalije se očekuje. Anomalije se mogu podijeliti u tri glavne kategorije:
@@ -113,7 +112,7 @@ Kontekstualne ili uvjetne anomalije su opažanja čije se vrijednosti znatno raz
 
 \item Kolektivne anomalije
 
-Podskup podataka smatra se kolektivnom anomalijom ako njihove vrijednosti kao grupa značajno odstupanju od cijelog skupa podataka, ali vrijednosti pojedinačnih podataka nisu same po sebi anomalne ni u globalnom niti u kontekstualnom smislu. U podacima vremenskih serija, kolektivne anomalije mogu se manifestirati kao vrhovi i doline koje se javljaju izvan vremenskog okvira kada je takvo ponašanje normalno, kao što se vidi na slici \ref{fig:outlier3}.
+Podskup podataka smatra se kolektivnom anomalijom ako njihove vrijednosti kao grupa značajno odstupanju od cijelog skupa podataka, ali vrijednosti pojedinačnih podataka nisu same po sebi anomalne ni u globalnom ni u kontekstualnom smislu. U podacima vremenskih serija, kolektivne anomalije mogu se manifestirati kao vrhovi i doline koje se javljaju izvan vremenskog okvira kada je takvo ponašanje normalno, kao što se vidi na slici \ref{fig:outlier3}.
 
 \begin{figure}[htb]
 \includegraphics[width=1\textwidth]{images/outlier_type3.png}
@@ -126,7 +125,6 @@ Podskup podataka smatra se kolektivnom anomalijom ako njihove vrijednosti kao gr
 
 Ovisno o vrsti anomalije primjenjuju se različite metode i načini detekcije. Ovaj rad fokusira se na globalne anomalije i njihovo pronalaženje.
 
-
 \section{Problem otkrivanja anomalija}
 Otkivanje anomalija svodi se na problem definiranja očekivanog ponašanja podataka ili granica unutar kojih se podaci smatraju normalnima te identificiranja točaka koje se ne nalaze unutar njih. Postoji nekoliko faktora koji čine ovaj problem vrlo teškim.
 
@@ -138,7 +136,6 @@ Otkivanje anomalija svodi se na problem definiranja očekivanog ponašanja podat
 \item U nekim primjenama, korisnik ne želi samo identificirati anomalije već i razumjeti zašto su ti podaci detektirani kao abnormalni. Zbog toga metoda otkrivanja anomalija mora biti razumljiva, smislena i pružiti opravdanje detekciji.
 \end{itemize}
 
-
 \section{Metode otkrivanja anomalija}
 Postoji puno različitih tehnika otkrivanja anomalija i one se mogu podijeliti u četiri glavne kategorije.
 
@@ -147,10 +144,11 @@ Postoji puno različitih tehnika otkrivanja anomalija i one se mogu podijeliti u
 
 Statistički pristup naziva se još i pristup temeljen na modelu jer sadrži model koji opisuje obilježja skupa podataka. Model najčešće sadrži distribuciju vjerojatnosti podataka i za svaki podatak računa se vjerojatnost njegova pojavljivanja u tom modelu. Ako je ta vjerojatnost vrlo mala, podatak se proglašava anomalijom.
 \item Metode temeljene na blizini
+
 \begin{enumerate}
 \item Metode temeljene na udaljenosti
 
-Metode temeljene na udaljenosti pretpostavljaju da je podatak anomalija ako mu se najbliži susjedi nalaze daleko u prostoru značajki odnosno ako blizina objekta njegovim susjedima značajno odstupa od blizine većine drugih objekata njihovim susjedima u istom skupu podataka.
+Metode temeljene na udaljenosti pretpostavljaju da je podatak anomalija ako mu se najbliži susjedi nalaze daleko u prostoru značajki odnosno ako blizina njegovih susjeda značajno odstupa od blizine većine drugih objekata njihovim susjedima u istom skupu podataka.
 \item Metode temeljene na gustoći
 
 Metode temeljene na gustoći koriste broj podataka koji se nalaze unutar definiranog prostora ispitivanog podatka za definiranje lokalne gustoće. Što je lokalna gustoća objekta manja, veća je vjerojatnost da je on anomalija.
@@ -159,7 +157,7 @@ Metode temeljene na gustoći koriste broj podataka koji se nalaze unutar definir
 
 Metode koje se temelje na grupiranju pretpostavljaju da normalni podaci pripadaju velikim i gustim grupama, dok anomalije pripadaju malim i rijetkim grupama ili ne pripadaju niti jednoj. Razlika između grupiranja i metoda temeljenih na gustoći je u tome što grupiranje dijeli podatke u grupe dok metode temeljene na gustoći dijele podatkovni prostor.
 \end{enumerate}
-U ovom radu za detekciju anomalija koristit će se algoritmi temeljeni na grupiranju. Za usporedbu su izabrani algoritmi K-sredina, DBSCAN i Gaussova mješavina.
+U ovom radu za detekciju anomalija koristit će se algoritmi temeljeni na grupiranju. Za usporedbu su izabrani algoritam K-sredina, algoritam DBSCAN i model Gaussove mješavine.
 
 
 \chapter{Algoritmi grupiranja}
@@ -188,15 +186,16 @@ Ne postoji objektivno najbolji algoritam grupiranja, već odabir algoritma ovisi
 U ovom radu uspoređivat će se tri različita modela: algoritam K-sredina kao predstavnik centroidnih modela, DBSCAN algoritam kao model gustoće i model Gaussove mješavine koji pripada modelima distribucije.
 
 \subsection{Vrednovanje}
-Rezultati algoritama grupiranja mogu se vrednovati na dva načina. Prvi je vredovanje korištenjem podataka za koje su poznate oznake grupa. Takva evaluacija mjeri koliko je dobiveno grupiranje blizu unaprijed određenoj podjeli. Metode vrednovanja često su prilagođene varijante metoda koje se koriste za vrednovanje klasifikacije. Neke od tih metrika su:
+Rezultati algoritama grupiranja mogu se vrednovati na dva načina. Prvi je vredovanje korištenjem podataka za koje su poznate oznake grupa. Takva evaluacija mjeri koliko je dobiveno grupiranje blizu unaprijed određenoj podjeli. Metode vrednovanja tada su često prilagođene varijante metoda koje se koriste za vrednovanje klasifikacije. Neke od tih metrika su:
 
 \begin{enumerate}
 \item Matrica zabune (eng. \textit{Confusion Matrix})
 
 Matrica koja opisuje uspješnost modela prikazom broja istinski pozitivnih (eng. \textit{True Positive - TP}), lažno positivnih (eng. \textit{False Positive - FP}), istinski negativnih (eng. \textit{True Negative - TN}) i lažno negativnih (eng.  \textit{False Negative - FP}) primjera.
+
 \item Točnost (eng. \textit{Accuracy})
 
-Točnost je udio točno klasificiranih primjera u skupu svih primjera i računa se kao:
+Točnost je udio točno klasificiranih primjera u skupu svih primjera.
 \begin{equation*} \label{eq:accuracy}
 Acc = \frac{TP+TN}{TP+TN+FP+FN}
 \end{equation*}
@@ -229,6 +228,19 @@ ROC krivulja (eng. \textit{Receiver Operating Characteristic curve}) jest graf k
 \frac{FP}{FP+TN}
 \end{math}. Njihov odnos prikazuje se na svim mogućim pragovima klasifikacije. AUC mjera (eng. \textit{Area under the ROC curve}) predstavlja površinu ispod cijele ROC krivulje.
 
+\item Randov indeks
+
+Randov indeks računa u kojoj mjeri dobiveno grupiranje odgovara referentnom grupiranju odnosno točnost na razini parova primjera. Za svaki mogući par iz skupa primjera gleda se jesu li ta dva primjera
+završila u istoj grupi ili nisu.
+\begin{equation*} \label{eq:rand}
+R =  \frac{a+b}{{N \choose 2}}
+\end{equation*}
+gdje je:
+\begin{itemize}
+\item \textit{a} - broj jednako označenih parova u istim grupama
+\item \textit{b} - broj različito označenih parova u različitim grupama
+\end{itemize}
+
 \end{enumerate}
 
 Drugi način vrednovanja algoritama grupiranja jest korištenje metrika koje ne zahtjevaju oznake podataka kako bi izračunale efikasnost algoritma. Najčešće korištene metrike su:
@@ -238,7 +250,7 @@ Drugi način vrednovanja algoritama grupiranja jest korištenje metrika koje ne 
 
 Koeficijent siluete definira se na temelju udaljenosti unutar grupe i između različitih grupa i računa se kao:
 \begin{equation*} \label{eq:silouette}
-S = \frac{1}{N}\sum_{i=0}^{N}\frac{b_i-a_i}{max(a_i,b_i)} 
+S = \frac{1}{N}\sum_{i=1}^{N}\frac{b_i-a_i}{max(a_i,b_i)} 
 \end{equation*}
 gdje je:
 \begin{itemize}
@@ -271,19 +283,16 @@ DB = \frac{1}{K}\sum_{i = 1}^{K} \max_{j\neq i} \frac{\Delta_i + \Delta_j}{\delt
 
 Razlikuje se od ostalih metrika jer manja vrijednost ovog indeksa označava bolje grupiranje.
 
-\item Randov indeks
+\item DBCV (eng. \textit{Density-Based Clustering Validation})
+
+Metrika DBCV računa gustoću unutar grupe i gustoću između grupa. Visoka gustoća unutar grupe, a niska gustoća između njih ukazuje na dobro grupiranje.
 
 \end{enumerate}
 
-Za evaluaciju algoritama u ovom radu koristit će se sve navedene metode osim točnosti koja je nepouzdana u slučaju neuravnoteženih razreda, kao što je to slučaj u detekciji anomalija.
+Za evaluaciju algoritama u ovom radu koristit će se sve navedene metode osim točnosti i metode DBCV. Točnost je nepouzdana u slučaju neuravnoteženih razreda kao što je to slučaj u detekciji anomalija, a DBCV neskalabilna metoda čije računanje postaje praktički nemoguće već za nekoliko tisuća točaka.
 
-\section{K-sredine}
-Algoritam K-sredina najpoznatiji je algoritam grupiranja koji se temelji na centroidnom modelu. U ovom algoritmu, svaka grupa ima centroid koji se računa kao srednja vrijednost članova grupe i predstavlja tu grupu. Primjeri se iz neoznačenog skupa podataka grupiraju u $K$ grupa na način da svaki podatak pripada onoj grupi čijem je centroidu najbliži. 
-
-Kriterijska funkcija algoritma grupiranja jest funkcija koju taj algoritam nastoji minimizirati. Za algoritam K-sredina to je funkcija koja zbraja euklidske udaljenosti odstupanja primjera od centroida grupe u kojoj se nalaze i glasi:
-\begin{equation*} \label{eq:silouette}
-J = \sum_{k = 1}^{K}\sum_{x \in C_k} \lVert x - \mu_k \rVert ^{2}
-\end{equation*}
+\section{Algoritam K-sredina}
+Algoritam K-sredina (eng. \textit{K-Means}) najpoznatiji je algoritam grupiranja koji se temelji na centroidnom modelu. U ovom algoritmu, svaka grupa ima centroid koji se računa kao srednja vrijednost članova grupe i predstavlja tu grupu. Primjeri se iz neoznačenog skupa podataka grupiraju u $K$ grupa na način da svaki podatak pripada onoj grupi čijem je centroidu najbliži. 
 
 Algoritam očekuje broj grupa $K$ kao hiperparameter i njegova se vrijednost može odrediti na više načina, a najpoznatiji su:
 \begin{itemize}
@@ -306,7 +315,7 @@ Osim odabira broja grupa, potrebno je definirati i način odabira početnih cent
 
 \end{itemize}
 
-Postupak grupiranja algoritma K-sredina je iterativan. Nakon inicijalizacije početnih centroida, svi se primjeri stavljaju u onu grupu čiji im je centroid najbliži. U sljedećem se koraku, na temelju razvrstanih primjera, ponovno računaju novi centroidi za svaku grupu. Dalje se ponavljaju ova dva koraka sve do konvergencije odnosno do trenutka kad više nema promjene u podjeli primjera grupama i u vrijednostima centroida. Ovaj postupak prikazan je i pseudokodom \ref{alg:kmeans}.
+Postupak grupiranja algoritma K-sredina je iterativan. Nakon inicijalizacije početnih centroida, svi se primjeri stavljaju u onu grupu čiji im je centroid najbliži. U sljedećem se koraku, na temelju razvrstanih primjera, ponovno računaju novi centroidi za svaku grupu. Dalje se ponavljaju ova dva koraka sve do konvergencije odnosno do trenutka kad više nema promjene u podjeli primjera grupama i u vrijednostima centroida. Ovaj postupak prikazan je pseudokodom \ref{alg:kmeans} i na slici \ref{fig:kmeans}.
 
  \begin{lstlisting}[caption = Pseudokod algoritma K-sredina, label = {alg:kmeans}, escapeinside={*}{+}]
  definiraj broj grupa *$K$+
@@ -320,6 +329,13 @@ Postupak grupiranja algoritma K-sredina je iterativan. Nakon inicijalizacije po�
  dok svi *$\mu_k$+ ne konvergiraju
 \end{lstlisting}
 
+\begin{figure}
+\includegraphics[width=0.9\textwidth]{images/kmeans.png}
+\centering
+\caption{Primjer izvođenja algoritma K-sredina uz $K = 3$. Preuzeto s  https://medium.com/@luigi.fiori.lf0303/k-means-clustering-using-python-db57415d26e6}
+\label{fig:kmeans}
+\end{figure}
+
 Bitna karakteristika algoritma K-sredina je da pripada algoritmima tvrdog grupiranja, što znači da će svaku točku dodijeliti jednoj i točno jednoj grupi. Algoritam se dobro nosi s velikim skupovima podataka jer ima linearnu vremensku složenosti $O(nkdi)$, gdje je:
 \begin{itemize}
 \item n - veličina skupa podataka
@@ -330,7 +346,7 @@ Bitna karakteristika algoritma K-sredina je da pripada algoritmima tvrdog grupir
 
 Međutim, algoritam K-sredina uvijek traži grupe sfernog oblika te ne može identificirati nekonveksne grupe. Također, jako je osjetljiv na prisutnost anomalija i šuma u podacima.
 
-\section{DBSCAN}
+\section{DBSCAN algoritam}
 DBSCAN algoritam (eng. \textit{Density-based spatial clustering of applications with noise}) priprada u skupinu algoritama grupiranja temeljenih na gustoći. On grupira zajedno točke koje su blizu jedna drugoj odnosno točke s mnogo susjednih točaka. Primjere koji nisu svrstani niti u jednu grupu i nalaze se u područjima niske gustoće algoritam označava kao anomalije. Kao i algoritam K-sredina, i DBSCAN je algoritam tvrdog grupiranja.
 
 Glavna ideja algoritma DBSCAN jest da grupa mora sadržavati određeni minimalni broj točaka unutar definiranog polumjera. Zato algoritam zahtjeva dva parametra: 
@@ -345,7 +361,7 @@ Parametar $\epsilon$ jest polumjer unutar kojeg se traže susjedne točke. Pri o
 
 DBCAN algoritam pridjeljuje svakoj točki jednu od tri moguće oznake:
 \begin{enumerate}
-\item Središnja točka (eng. \textit{Core point}) - točka oko koje se nalazi minimalno \textit{minPts} drugih točaka u polumjeru $\epsilon$
+\item Središnja točka (eng. \textit{Core point}) - točka oko koje se nalazi minimalno \textit{minPts} drugih točaka unutar udaljenosti $\epsilon$
 \item Granična točka (eng. \textit{Border point}) - točka koja ima barem jednu središnju točku na udaljenosti manjoj od $\epsilon$, ali nalazi se na rubu grupe i broj točaka oko nje manji je od \textit{minPts} 
 \item Točka šuma (eng. \textit{Noise point}) - točka koja nije niti središnja niti granična točka; nije nužno anomalija, već samo točka od koje DBSCAN nije znao formirati grupu
 \end{enumerate}
@@ -396,7 +412,7 @@ Svojstva izravne dohvatljivosti, dohvatljivosti i povezanosti prikazana su grafi
 Na početku algoritma odabire se nasumična točka od koje se formira grupa ako ona zadovoljava navedeni kriterij. Grupe se zatim rekurzivno proširuju obilaženjem ostalih članova grupe. Kad se grupa više ne može proširiti, odabire se nasumično nova točka iz skupa podataka i algoritam se ponavlja dok sve točke nisu obiđene. Pseudokod \ref{alg:dbscan} prikazuje pseudokod algoritma DBSCAN.
 
 \begin{lstlisting}[caption = Pseudokod algoritma DBSCAN, label = {alg:dbscan}, escapeinside={*}{-}]
- definiraj minimalan broj članova grupe *$minPts$+ i udaljenost *$\epsilon$-
+ definiraj minimalan broj članova grupe *$minPts$- i udaljenost *$\epsilon$-
  inicijaliziraj početni broj grupa: *$C = 0$-
  za svaku točku *$p \in D$-
  	ako je točka *$p$- već označena
@@ -421,13 +437,13 @@ Ako je skup podataka pohranjen tako da se upiti o susjedstvu mogu izvoditi u log
 
 Prednosti algoritma DBSCAN su što ne zahtjeva definiranje broja grupa unaprijed, može pronaći grupe proizvoljnog oblika i otporan je na prisutnost šuma i anomalija. Nedostatak mu je što ne može dobro grupirati skup podataka u kojem je prisutna velika razlika u gustoći među grupama jer se tada ne može odabrati kombinacija parametara \textit{minPts} i $\epsilon$ koja bi bila prikladna za sve grupe. 
 
-\section{Gaussova mješavina}
+\section{Model Gaussove mješavine}
 
-Gaussova mješavina je model distribucije koji pretpostavlja da su sve točke iz skupa podataka generirane iz mješavine konačnog broja Gaussovih distribucija s nepoznatim parametrima. Model zatim grupira podatke na način da svaka grupa sadrži podatke iz jedne distribucije.
+Gaussova je mješavina model distribucije koji pretpostavlja da su sve točke iz skupa podataka generirane iz mješavine konačnog broja Gaussovih distribucija s nepoznatim parametrima. Model zatim grupira podatke na način da svaka grupa sadrži podatke iz jedne distribucije.
 
 Gaussova distribucija još se naziva normalnom distribuciju i ima karakterističan zvonolik oblik. Funkcija gustoće vjerojatnosti Gaussove distribucije u jednoj dimenziji glasi:
 \begin{equation} \label{eq:gauss1}
-\mathcal{N}(x|\mu,\sigma) = \frac{1}{{\sigma \sqrt {2\pi } }}e^{{{ - \left( {x - \mu } \right)^2 } \mathord{\left/ {\vphantom {{ - \left( {x - \mu } \right)^2 } {2\sigma ^2 }}} \right. \kern-\nulldelimiterspace} {2\sigma ^2 }}}
+\mathcal{N}(x;\mu,\sigma) = \frac{1}{{\sigma \sqrt {2\pi } }}e^{\frac{-(x - \mu)^2 }{2\sigma ^2 }}
 \end{equation}
 
 pri čemu je:
@@ -436,7 +452,7 @@ pri čemu je:
 \item $\sigma$ - standardna devijacija podataka; odeđuje ``širinu'' krivulje
 \end{itemize}
 
-Slika \ref{fig:gauss1} prikazuje funkciju gustoće vjerojatnosti za različite vrijednosti parametara $\mu$ i $\sigma$.
+Funkcija gustoće vjerojatnosti daje vjerojatnost dobivanja podatka $x$ u slučaju kada imamo normalnu distribuciju s parametrima $\mu$ i $\sigma$. Slika \ref{fig:gauss1} prikazuje funkciju gustoće za različite vrijednosti parametara $\mu$ i $\sigma$.
 
 \begin{figure}[htb]
 \includegraphics[width=0.8\textwidth]{images/gauss1.png}
@@ -445,22 +461,20 @@ Slika \ref{fig:gauss1} prikazuje funkciju gustoće vjerojatnosti za različite v
 \label{fig:gauss1}
 \end{figure}
 
-U slučaju više dimenzionalnog skupa podataka, formula multivarijatna (višedimenzijske) Gaussove razdiobe glasi:
+U slučaju više dimenzionalnog skupa podataka, formula multivarijatne (višedimenzijske) Gaussove razdiobe glasi:
 
 \begin{equation}
-\mathcal{N}(X|\mu,\Sigma)  =\frac{1}{\sqrt{(2\pi)^{k}|\Sigma|}}exp(-\frac{1}{2}(X-\mu)^T\Sigma^{-1}(X-\mu))
+\mathcal{N}(X;\mu,\Sigma)  =\frac{1}{\sqrt{(2\pi)^{k}|\Sigma|}}e^{-\frac{1}{2}(X-\mu)^T\Sigma^{-1}(X-\mu)}
 \end{equation}
 
-U tom je slučaju $k$ broj dimenzija skupa podatka, $\mu$ $k$-dimenzionalni vektor srednjih vrijednosti, a $\Sigma$ kovarijacijska matrica veličine $k \times k$.
+U tom je slučaju $k$ broj dimenzija skupa podatka, $\mu$ $k$-dimenzionalni vektor srednjih vrijednosti, a $\Sigma$ kovarijacijska matrica veličine $k \times k$. Kovarijacijska matrica prikazuje, osim varijance svake dimenzije podatka, i odnos između različitih dimenzija.
 
-Gaussova je mješavina funkcija koja se sastoji od onoliko Gaussovih funkcija koliko ima grupa u skupu podataka. Svaka Gaussov funkcija u mješavini ima sljedeće parametare:
+Gaussova je mješavina funkcija koja se sastoji od onoliko Gaussovih funkcija koliko ima grupa u skupu podataka. Broj grupa $K$ jest hiperparametar algoritma. Svaka Gaussova funkcija u mješavini ima sljedeće parametare:
+
 \begin{itemize}
 \item Srednju vrijednost $\mu$ koja definira središte.
 \item Kovarijancu $\Sigma$  koja odeđuje ``širinu'' funckije.
-\item Vjerojatnost miješanja $\pi$ koja definira koliko će Gaussova funkcija biti mala ili velika. Za vjerojatnosti miješanja mora vrijediti: 
-\begin{equation}
-\sum_{k=1}^{K}\pi_k = 1
-\end{equation}
+\item Vjerojatnost miješanja $\pi$ koja definira vjerojatnosti pripadnosti primjera toj distribuciji.
 \end{itemize}
 
 Slika \ref{fig:gauss-mixture} prikazuje kako model Gaussove mješavine grupira podatke u slučaju kada imamo tri grupe.
@@ -468,24 +482,142 @@ Slika \ref{fig:gauss-mixture} prikazuje kako model Gaussove mješavine grupira p
 \begin{figure}[htb]
 \includegraphics[width=0.8\textwidth]{images/gauss_mixture.png}
 \centering
-\caption{Primjer Gaussove mješavine za tri grupe podataka. Preuzeto s  https://towardsdatascience.com/gaussian-mixture-models-explained-6986aaf5a95}
+\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
 \label{fig:gauss-mixture}
 \end{figure}
 
-Model Gaussove mješavine radi na principu generativnog modeliranja
+Model Gaussove mješavine radi na principu generativnog modeliranja i pretpostavlja se da se ulazni podaci ravnaju po Gaussovoj distribuciji. Iako to nije uvijek slučaj, centralni granični teorem iz statistike kaže da ako se prikuplja sve više i više uzoraka iz skupa podataka, oni imaju tendenciju nalikovati Gaussovoj funkciji, čak i kad izvorna distribucija skupa podataka nije Gaussova.
 
-Why are we using the Gaussian distribution? The Expectation-Maximization algorithm is actually more broad than just the normal distribution, but what makes Gaussians so special? It turns out that many dataset distributions are actually Gaussian! We find these Gaussians in nature, mathematics, physics, biology, and just about every other field! They are ubiquitous! There is a famous theorem in statistics called the Central Limit Theorem that states that as we collect more and more samples from a dataset, they tend to resemble a Gaussian, even if the original dataset distribution is not Gaussian! This makes Gaussian very powerful and versatile!
+Cilj ovog modela jest pronaći parametre Gaussove funkcije koji maksimiziraju vjerojatnost dobivanja tih podataka. Svaku točku promatra se kao mješavinu više različitih Gaussovih funkcija te ona ima vjerojatnost:
+
+\begin{equation}\label{eq:prob}
+p(x_i) = \sum_{k=1}^{K}\pi_k \mathcal{N}(x_i;\mu_k,\Sigma_k)
+\end{equation}
+\begin{equation}\label{eq:mixture_prob}
+\sum_{k=1}^{K}\pi_k  = 1
+\end{equation}
+
+Jednadžba \ref{eq:prob} govori da je određena točka $x$ linearna kombinacija $K$ Gaussovih funkcija. $p(x_i)$ još se naziva i izglednost primjera $x_i$ (eng. \textit{likelihood}). Varijabla $\pi$ predstavlja vjerojatnost miješanja te Gaussove funkcije odnosno njenu jačinu. Ograničenje na vjerojatnosti miješanja jest da njihova suma mora biti 1, kao što se vidi u jednadžbi \ref{eq:mixture_prob}. Cilj algoritma jest maksimizirati logaritamsku izglednost svih podataka u skupu veličine $N$ koja glasi:
+\begin{equation}\label{eg:likelihood}
+\ln p(X; \mu, \sigma, \pi) = \sum_{i=1}^{N} p(x_i)
+ \end{equation}
+
+Potrebno je za svaku Gaussovu funkciju odrediti vrijednosti vjerojatnosti miješanja $\pi_k$, srednje vrijednosti $\mu_k$ i kovarijance $\Sigma_k$, takve da maksimiziraju izraz \ref{eg:likelihood}. Vrijednosti ovih parametara dobiju se primjenom algoritma Očekivanje-Maksimizacija (eng. \textit{Expectation-Maximization Algorithm - EM}). Taj algoritam ima dva koraka:
+\begin{enumerate}
+\item Očekivanje
+
+U prvoj iteraciji algoritma inicijaliziraju se vrijednosti parametara slučajnim odabirom ili pomoću rezultata grupiranja nekog drugog algoritma. Zatim se u ovom koraku računa vjerojatnost da je svaki podatak generiran svakom od $K$ Gaussovih funkcija. Vjerojatnost da je primjer $x_i$ generiran pomoću Gaussove funkcije $j$ računa se kao:
+\begin{equation}\label{eq:expectation}
+W_{ij} = \frac{\pi_j \mathcal{N}(x_i;\mu_j,\Sigma_j)}{\sum_{k=1}^{K} \pi_k \mathcal{N}(x_i;\mu_k,\Sigma_k)}
+\end{equation}
+
+Dijeljenje s $p(x_i)$ provodi se radi normalizacije odnosno kako bi suma svih vjerojatnosti bila 1. U algoritmu K-sredina ovaj korak algoritma odgovara podjeli primjera u grupe.
+\item Maksimizacija
+
+Korak maksimizacije ažurira vrijednosti vjerojatnosti miješanja, srednje vrijednosti i kovarijance na sljedeći način:
+\begin{equation}\label{eq:max}
+\pi_j = \frac{1}{N}\sum_{i=1}^{N} W_{ij}
+\end{equation}
+\begin{equation}\label{eq:max}
+\mu_j = \frac{\sum_{i=1}^{N} W_{ij}x_i}{\sum_{i=1}^{N} W_{ij}}
+\end{equation}
+\begin{equation}\label{eq:max}
+\Sigma_j = \frac{\sum_{i=1}^{N} W_{ij}(x_i-\mu_j)(x_i-\mu_j)^T}{\sum_{i=1}^{N} W_{ij}}
+\end{equation}
+
+Vjerojatnost $\pi_j$ računa se kao vjerojatnost da je svaka točka generirana Gaussovom funkcijom $j$ podijeljeno s ukupnim brojem točaka. Parametri $\mu_j$ i $\Sigma_j$ računaju se kao srednja vrijednost i kovarijacija svih točaka koje su pomnožene s vjerojatnošću $W_{ij}$. Ovaj korak analogan je pomicanju centroida grupa u algoritmu K-sredina.
+
+\end{enumerate}
+
+Ova dva koraka ponavljaju se do konvergencije logaritmske izglednosti podataka, a pseudokod je dan kao pseudokod \ref{alg:gauss}. 
+
+\begin{lstlisting}[caption = Pseudokod modela Gaussove mješavine, label = {alg:gauss}, escapeinside={*}{-}]
+ definiraj broj grupa *$K$-
+ inicijaliziraj parametre *$\pi$-, *$\mu$- i *$\Sigma$-
+ ponavljaj
+    za svaku točku *$x_i \in N$-
+       za svaku distribuciju *$k \in K$-
+	   izračunaj vjerojatnost *$W_{ik}$- da je *$x_i$- generiran iz *$k$-
+    za svaku distribuciju *$k \in K$-
+       ažuriraj vjerojatnost miješanja *$\pi_{k}$-
+       ažuriraj srednju vrijednost *$\mu_{k}$-
+       ažuriraj kovarijancu *$\Sigma_{k}$-
+dok *$\ln p(X; \mu, \sigma, \pi)$- ne konvergira 
+
+\end{lstlisting}
+
+Model Gaussove mješavine model je mekog grupiranja i svakoj točki dodijeljuje vektor vjerojatnosti pripadanja svakoj grupi. Iako sporije konvergira od algoritma K-sredina, za razliku od njega može se koristiti i na malim skupovima podataka te kada grupe nisu jasno razdvojene. Također, može pronaći grupe različitih oblika i otporniji je na prisutnost anomalija ili loše definiranih podataka.
 
 \chapter{Korišteni skupovi podataka}
-\section{prvi}
-\section{drugi}
-\section{treći}
+\section{Otkrivanje prijevare s kreditnim karticama}
+Važno je da banke mogu prepoznati neobične transakcije kreditnim karticama kako bi se otkrila prijevara i spasili novci korisnika. Prvi skup podataka koristi se za otkrivanje prijevara kreditnim karicama (eng. \textit{Credit Card Fraud Detection}) i preuzet je s \cite{pang2021deep}. Sadrži transakcije koje su europski vlasnici kartica izvršili kreditnim karticama u rujnu 2013. godine u 2 dana. Skup podataka izrazito je neuravnotežen te prijevare čine samo 0,172\% svih transakcija.
+
+Skup podataka sadrži numeričke značajke koje su rezultat analize glavnih komponenata (eng. \textit{Principal component analysis}). Zbog povjerljivosti nisu dostupni originalni podaci i imena značajki već samo rezultat PCA transformacije. Dobivene glavne komponente su značajke V1, V2, ..., V28. Značajke koje nisu transformirane i koje su zadržale svoje vrijednosti i ime su značajke \textit{Vrijeme} i \textit{Iznos}. Značajka \textit{Vrijeme} sadrži sekunde koje su protekle između svake transakcije i prve transakcije u skupu podataka, a značajka \textit{Iznos} je iznos transakcije. Na kraju, značajka \textit{Klasa} je varijabla oznake koja poprima vrijednost 1 u slučaju prijevare, a 0 inače.
+
+Skup podataka koji se koristi već je obrađen, maknuta je značajka \textit{Vrijeme} jer ne pomaže u problemu detekcije prijevara i provedena je normalizacija podataka.
+
+\section{Detekcija upada u mrežu}
+Skup podataka \textit{KDD Cup 1999} može se koristiti za detekciju mrežnog upada. Taj skup podataka korišten je za Treće međunarodno natjecanje u otkrivanju znanja i alatima za rudarenje podataka. Zadatak natjecanja bio je izgraditi prediktivni model koji će detektirati upade u mrežu i razlikovati ih od normalnih veza. Svaka veza je slijed TCP paketa koji počinje i završava u nekom definiranom vremenu, u kojem se podaci šalju od izvorne IP adrese na ciljnu IP adresu prema nekom definiranom protokolu.
+
+Ovaj skup podataka sadrži standardni skup podataka za provjeru modela i preuzet je s  \cite{pang2021deep}. Nastao je tako što je \textit{Lincoln Labs} postavio okruženje za prikupljanje neobrađenih TCP podataka za lokalnu mrežu (LAN) tokom devet tjedana simulirajući tipični LAN američkih zračnih snaga. Upravljali su LAN-om kao da se radi o pravom okruženju zračnih snaga uz dodatak višestrukih napada. Prikupljeno je oko 7 milijuna zapisa veza, pri čemu svaka veza ima 41 značajku i označena je kao normalna veza ili kao napad, s točno specificiranom vrstom napada. U skupu za treniranje korišteno je ukupno 24 različita tipa napada.
+
+Za potrebe ovog rada korištena su dva podskupa skupa podataka \textit{KDD Cup 1999}, \textit{U2R} i \textit{Probe}.
+
+Napad \textit{U2R} (eng. \textit{User to Root}) jest napad u kojem napadač na početku pristupa normalnom korisničkom računu, a kasnije dobiva pristup korijenskom korisniku (eng. \textit{root}) iskorištavanjem ranjivosti sustava ili greške korisnika. \textit{Probe} napad skenira mrežu sa svrhom praćenja mreže ili prikupljanje podataka o mreži i mrežnoj aktivnosti.
+
+Novi skupovi podataka izvedeni su iz skupa podataka \textit{KDD Cup 1999} koristeći \textit{U2R} ili \textit{Probe} napad kao anomaliju naspram normalnih veza. Ti skupovi su znatno manji i broj značajki smanjen je na 6 osnovnih: 
+\begin{enumerate}
+\item Vrsta transportnog protokola
+\item Vrsta aplikacijskog protokola
+\item Zastavica odnosno status povezivanja
+\item Prijava uspješna
+\item Prijava ostvarena kao domaćin
+\item Prijava ostvarena kao gost
+\end{enumerate}
+
+Prve tri značajke su kategoričkog tipa, a druga tri tipa boolean (točno/netočno).
+
+\section{Detekcija raka}
+Jedna od važnih primjena otkrivanja anomalija jest u medicini gdje one mogu signalizirati pojavu bolesti. Za predikciju je li tumor dojke dobroćudan ili zloćudan koristi se skup podataka preuzet s \cite{Dua:2019}.
+
+Svaki primjer skupa podataka ima 32 značajke, među kojima su i značajke \textit{Identifikacijski broj} i \textit{Dijagnoza}, koja klasificira tumor kao dobroćudni ili zloćudni. Preostale značajke su zračunate iz digitalizirane slike aspiracijske biopsije finom iglom (FNA) tkiva dojke i opisuju karakteristike staničnih jezgri prisutnih na slici. Za svaku jezgru izračunato je deset vrijednosti kao što su radijus, tekstura, područje i glatkoća. Značajke su zatim dobivene iz tih podataka kao srednja vrijednost, standardna pogreška i najgora (odnosno najveća) vrijednost mjerenja. 
+
+Pregled svih korištenih skupova podataka dan u tablici \ref{tab:datasets}.
+
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Podaci o korištenim skupovima podataka.}
+    \label{tab:datasets}
+    \begin{tabular}{c|c|c|c} 
+      \textbf{Skup podataka} & \textbf{Broj primjera} & \textbf{Dimenzionalnost}  & \textbf{Udio anomalija}\\
+      \hline
+      Kreditne kartice & 284 807 & 29 & 0.17\% \\
+      U2R & 60 821 & 6 & 0.38\% \\
+      Probe & 64 759 & 6 & 6.88\% \\
+      Rak dojke & 569& 32 & 37.26\% \\
+     \end{tabular}
+  \end{center}
+\end{table}
 
 \chapter{Implementacija}
 
+\section{Obrada podataka}
+
+Na početku implementacije provedena je obrada i priprema podataka kako bi se na njima mogli koristiti algoritmi grupiranja.
+
+Prvi skup podataka, prijevare s kreditnim karticama, nije bilo potrebno mijenjati niti obraditi budući da je na njemu već prethodno provedena normalizacija i maknuta je značajka \textit{Vrijeme}. 
+
+Skupovi podataka \textit{U2R} i \textit{Probe} sadrže kategoričke značajke koje su se morale kodirati jer svi navedeni algoritmi rade isključivo s numeričkim podacima. Provedeno je \textit{One-hot} kodiranje u kojem se svaku kategoričku značajku prikazuje vektorom binarnih vrijednosti. Svaka pozicija u vektoru označava jednu vrijednost te značajke i svaka značajka ima jedinicu samo na mjestu koje odgovara njezinoj vrijednosti te nulu na svim ostalim mjestima. Time se broj dimenzija podataka poveća za broj svih različitih vrijednosti značajki. Budući da značajka \textit{Vrsta aplikacijskog protokola} može poprimiti 65 različitih vrijednosti, odabrano je 5 najčešćih vrijednosti dok su ostale označene kao \textit{ostalo}. Najčešće vrijednosti u oba skupa podataka su: \textit{http}, \textit{private},  \textit{smtp}, \textit{domain\_u}  i \textit{ftp\_data}. Značajka \textit{Zastavica} poprima ukupno 9 različitih vrijednosti, od čega 94.86\% u jednom skupu odnosno 99.51\% podataka u drugom skupu ima vrijednost \textit{SF}. Zbog toga je samo da vrijednost zadržana, dok su ostale označene s \textit{ostalo}. Značajka \textit{Vrsta transportnog protokola} ima samo tri moguće vrijednosti (\textit{tpc}, \textit{udp} i \textit{icmp}) te ovdje reduciranje broja vrijednosti nije bilo potrebno.
+
+U obradi skupa podataka tumora dojke maknute su značajke  \textit{Identifikacijski broj} i \textit{Dijagnoza} budući da nam prva ne daje nikakvu informaciju, dok nam druga daje rješenje problema grupiranja. Zbog toga se značajka \textit{Dijagnoza} koristi u vrednovanju kao oznaka grupe kojoj primjer pripada.
+
+\section{Algoritmi i metrike}
+
+\section{Smanjenje broja uzoraka}
+
+
 \chapter{Rezultati}
-
-
 
 
 

@@ -7,9 +7,9 @@ import helper
 
 
 def run_DBSCAN():
-    eps = 0.001     # 0.001 i 1000
-    sample = 1000
-    max_j = 1
+    eps = 0.1  # 0.1 i 1300
+    sample = 1300
+    max_j = 3
 
     y_trues = []
     y_predictions = []
@@ -24,19 +24,19 @@ def run_DBSCAN():
         y_predictions.append(y_pred)
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-    accuracies = helper.calculate_metrics(y_trues, y_predictions)
+    accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
 
     helper.save("dbscan-probe", number_of_positives, total_number, auc_roc, average_precisions, precisions,
-                recalls, f1_scores, accuracies)
+                recalls, f1_scores, accuracies, rand)
 
     helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
-                     f1_scores, accuracies)
+                     f1_scores, accuracies, rand)
 
 
 def run_GaussianMixture():
-    max_j = 5
-    n_components = 8
-    percentile = 10
+    max_j = 10
+    n_components = 4
+    percentile = 12
 
     y_trues = []
     y_predictions = []
@@ -50,21 +50,20 @@ def run_GaussianMixture():
         y_trues.append(y)
         y_predictions.append(y_pred)
 
-    fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-    accuracies = helper.calculate_metrics(y_trues, y_predictions)
+    number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
+    accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
 
-    helper.save("gaussian-probe", fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions,
-                recalls,
-                f1_scores, accuracies)
+    helper.save("gaussian-probe", number_of_positives, total_number, auc_roc, average_precisions, precisions,
+                recalls, f1_scores, accuracies, rand)
 
-    helper.print_all(fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
-                     f1_scores, accuracies)
+    helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
+                     f1_scores, accuracies, rand)
 
 
 def run_KMeans():
     k = 1
-    max_j = 3
-    threshold = 2.5
+    max_j = 10
+    percentile = 90
 
     y_trues = []
     y_predictions = []
@@ -73,23 +72,24 @@ def run_KMeans():
         X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.5, frac_negative=0.5, verbose=1,
                                                     random_state=random.randint(0, 10000), scaler=None)
 
-        y_pred = algorithms.calculate_KMeans(X, y, k, threshold)
+        y_pred = algorithms.calculate_KMeans(X, y, k, percentile)
 
         y_trues.append(y)
         y_predictions.append(y_pred)
 
-    fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-    accuracies = helper.calculate_metrics(y_trues, y_predictions)
+    number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
+    accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
 
-    helper.save("kmeans-probe", fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
-         f1_scores, accuracies)
+    helper.save("kmeans-probe", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
+                f1_scores, accuracies, rand)
 
-    helper.print_all(fractions, number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, accuracies)
+    helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
+                     f1_scores, accuracies, rand)
 
 
 if __name__ == '__main__':
-    X = pd.read_csv('datasets/probe_fixed2.csv')
-    y = pd.read_csv('datasets/probe_labels.csv').squeeze()
+    X = pd.read_csv('datasets/probe_X.csv')
+    y = pd.read_csv('datasets/probe_y.csv').squeeze()
 
     num_neg = len(y[y == 0])
     num_pos = int(y[y == 1].sum())
@@ -99,6 +99,5 @@ if __name__ == '__main__':
     df = pd.concat([X, y], axis=1)
 
   #  run_KMeans()
-    run_DBSCAN()
- #   run_GaussianMixture()
-
+  #  run_DBSCAN()
+    run_GaussianMixture()

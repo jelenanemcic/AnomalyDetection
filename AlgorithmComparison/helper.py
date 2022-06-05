@@ -34,8 +34,8 @@ def calculate_metrics(y_true, y_pred):
 def calculate_clustering_metrics(X, y_pred):
     silhouette = silhouette_score(X, y_pred)
     davies = davies_bouldin_score(X, y_pred)
-#    DBCVs = validity_index(X, y_pred)
-    return silhouette, davies
+    DBCVs = validity_index(X, y_pred)
+    return silhouette, davies, DBCVs
 
 
 def save(name, *to_save):

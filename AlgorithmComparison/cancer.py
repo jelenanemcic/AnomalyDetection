@@ -15,7 +15,7 @@ def run_DBSCAN(df):
 
     y_trues = []
     y_predictions = []
-    silhouette, davies = np.zeros(max_j), np.zeros(max_j)
+    silhouette, davies, dbcvs = np.zeros(max_j), np.zeros(max_j), np.zeros(max_j)
 
     for j in range(0, max_j):
         X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.1, frac_negative=1, verbose=1,
@@ -26,9 +26,10 @@ def run_DBSCAN(df):
         y_trues.append(y)
         y_predictions.append(y_pred)
 
-        s, d = helper.calculate_clustering_metrics(X, y_pred)
+        s, d, dbcv = helper.calculate_clustering_metrics(X, y_pred)
         silhouette[j] = s
         davies[j] = d
+        dbcvs[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
     accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
@@ -37,12 +38,12 @@ def run_DBSCAN(df):
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
 
     helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores,
-                     accuracies, rand, silhouette.mean(), davies.mean())
+                     accuracies, rand, silhouette.mean(), davies.mean(), dbcvs)
 
 
 def run_GaussianMixture(df):
     max_j = 10
-    n_components = 2
+    n_components = 1
     percentile = 15
 
     y_trues = []
@@ -79,7 +80,7 @@ def run_KMeans(df):
 
     y_trues = []
     y_predictions = []
-    silhouette, calinski, davies = np.zeros(max_j), np.zeros(max_j), np.zeros(max_j)
+    silhouette, davies = np.zeros(max_j), np.zeros(max_j)
 
     for j in range(0, max_j):
         X, y = algorithms.downsample_scale_split_df(df, frac_positive=0.1, frac_negative=1, verbose=1,
@@ -90,19 +91,18 @@ def run_KMeans(df):
         y_trues.append(y)
         y_predictions.append(y_pred)
 
-        s, c, d = helper.calculate_clustering_metrics(X, y_pred)
+        s, d = helper.calculate_clustering_metrics(X, y_pred)
         silhouette[j] = s
-        calinski[j] = c
         davies[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-    accuracies = helper.calculate_metrics(y_trues, y_predictions)
+    accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
 
     helper.save("kmeans-cancer", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
-         f1_scores, accuracies, silhouette.mean(), calinski.mean(), davies.mean())
+         f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
 
     helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores,
-                     accuracies, silhouette.mean(), calinski.mean(), davies.mean())
+                     accuracies, rand, silhouette.mean(), davies.mean())
 
 
 if __name__ == '__main__':
