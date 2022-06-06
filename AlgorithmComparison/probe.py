@@ -98,6 +98,6 @@ if __name__ == '__main__':
 
     df = pd.concat([X, y], axis=1)
 
-  #  run_KMeans()
-  #  run_DBSCAN()
+    #  run_KMeans()
+    #  run_DBSCAN()
     run_GaussianMixture()

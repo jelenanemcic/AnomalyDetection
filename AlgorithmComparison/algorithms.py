@@ -17,7 +17,6 @@ def calculate_Gaussian(X, y, n_components, percentile):
 
     density_threshold = np.percentile(densities, percentile)
     print(density_threshold)
-    #    density_threshold = 10
     indices = densities < density_threshold
 
     print('Number of anomalies {:d}, number of true positives {} (fraction: {:.3%})'.format(
@@ -112,6 +111,7 @@ def find_best_n_components(X):
     plt.show()
 
 
+# from: https://donernesto.github.io/blog/outlier-detection-data-preparation/
 def downsample_scale_split_df(df_full, y_column='class', frac_negative=1, frac_positive=1, scaler=RobustScaler,
                               random_state=1, verbose=False):
     """ Returns downsampled X, y DataFrames, with prescribed downsampling of positives and negatives

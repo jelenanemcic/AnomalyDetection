@@ -24,10 +24,9 @@ def encode_one_hot(X):
     return X.iloc[:, 3:]
 
 
-def combine_services(X):
+def reduce(X):
     m = dict()
     n = dict()
-    print(X)
     for index, row in X.iterrows():
         if row["service"] != "http" and row["service"] != "smtp" and row["service"] != "domain_u" \
                 and row["service"] != "ftp_data" and row["service"] != "private":
@@ -62,7 +61,6 @@ def save(X, y, name):
 
 
 def read_dataset(df, y_column):
-    print(df.head)
     X = df.iloc[:, 0:y_column]
     print(X.head())
 
@@ -75,6 +73,7 @@ def read_dataset(df, y_column):
 
 if __name__ == '__main__':
     #df = pd.read_csv('datasets/thyroid.csv')
+
     data = arff.loadarff('datasets/u2rvsnormal.arff')
     df = pd.DataFrame(data[0])
     df = df.select_dtypes([object])
@@ -83,8 +82,7 @@ if __name__ == '__main__':
     name = 'u2r'
     X, y = read_dataset(df, y_column=6)
 
-    X2 = combine_services(X.iloc[:, 0:3])
+    X2 = reduce(X.iloc[:, 0:3])
     X2 = encode_one_hot(X2)
-    print(X2)
     X = pd.concat([X.iloc[:, 3:], X2], axis=1)
     save(X, y, name)

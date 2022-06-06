@@ -8,7 +8,7 @@ import algorithms
 import helper
 
 
-def run_DBSCAN(df):
+def run_DBSCAN():
     eps = [1]
     samples = [100]
     max_j = 1
@@ -24,7 +24,6 @@ def run_DBSCAN(df):
                 X, y = algorithms.downsample_scale_split_df(df, frac_positive=1, frac_negative=0.1, verbose=1,
                                                             random_state=random.randint(0, 10000), scaler=RobustScaler)
 
-                #   algorithms.calculate_Nearest_Neighbors(X,25)
                 y_pred = algorithms.calculate_DBSCAN(X, y, e, sample)
 
                 y_trues.append(y)
@@ -44,7 +43,7 @@ def run_DBSCAN(df):
                              recalls, f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
 
 
-def run_KMeans(df):
+def run_KMeans():
     k = 1
     max_j = 3
 
@@ -80,5 +79,7 @@ if __name__ == '__main__':
     print('Number of positive / negative samples: {} / {}'.format(num_pos, num_neg))
     print('Fraction of positives: {:.2%}'.format(num_pos / num_neg))
 
-    # run_KMeans(pd.concat([X, y], axis=1))
-    run_DBSCAN(pd.concat([X, y], axis=1))
+    df = pd.concat([X, y], axis=1)
+
+    # run_KMeans()
+    run_DBSCAN()

@@ -8,9 +8,9 @@ import algorithms
 import helper
 
 
-def run_DBSCAN(df):
+def run_DBSCAN():
     eps = 5.5
-    samples = 60 # najbolje eps 3.5, samples 3; eps 5 ili 5.5, s 60 najbolje
+    samples = 60  # najbolje eps 3.5, samples 3; eps 5 ili 5.5, s 60 najbolje
     max_j = 10
 
     y_trues = []
@@ -41,7 +41,7 @@ def run_DBSCAN(df):
                      accuracies, rand, silhouette.mean(), davies.mean(), dbcvs)
 
 
-def run_GaussianMixture(df):
+def run_GaussianMixture():
     max_j = 10
     n_components = 1
     percentile = 15
@@ -73,7 +73,7 @@ def run_GaussianMixture(df):
                      accuracies, rand, silhouette.mean(), davies.mean())
 
 
-def run_KMeans(df):
+def run_KMeans():
     k = 1
     max_j = 1
     percentile = 90
@@ -99,7 +99,7 @@ def run_KMeans(df):
     accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
 
     helper.save("kmeans-cancer", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
-         f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
+                f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
 
     helper.print_all(number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores,
                      accuracies, rand, silhouette.mean(), davies.mean())
@@ -115,6 +115,8 @@ if __name__ == '__main__':
     print('Number of positive / negative samples: {} / {}'.format(num_pos, num_neg))
     print('Fraction of positives: {:.2%}'.format(num_pos / num_neg))
 
-  #  run_KMeans(pd.concat([X, y], axis=1))
-    run_DBSCAN(pd.concat([X, y], axis=1))
-  #  run_GaussianMixture(pd.concat([X, y], axis=1))
+    df = pd.concat([X, y], axis=1)
+
+    #  run_KMeans()
+    run_DBSCAN()
+    #  run_GaussianMixture()

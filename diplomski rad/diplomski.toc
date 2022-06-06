@@ -1,0 +1,25 @@
+\babel@toc {croatian}{}\relax 
+\contentsline {chapter}{\numberline {1}Uvod}{1}{}%
+\contentsline {chapter}{\numberline {2}Anomalije}{2}{}%
+\contentsline {section}{\numberline {2.1}Pojava anomalija i njeni uzroci}{2}{}%
+\contentsline {section}{\numberline {2.2}Klasifikacija anomalija}{3}{}%
+\contentsline {section}{\numberline {2.3}Problem otkrivanja anomalija}{4}{}%
+\contentsline {section}{\numberline {2.4}Metode otkrivanja anomalija}{6}{}%
+\contentsline {chapter}{\numberline {3}Algoritmi grupiranja}{8}{}%
+\contentsline {section}{\numberline {3.1}O algoritmima grupiranja}{8}{}%
+\contentsline {subsection}{\numberline {3.1.1}Podjela}{8}{}%
+\contentsline {subsection}{\numberline {3.1.2}Vrednovanje}{9}{}%
+\contentsline {section}{\numberline {3.2}Algoritam K-sredina}{12}{}%
+\contentsline {section}{\numberline {3.3}DBSCAN algoritam}{14}{}%
+\contentsline {section}{\numberline {3.4}Model Gaussove mje^^c5^^a1avine}{17}{}%
+\contentsline {chapter}{\numberline {4}Kori^^c5^^a1teni skupovi podataka}{21}{}%
+\contentsline {section}{\numberline {4.1}Otkrivanje prijevare s kreditnim karticama}{21}{}%
+\contentsline {section}{\numberline {4.2}Detekcija upada u mre^^c5^^beu}{21}{}%
+\contentsline {section}{\numberline {4.3}Detekcija raka}{22}{}%
+\contentsline {chapter}{\numberline {5}Implementacija}{24}{}%
+\contentsline {section}{\numberline {5.1}Obrada podataka}{24}{}%
+\contentsline {section}{\numberline {5.2}Algoritmi i metrike}{25}{}%
+\contentsline {section}{\numberline {5.3}Smanjenje broja uzoraka}{25}{}%
+\contentsline {chapter}{\numberline {6}Rezultati}{26}{}%
+\contentsline {chapter}{\numberline {7}Zaklju^^c4^^8dak}{27}{}%
+\contentsline {chapter}{Literatura}{28}{}%
