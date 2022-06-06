@@ -1,0 +1,281 @@
+\begin{thebibliography}{41}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Adam~Håkansson(2020)]{ComparingAlgorithms}
+Anton~Andrésen Adam~Håkansson.
+\newblock Comparing unsupervised clustering algorithms to locate uncommon user
+  behavior in public travel data.
+\newblock 2020.
+\newblock URL
+  \url{https://www.diva-portal.org/smash/get/diva2:1439878/FULLTEXT01.pdf}.
+
+\bibitem[Baruah(2020)]{popularClusteringModels}
+Indraneel~Dutta Baruah.
+\newblock K-{M}eans, {DBSCAN}, {GMM}, agglomerative clustering — mastering
+  the popular models in a segmentation problem, 2020.
+\newblock URL
+  \url{https://towardsdatascience.com/k-means-dbscan-gmm-agglomerative-clustering-mastering-the-popular-models-in-a-segmentation-c891a3818e29}.
+
+\bibitem[Brownlee(2020)]{encoding}
+Jason Brownlee.
+\newblock Ordinal and one-hot encodings for categorical data, 2020.
+\newblock URL
+  \url{https://machinelearningmastery.com/one-hot-encoding-for-categorical-data/}.
+
+\bibitem[Chauhan(2022)]{DBSCANAlgorithm}
+Nagesh~Singh Chauhan.
+\newblock {DBSCAN} clustering algorithm in machine learning, 2022.
+\newblock URL
+  \url{https://www.kdnuggets.com/2020/04/dbscan-clustering-algorithm-machine-learning.html}.
+
+\bibitem[Cohen(2019)]{OutlierAnalysis}
+Ira Cohen.
+\newblock Outliers explained: a quick guide to the different types of outliers,
+  2019.
+\newblock URL
+  \url{https://towardsdatascience.com/outliers-analysis-a-quick-guide-to-the-different-types-of-outliers-e41de37e6bf6}.
+
+\bibitem[Contreras~Carrasco(2019)]{GaussianMixtureExplained}
+Oscar Contreras~Carrasco.
+\newblock Gaussian {M}ixture {M}odels explained, 2019.
+\newblock URL
+  \url{https://towardsdatascience.com/gaussian-mixture-models-explained-6986aaf5a95}.
+
+\bibitem[Deshpande(2020)]{GaussianMixtureModels}
+Mohit Deshpande.
+\newblock Clustering with {G}aussian {M}ixture {M}odels, 2020.
+\newblock URL
+  \url{https://pythonmachinelearning.pro/clustering-with-gaussian-mixture-models/}.
+
+\bibitem[Dey(2019)]{DBSCANReachability}
+Debomit Dey.
+\newblock {ML} | {DBSCAN} reachability and connectivity, 2019.
+\newblock URL
+  \url{https://www.geeksforgeeks.org/ml-dbscan-reachability-and-connectivity/}.
+
+\bibitem[Dey(2022)]{evaluationMetrics2}
+Debomit Dey.
+\newblock Dunn index and {DB} index – cluster validity indices | set 1, 2022.
+\newblock URL
+  \url{https://www.geeksforgeeks.org/dunn-index-and-db-index-cluster-validity-indices-set-1/?ref=lbp}.
+
+\bibitem[Dua i Graff(2017)]{Dua:2019}
+Dheeru Dua i Casey Graff.
+\newblock {UCI} machine learning repository, 2017.
+\newblock URL \url{http://archive.ics.uci.edu/ml}.
+
+\bibitem[Dukare(2020)]{GaussianMixtureAnomalyDetection}
+Agasti~Kishor Dukare.
+\newblock Anomaly detection in {P}ython with {G}aussian {M}ixture {M}odels,
+  2020.
+\newblock URL
+  \url{https://towardsdatascience.com/understanding-anomaly-detection-in-python-using-gaussian-mixture-model-e26e5d06094b}.
+
+\bibitem[Ernst(2019{\natexlab{a}})]{dataPreparation}
+Ernst.
+\newblock Outlier detection: data preparation, 2019{\natexlab{a}}.
+\newblock URL
+  \url{https://donernesto.github.io/blog/outlier-detection-data-preparation/}.
+
+\bibitem[Ernst(2019{\natexlab{b}})]{dataPreparationDBSCAN}
+Ernst.
+\newblock Outlier detection: {DBSCAN}, 2019{\natexlab{b}}.
+\newblock URL
+  \url{https://donernesto.github.io/blog/outlier-detection-with-dbscan/}.
+
+\bibitem[Fiori(2020)]{kMeansUsingPython}
+Luigi Fiori.
+\newblock K-{M}eans clustering using {P}ython, 2020.
+\newblock URL
+  \url{https://medium.com/@luigi.fiori.lf0303/k-means-clustering-using-python-db57415d26e6}.
+
+\bibitem[Ginni(2022{\natexlab{a}})]{anomalyCauses}
+Ginni.
+\newblock What are the causes of anomalies?, 2022{\natexlab{a}}.
+\newblock URL
+  \url{https://www.tutorialspoint.com/what-are-the-causes-of-anomalies}.
+
+\bibitem[Ginni(2022{\natexlab{b}})]{anomalyChallenges}
+Ginni.
+\newblock What are the challenges of outlier detection?, 2022{\natexlab{b}}.
+\newblock URL
+  \url{https://www.tutorialspoint.com/what-are-the-challenges-of-outlier-detection}.
+
+\bibitem[Gupta(2021)]{GaussianMixtureModels2}
+Tufan Gupta.
+\newblock Gaussian {M}ixture {M}odel, 2021.
+\newblock URL \url{https://www.geeksforgeeks.org/gaussian-mixture-model/}.
+
+\bibitem[Kaushik(2016)]{clusteringMethods}
+Sauravkaushiki Kaushik.
+\newblock An introduction to clustering and different methods of clustering,
+  2016.
+\newblock URL
+  \url{https://www.analyticsvidhya.com/blog/2016/11/an-introduction-to-clustering-and-different-methods-of-clustering/}.
+
+\bibitem[Kizil(2020)]{kmeansAnomaly}
+Bora Kizil.
+\newblock Introduction to anomaly detection in time-series data and {K}-{M}eans
+  clustering, 2020.
+\newblock URL
+  \url{https://medium.com/swlh/introduction-to-anomaly-detection-in-time-series-data-and-k-means-clustering-5832fb33d8cb}.
+
+\bibitem[Lavorini(2018)]{GaussianMixtureComponents}
+Vincenzo Lavorini.
+\newblock Gaussian {M}ixture {M}odel clustering: how to select the number of
+  components (clusters), 2018.
+\newblock URL
+  \url{https://towardsdatascience.com/gaussian-mixture-model-clusterization-how-to-select-the-number-of-components-clusters-553bef45f6e4}.
+
+\bibitem[Madhuri i Rani(2018)]{AnomalyDetectionTechniques}
+G~Sandhya Madhuri i Dr. M.~Usha Rani.
+\newblock Anomaly detection techniques causes and issues.
+\newblock \emph{International Journal of Engineering \& Technology}, 2018.
+\newblock URL
+  \url{https://www.sciencepubco.com/index.php/ijet/article/view/22791}.
+
+\bibitem[Maklin(2019)]{GaussianMixtureExplained2}
+Cory Maklin.
+\newblock Gaussian {M}ixture {M}odels clustering algorithm explained, 2019.
+\newblock URL
+  \url{https://towardsdatascience.com/gaussian-mixture-models-d13a5e915c8e}.
+
+\bibitem[Markus~Goldstein(2016)]{ComparativeEvaluation}
+Seiichi~Uchida Markus~Goldstein.
+\newblock A comparative evaluation of unsupervised anomaly detection algorithms
+  for multivariate data.
+\newblock 2016.
+\newblock URL
+  \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4836738/pdf/pone.0152173.pdf}.
+
+\bibitem[Moulavi et~al.(2014)Moulavi, Jaskowiak, Campello, Zimek, i
+  Sander]{DBCV}
+Davoud Moulavi, Pablo~A. Jaskowiak, Ricardo J. G.~B. Campello, Arthur Zimek, i
+  Jörg Sander.
+\newblock Density-based clustering validation.
+\newblock \emph{Society for Industrial and Applied Mathematics}, 2014.
+\newblock URL \url{https://epubs.siam.org/doi/pdf/10.1137/1.9781611973440.96}.
+
+\bibitem[Mullin(2020)]{DBSCANParameterEstimation}
+Tara Mullin.
+\newblock {DBSCAN} parameter estimation using {P}ython, 2020.
+\newblock URL
+  \url{https://medium.com/@tarammullin/dbscan-parameter-estimation-ff8330e3a3bd}.
+
+\bibitem[Pandey(2020)]{DBSCANClustering}
+Pallavi Pandey.
+\newblock {DBSCAN} clustering, 2020.
+\newblock URL \url{https://machinelearninggeek.com/dbscan-clustering/}.
+
+\bibitem[Pang et~al.(2021)Pang, Shen, Cao, i Hengel]{pang2021deep}
+Guansong Pang, Chunhua Shen, Longbing Cao, i Anton Van~Den Hengel.
+\newblock Deep learning for anomaly detection: A review.
+\newblock \emph{ACM Computing Surveys (CSUR)}, 54\penalty0 (2):\penalty0 1--38,
+  2021.
+
+\bibitem[Patcha i Park(2007)]{AnOverview}
+Animesh Patcha i Jung-Min Park.
+\newblock An overview of anomaly detection techniques: Existing solutions and
+  latest technological trends.
+\newblock \emph{ScienceDirect}, 2007.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/abs/pii/S138912860700062X}.
+
+\bibitem[Pathak(2020)]{evaluationMetrics}
+Manish Pathak.
+\newblock Quick guide to evaluation metrics for supervised and unsupervised
+  machine learning, 2020.
+\newblock URL
+  \url{https://www.analyticsvidhya.com/blog/2020/10/quick-guide-to-evaluation-metrics-for-supervised-and-unsupervised-machine-learning/}.
+
+\bibitem[Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+  Cournapeau, Brucher, Perrot, i Duchesnay]{scikit-learn}
+F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
+  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
+  D.~Cournapeau, M.~Brucher, M.~Perrot, i E.~Duchesnay.
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock \emph{Journal of Machine Learning Research}, 12:\penalty0 2825--2830,
+  2011.
+
+\bibitem[Rasim~Alguliyev i Sukhostat(2017)]{AnomalyDetectionInBigData}
+Ramiz~Aliguliyev Rasim~Alguliyev i Lyudmila Sukhostat.
+\newblock Anomaly detection in big data based on clustering.
+\newblock \emph{Statistics Optimization \& Information Computing}, 2017.
+\newblock URL
+  \url{https://www.researchgate.net/publication/321448608_Anomaly_Detection_in_Big_Data_based_on_Clustering}.
+
+\bibitem[scikit-learn developers(2022)]{scalers}
+scikit-learn developers.
+\newblock Compare the effect of different scalers on data with outliers, 2022.
+\newblock URL
+  \url{https://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html}.
+
+\bibitem[Sreenivasulu(2019)]{EvaluationOfClusterBasedAnomalyDetection}
+Ajay Sreenivasulu.
+\newblock Evaluation of cluster based anomaly detection.
+\newblock 2019.
+\newblock URL
+  \url{https://www.diva-portal.org/smash/get/diva2:1382324/FULLTEXT01.pdf}.
+
+\bibitem[Srikanth~Thudumu i Singh(2020)]{AComprehensiveSurvey}
+Jiong~Jin Srikanth~Thudumu, Philip~Branch i Jugdutt~(Jack) Singh.
+\newblock A comprehensive survey of anomaly detection techniques for high
+  dimensional big data.
+\newblock \emph{Journal of Big Data}, 2020.
+\newblock URL \url{https://doi.org/10.1186/s40537-020-00320-x}.
+
+\bibitem[Valeti(2021)]{DBSCANOutlierDetection}
+Dilip Valeti.
+\newblock {DBSCAN} algorithm for fraud detection \& outlier detection in a data
+  set, 2021.
+\newblock URL
+  \url{https://medium.com/@dilip.voleti/dbscan-algorithm-for-fraud-detection-outlier-detection-in-a-data-set-60a10ad06ea8}.
+
+\bibitem[{Wikipedia contributors}(2022{\natexlab{a}})]{DBSCANWiki}
+{Wikipedia contributors}.
+\newblock {DBSCAN} --- {W}ikipedia{,} the free encyclopedia,
+  2022{\natexlab{a}}.
+\newblock URL \url{https://en.wikipedia.org/wiki/DBSCAN}.
+\newblock [Online; accessed 05-June-2022].
+
+\bibitem[{Wikipedia contributors}(2022{\natexlab{b}})]{anomalyWiki}
+{Wikipedia contributors}.
+\newblock Anomaly detection --- {W}ikipedia{,} the free encyclopedia,
+  2022{\natexlab{b}}.
+\newblock URL \url{https://en.wikipedia.org/wiki/Anomaly_detection}.
+\newblock [Online; accessed 05-June-2022].
+
+\bibitem[{Wikipedia contributors}(2022{\natexlab{c}})]{clusterWiki}
+{Wikipedia contributors}.
+\newblock Cluster analysis --- {W}ikipedia{,} the free encyclopedia,
+  2022{\natexlab{c}}.
+\newblock URL \url{https://en.wikipedia.org/wiki/Cluster_analysis}.
+\newblock [Online; accessed 05-June-2022].
+
+\bibitem[{Wikipedia contributors}(2022{\natexlab{d}})]{kMeansWiki}
+{Wikipedia contributors}.
+\newblock k-means clustering --- {W}ikipedia{,} the free encyclopedia,
+  2022{\natexlab{d}}.
+\newblock URL \url{https://en.wikipedia.org/wiki/K-means_clustering}.
+\newblock [Online; accessed 05-June-2022].
+
+\bibitem[{Wikipedia contributors}(2022{\natexlab{e}})]{normalDistWiki}
+{Wikipedia contributors}.
+\newblock Normal distribution --- {W}ikipedia{,} the free encyclopedia,
+  2022{\natexlab{e}}.
+\newblock URL \url{https://en.wikipedia.org/wiki/Normal_distribution}.
+\newblock [Online; accessed 05-June-2022].
+
+\bibitem[Šnajder(2021)]{Grupiranje}
+Jan Šnajder.
+\newblock Strojno učenje: 19. grupiranje.
+\newblock 2021.
+\newblock URL
+  \url{https://www.fer.unizg.hr/_download/repository/SU-2020-19-Grupiranje[1].pdf}.
+
+\end{thebibliography}

@@ -4,10 +4,31 @@ import pandas as pd
 from sklearn.cluster import DBSCAN, KMeans
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import RobustScaler
+from sklearn.mixture import GaussianMixture
+
+
+def calculate_Gaussian(X, y, n_components, percentile):
+    gaussianMixture = GaussianMixture(n_components=n_components, covariance_type='full', init_params='random').fit(X)
+
+    densities = gaussianMixture.score_samples(X)
+    pred = gaussianMixture.predict_proba(X)
+
+  #  find_best_n_components(X)
+
+    density_threshold = np.percentile(densities, percentile)
+    print(density_threshold)
+    indices = densities < density_threshold
+
+    print('Number of anomalies {:d}, number of true positives {} (fraction: {:.3%})'.format(
+        indices[indices == True].sum(), y[indices == 1].sum(), y[indices == 1].mean()))
+
+    return indices
 
 
 def calculate_DBSCAN(X, y, eps, min_samples):
     dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(X)
+
+  #  calculate_Nearest_Neighbors(X, min_samples)
 
     for i in set(dbscan.labels_):
         print('class {}: number of points {:d}, number of positives {} (fraction: {:.3%})'.format(
@@ -15,26 +36,28 @@ def calculate_DBSCAN(X, y, eps, min_samples):
 
     n_noise = np.where(dbscan.labels_ == -1)
     print('Found {:d} outliers'.format(len(n_noise[0])))
-    y_pred = set_outlier_labels(dbscan.labels_)
+    y_pred = set_outlier_labels_dbscan(dbscan.labels_)
     return y_pred
 
 
-def calculate_KMeans(X, y, k, threshold):
-
+def calculate_KMeans(X, y, k, percentile):
     kmeans = KMeans(n_clusters=k).fit(X)
 
     distances = kmeans.transform(X)
     min_distances = np.min(distances, axis=1)
-    indexes = np.argwhere(min_distances > threshold).flatten()
 
-    print('Found {:d} outliers'.format(len(indexes)))
+    threshold = np.percentile(min_distances, percentile)
+    print(threshold)
+    indices = np.argwhere(min_distances > threshold).flatten()
+
+    print('Found {:d} outliers'.format(len(indices)))
     y_pred = np.zeros(len(y))
-    y_pred[indexes] = 1
+    y_pred[indices] = 1
 
     return y_pred
 
 
-def set_outlier_labels(labels):
+def set_outlier_labels_dbscan(labels):
     # y_pred = labels
     # if len(np.unique(labels)) > 2:
     #     y_pred[labels == 1] = len(np.unique(labels)) - 1
@@ -72,6 +95,23 @@ def find_best_k(X):
     plt.show()
 
 
+def find_best_n_components(X):
+    distortions = []
+    K = range(1, 15, 1)
+    for k in K:
+        gaussian_mixture = GaussianMixture(n_components=k)
+        gaussian_mixture.fit(X)
+        distortions.append(gaussian_mixture.bic(X))
+
+    plt.figure(figsize=(16, 8))
+    plt.plot(K, distortions, 'bx-')
+    plt.xlabel('k')
+    plt.ylabel('Distortion')
+    plt.title('The Elbow Method showing the optimal number of components')
+    plt.show()
+
+
+# from: https://donernesto.github.io/blog/outlier-detection-data-preparation/
 def downsample_scale_split_df(df_full, y_column='class', frac_negative=1, frac_positive=1, scaler=RobustScaler,
                               random_state=1, verbose=False):
     """ Returns downsampled X, y DataFrames, with prescribed downsampling of positives and negatives
@@ -104,4 +144,3 @@ def downsample_scale_split_df(df_full, y_column='class', frac_negative=1, frac_p
         print('Number of points: {}, number of positives: {} ({:.2%})'.format(
             len(y_downsampled), y_downsampled.sum(), y_downsampled.mean()))
     return X_downsampled, y_downsampled
-
