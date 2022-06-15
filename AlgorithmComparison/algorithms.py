@@ -17,8 +17,7 @@ times = []
 def calculate_Gaussian(X, y, n_components, percentile, name):
     start = time.process_time()
 
-    gaussianMixture = GaussianMixture(n_components=n_components, covariance_type='spherical', init_params='kmeans').fit(
-        X)
+    gaussianMixture = GaussianMixture(n_components=n_components, covariance_type='spherical', init_params='kmeans').fit(X)
 
     total_time = time.process_time() - start
     if len(times) == 0 and os.path.exists('stats/' + name + '-gauss-time.txt'):
@@ -30,12 +29,12 @@ def calculate_Gaussian(X, y, n_components, percentile, name):
     if len(times) == 20:
         print(np.mean(times))
 
-    densities = gaussianMixture.score_samples(X)
-    density_threshold = np.percentile(densities, percentile)
+    log_prob = gaussianMixture.score_samples(X)
+    density_threshold = np.percentile(log_prob, percentile)
     print(density_threshold)
-    indices = densities < density_threshold
+    indices = log_prob < density_threshold
 
-    # draw_graph(0, percentile, 0.1, densities, y, "percentile")
+    # draw_graph(0, percentile, 0.1, log_prob, y, "percentile")
 
     print('Number of anomalies {:d}, number of true positives {} (fraction: {:.3%})'.format(
         indices[indices == True].sum(), y[indices == 1].sum(), y[indices == 1].mean()))
