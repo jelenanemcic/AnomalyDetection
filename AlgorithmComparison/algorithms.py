@@ -1,23 +1,41 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import time
+import os
+import helper
+
 from sklearn.cluster import DBSCAN, KMeans
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import RobustScaler
 from sklearn.mixture import GaussianMixture
+from sklearn.metrics import f1_score
+
+times = []
 
 
-def calculate_Gaussian(X, y, n_components, percentile):
-    gaussianMixture = GaussianMixture(n_components=n_components, covariance_type='full', init_params='random').fit(X)
+def calculate_Gaussian(X, y, n_components, percentile, name):
+    start = time.process_time()
+
+    gaussianMixture = GaussianMixture(n_components=n_components, covariance_type='spherical', init_params='kmeans').fit(
+        X)
+
+    total_time = time.process_time() - start
+    if len(times) == 0 and os.path.exists('stats/' + name + '-gauss-time.txt'):
+        os.remove('stats/' + name + '-gauss-time.txt')
+    file_object = open('stats/' + name + '-gauss-time.txt', 'a')
+    file_object.write(str(total_time) + "\n")
+    file_object.close()
+    times.append(total_time)
+    if len(times) == 20:
+        print(np.mean(times))
 
     densities = gaussianMixture.score_samples(X)
-    pred = gaussianMixture.predict_proba(X)
-
-  #  find_best_n_components(X)
-
     density_threshold = np.percentile(densities, percentile)
     print(density_threshold)
     indices = densities < density_threshold
+
+    # draw_graph(0, percentile, 0.1, densities, y, "percentile")
 
     print('Number of anomalies {:d}, number of true positives {} (fraction: {:.3%})'.format(
         indices[indices == True].sum(), y[indices == 1].sum(), y[indices == 1].mean()))
@@ -25,30 +43,71 @@ def calculate_Gaussian(X, y, n_components, percentile):
     return indices
 
 
-def calculate_DBSCAN(X, y, eps, min_samples):
-    dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(X)
+def calculate_DBSCAN(X, y, eps, min_pts, name):
+    if type(min_pts) == list:
+        f1_scores = []
+        for p in min_pts:
+            dbscan = DBSCAN(eps=eps, min_samples=p).fit(X)
+            y_pred = set_outlier_labels_dbscan(dbscan.labels_)
+            f1_scores.append(f1_score(y, y_pred))
+        helper.plot(min_pts, f1_scores, "minPts")
 
-  #  calculate_Nearest_Neighbors(X, min_samples)
+    elif type(eps) == list:
+        f1_scores = []
+        for e in eps:
+            dbscan = DBSCAN(eps=e, min_samples=min_pts).fit(X)
+            y_pred = set_outlier_labels_dbscan(dbscan.labels_)
+            f1_scores.append(f1_score(y, y_pred))
+        helper.plot(eps, f1_scores, "eps")
+    else:
+        # calculate_Nearest_Neighbors(X, min_samples)
+        start = time.process_time()
 
-    for i in set(dbscan.labels_):
-        print('class {}: number of points {:d}, number of positives {} (fraction: {:.3%})'.format(
-            i, np.sum(dbscan.labels_ == i), y[dbscan.labels_ == i].sum(), y[dbscan.labels_ == i].mean()))
+        dbscan = DBSCAN(eps=eps, min_samples=min_pts).fit(X)
 
-    n_noise = np.where(dbscan.labels_ == -1)
-    print('Found {:d} outliers'.format(len(n_noise[0])))
-    y_pred = set_outlier_labels_dbscan(dbscan.labels_)
+        total_time = time.process_time() - start
+        if len(times) == 0 and os.path.exists('stats/' + name + '-dbscan-time.txt'):
+            os.remove('stats/' + name + '-dbscan-time.txt')
+        file_object = open('stats/' + name + '-dbscan-time.txt', 'a')
+        file_object.write(str(total_time) + "\n")
+        file_object.close()
+        times.append(total_time)
+        if len(times) == 20:
+            print(np.mean(times))
+
+        for i in set(dbscan.labels_):
+            print('class {}: number of points {:d}, number of positives {} (fraction: {:.3%})'.format(
+                i, np.sum(dbscan.labels_ == i), y[dbscan.labels_ == i].sum(), y[dbscan.labels_ == i].mean()))
+
+        n_noise = np.where(dbscan.labels_ == -1)
+        print('Found {:d} outliers'.format(len(n_noise[0])))
+        y_pred = set_outlier_labels_dbscan(dbscan.labels_)
+
     return y_pred
 
 
-def calculate_KMeans(X, y, k, percentile):
+def calculate_KMeans(X, y, k, percentile, name):
+    start = time.process_time()
+
     kmeans = KMeans(n_clusters=k).fit(X)
+
+    total_time = time.process_time() - start
+    if len(times) == 0 and os.path.exists('stats/' + name + '-kmeans-time.txt'):
+        os.remove('stats/' + name + '-kmeans-time.txt')
+    file_object = open('stats/' + name + '-kmeans-time.txt', 'a')
+    file_object.write(str(total_time) + "\n")
+    file_object.close()
+    times.append(total_time)
+    if len(times) == 20:
+        print(np.mean(times))
 
     distances = kmeans.transform(X)
     min_distances = np.min(distances, axis=1)
-
     threshold = np.percentile(min_distances, percentile)
     print(threshold)
     indices = np.argwhere(min_distances > threshold).flatten()
+
+    # draw_graph(percentile, 100, 0.1, distances, y, "percentile")
 
     print('Found {:d} outliers'.format(len(indices)))
     y_pred = np.zeros(len(y))
@@ -66,6 +125,21 @@ def set_outlier_labels_dbscan(labels):
     y_pred = y_pred.astype(int)
 
     return y_pred
+
+
+def draw_graph(start, end, step, distances, y, name):
+    f1_scores = []
+    for i in np.arange(start, end, step):
+        threshold = np.percentile(distances, i)
+        if end == 100:
+            indices = np.argwhere(distances > threshold).flatten()
+        else:
+            indices = np.argwhere(distances < threshold).flatten()
+        y_pred = np.zeros(len(y))
+        y_pred[indices] = 1
+        f1_scores.append(f1_score(y, y_pred))
+
+    helper.plot(np.arange(start, end, step), f1_scores, name)
 
 
 def calculate_Nearest_Neighbors(X, k):
@@ -96,18 +170,18 @@ def find_best_k(X):
 
 
 def find_best_n_components(X):
-    distortions = []
+    bic = []
     K = range(1, 15, 1)
     for k in K:
-        gaussian_mixture = GaussianMixture(n_components=k)
+        gaussian_mixture = GaussianMixture(n_components=k, covariance_type='full', init_params='random')
         gaussian_mixture.fit(X)
-        distortions.append(gaussian_mixture.bic(X))
+        bic.append(gaussian_mixture.bic(X))
 
     plt.figure(figsize=(16, 8))
-    plt.plot(K, distortions, 'bx-')
+    plt.plot(K, bic, 'bx-')
     plt.xlabel('k')
-    plt.ylabel('Distortion')
-    plt.title('The Elbow Method showing the optimal number of components')
+    plt.ylabel('BIC')
+    # plt.title('The elbow method showing the optimal number of components')
     plt.show()
 
 

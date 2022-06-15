@@ -1,8 +1,8 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
 from sklearn.metrics import accuracy_score, roc_auc_score, average_precision_score, \
     f1_score, precision_score, recall_score, silhouette_score, davies_bouldin_score, rand_score
-import numpy as np
-import DBCV
-from hdbscan import validity_index
 
 
 def calculate_metrics(y_true, y_pred):
@@ -28,14 +28,13 @@ def calculate_metrics(y_true, y_pred):
         rand[i] = rand_score(y_true[i], y_pred[i])
 
     return number_of_positives.mean(), total_number.mean(), auc_roc.mean(), average_precisions.mean(), \
-           precisions.mean(), recalls.mean(), f1_scores.mean(), accuracies.mean(), rand.mean()
+        precisions.mean(), recalls.mean(), f1_scores.mean(), accuracies.mean(), rand.mean()
 
 
 def calculate_clustering_metrics(X, y_pred):
     silhouette = silhouette_score(X, y_pred)
     davies = davies_bouldin_score(X, y_pred)
-    DBCVs = validity_index(X, y_pred)
-    return silhouette, davies, DBCVs
+    return silhouette, davies
 
 
 def save(name, *to_save):
@@ -48,3 +47,11 @@ def save(name, *to_save):
 def print_all(*to_print):
     for i in range(0, len(to_print)):
         print(to_print[i])
+
+
+def plot(parameter, score, name):
+    plt.figure(figsize=(16, 8))
+    plt.plot(parameter, score, 'bx-')
+    plt.xlabel(name)
+    plt.ylabel('F1-score')
+    plt.show()

@@ -1,6 +1,7 @@
-from scipy.io import arff
 import pandas as pd
 import numpy as np
+
+from scipy.io import arff
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 
 
@@ -36,7 +37,7 @@ def reduce(X):
             row["flag"] = "other"
 
         if row["service"] in m:
-            m[row["service"]] = m[row["service"]]+1
+            m[row["service"]] = m[row["service"]] + 1
         else:
             m[row["service"]] = + 1
         if row["flag"] in n:
@@ -48,7 +49,7 @@ def reduce(X):
     return X
 
 
-def read_breast_dataset(df):
+def read_cancer_dataset(df):
     X = df.iloc[:, 2:32]
     y = df.iloc[:, 1]
     y = pd.Series(np.where(y.values == 'M', 1, 0), y.index)
@@ -72,7 +73,7 @@ def read_dataset(df, y_column):
 
 
 if __name__ == '__main__':
-    #df = pd.read_csv('datasets/thyroid.csv')
+    # df = pd.read_csv('datasets/thyroid.csv')
 
     data = arff.loadarff('datasets/u2rvsnormal.arff')
     df = pd.DataFrame(data[0])
