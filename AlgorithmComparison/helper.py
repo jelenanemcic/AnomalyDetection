@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score, roc_auc_score, average_precision_sco
     f1_score, precision_score, recall_score, silhouette_score, davies_bouldin_score, rand_score
 
 
-def calculate_metrics(y_true, y_pred):
+def calculate_metrics(y_true, y_pred, name):
     number_of_positives = np.zeros(len(y_pred))
     total_number = np.zeros(len(y_pred))
     auc_roc = np.zeros(len(y_pred))
@@ -27,6 +27,7 @@ def calculate_metrics(y_true, y_pred):
         accuracies[i] = accuracy_score(y_true[i], y_pred[i])
         rand[i] = rand_score(y_true[i], y_pred[i])
 
+    np.savetxt('stats/f1_' + name + '.txt', f1_scores)
     return number_of_positives.mean(), total_number.mean(), auc_roc.mean(), average_precisions.mean(), \
         precisions.mean(), recalls.mean(), f1_scores.mean(), accuracies.mean(), rand.mean()
 

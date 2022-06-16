@@ -29,7 +29,7 @@ def run_DBSCAN():
         davies[j] = db
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "dbscan-probe")
 
     helper.save("dbscan-probe", number_of_positives, total_number, auc_roc, average_precisions, precisions,
                 recalls, f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
@@ -61,7 +61,7 @@ def run_GaussianMixture():
         davies[j] = db
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "gaussian-probe")
 
     helper.save("gaussian-probe", number_of_positives, total_number, auc_roc, average_precisions, precisions,
                 recalls, f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
@@ -93,7 +93,7 @@ def run_KMeans():
         davies[j] = db
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "kmeans-probe")
 
     helper.save("kmeans-probe", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())

@@ -29,7 +29,7 @@ def run_DBSCAN():
         davies[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "dbscan-credit")
 
     helper.save("dbscan-credit", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
@@ -61,7 +61,7 @@ def run_GaussianMixture():
         davies[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "gaussian-credit")
 
     helper.save("gaussian-credit", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
@@ -93,7 +93,7 @@ def run_KMeans():
         davies[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "kmeans-credit")
 
     helper.save("kmeans-credit", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())

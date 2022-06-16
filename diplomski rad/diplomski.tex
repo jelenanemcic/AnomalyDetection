@@ -288,7 +288,7 @@ Metrika DBCV računa gustoću unutar grupe i gustoću između grupa. Visoka gust
 
 \end{enumerate}
 
-Za vrednovanje algoritama u ovom radu koristit će se sve navedene metode osim točnosti, Dunnovog indeksa i metode DBCV. Točnost je nepouzdana u slučaju neuravnoteženih razreda kao što je to slučaj u detekciji anomalija, a Dunnov indeks i DBCV su metode bez svojstva razmjernog rasta, čije računanje postaje računski vrlo zahtjevno već za nekoliko tisuća primjera.
+Za vrednovanje algoritama u ovom radu koristit će se sve navedene metode osim točnosti, Randovog indeksa, Dunnovog indeksa i metode DBCV. Točnost i Randov indeks postaju nepouzdani u slučaju neuravnoteženih razreda kao što je to slučaj u detekciji anomalija, a Dunnov indeks i DBCV su metode bez svojstva razmjernog rasta, čije računanje postaje računski vrlo zahtjevno već za nekoliko tisuća primjera.
 
 \section{Algoritam K-sredina}
 Algoritam K-sredina (eng. \textit{K-Means}) najpoznatiji je algoritam grupiranja koji se zasniva na centroidnom modelu. U ovom algoritmu, svaka grupa ima centroid koji se računa kao srednja vrijednost članova grupe i predstavlja tu grupu. Primjeri se iz neoznačenog skupa podataka grupiraju u $K$ grupa na način da svaki podatak pripada onoj grupi čijem je centroidu najbliži. 
@@ -649,7 +649,7 @@ Prilikom određivanja hiperparametara algoritma i graničnih vrijednosti, odabra
 
 \chapter{Rezultati}
 
-\section{Otkrivanje prijevare s kreditnim karticama}
+\section{Detekcija anomalija u transakcijama}
 Prva usporedba algoritama grupiranja provedena je na skupu podataka o kreditnim karticama, sa ciljem detektiranja prijevara.
 
 Za algoritam K-sredina bilo je potrebno odrediti granični percentil udaljenosti od centroida te je ovisnost F1-mjere o odabranom percentilu prikazana na slici \ref{fig:credit-kmeans}. Kao granični percentil odabran je percentil 98.65 jer je za njega dobivena maksimalna vrijednost F1-mjere.
@@ -672,17 +672,26 @@ Kako bi se definirali hiperparametri algoritma DBSCAN provedeno je pretraživanj
 
 U slučaju modela Gaussove mješavine potrebno je odrediti percentil logaritamske izglednosti ispod kojeg se točke proglašavaju anomalijiama. Ovisnost F1-mjere o tom percentilu prikazana je na slici \ref{fig:credit-gauss} te je percentil 1.35 uzet kao granični percentil. Slučajno je i u algoritmu K-sredina i u modelu Gaussove mješavine odabran granični percentil koji proglašava jednak postotak primjera anomalijama odnosno 1.35\%.
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/credit-gauss-f1.png}
 \centering
 \caption{Graf ovisnosti F1-mjere o percentilu logaritamske izglednosti za skup podataka o kreditnim karticama.}
 \label{fig:credit-gauss}
 \end{figure}
 
+Svaki algoritam pokrenut je 20 puta na svakom skupu podataka. Na slici \ref{fig:credit-f1} prikazana je grafička usporedba uspješnosti svih triju algoritama na temelju dobivenih F1-mjera, a u tablici \ref{tab:credit} dana je usporedba algoritama po svim metrikama, pri čemu je uzeta srednja vrijednost u 20 mjerenja.
+
+\begin{figure}[htb]
+\includegraphics[width=1\textwidth]{images/credit-f1.png}
+\centering
+\caption{Usporedba F1-mjere algoritama na problemu detekcije kartičnih prijevara.}
+\label{fig:credit-f1}
+\end{figure}
+
 \begin{table}[h!]
   \begin{center}
     \caption{Usporedba algoritama na skupu podataka o kreditnim karticama.}
-    \label{tab:creditcard}
+    \label{tab:credit}
     \begin{tabular}{c|c|c|c} 
       & \textbf{K-sredine} & \textbf{DBSCAN}  & \textbf{Gaussova mješavina}\\
       \hline
@@ -690,53 +699,89 @@ U slučaju modela Gaussove mješavine potrebno je odrediti percentil logaritamsk
       \textbf{Odziv} & 0.615 & 0.753 & 0.613 \\
       \textbf{F1-mjera} & 0.685 & 0.737 & 0.683 \\
       \textbf{AUC mjera} & 0.806 & 0.874 & 0.805 \\
-      \textbf{Randov indeks} & 0.981 & 0.982 & 0.981 \\
        \textbf{Koeficijent siluete} & 0.653 & 0.611 & 0.653 \\
        \textbf{Davies-Bouldin indeks} & 1.212 & 1.414 & 1.215 \\
      \end{tabular}
   \end{center}
 \end{table}
 
-\section{Detekcija upada u mrežu}
+\section{Otkrivanje anomalija u mreži}
+U sljedeća dva skupa podataka zadatak je bio prepoznati mrežni napad kao anomaliju. Algoritmi su uspoređeni na skupovima podataka koji sadrže \textit{U2R} i \textit{Probe} mrežne napade.
 
-\subsection{Skup podataka \textit{U2R}}
+\subsection{Napad \textit{U2R} kao anomalija}
+U slučaju skupa podataka \textit{U2R}, za algoritam K-sredina određen je percentil 99.62 kao granični percentil jer on maksimizira vrijednost F1-mjere, kao što se vidi na slici \ref{fig:u2r-kmeans}.
 
 \begin{figure}[htb]
 \includegraphics[width=1\textwidth]{images/u2r-kmeans-f1.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
+\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za skup podataka \textit{U2R}.}
 \label{fig:u2r-kmeans}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/u2r-dbscan-f1.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
+\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 0.1$ za skup podataka \textit{U2R}.}
 \label{fig:u2r-dbscan}
 \end{figure}
 
-\begin{figure}[htb]
+Za algoritam DBSCAN izabrani su parametri $\epsilon = 0.1$ i $minPts = 150$. Na slici \ref{fig:u2r-dbscan} vidi se da je F1-mjera najveća za $minPts = 150$, iako niti za jednu vrijednosti $minPts$ nije dobivena zadovoljavajuća vrijednost F1-mjere, koja bi bila iznad 0.5. Mijenjanje udaljenosti $\epsilon$ nije imalo utjecaja na rezultat.
+
+Slika \ref{fig:u2r-gauss} prikazuje promjenu F1-mjere ovisno o odabranom graničnom percentilu za model Gaussove mješavine te je, sukladno slici, odabran percentil 0.38. Tako je i u algoritmu K-sredina i u modelu Gaussove mješavine odabran percentil koji upravo odgovara stvarnom udjelu anomalija u skupu podataka.
+
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/u2r-gauss-f1.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
+\caption{Graf ovisnosti F1-mjere o percentilu logaritamske izglednosti za skup podataka \textit{U2R}.}
 \label{fig:u2r-gauss}
 \end{figure}
 
-\subsection{Skup podataka \textit{Probe}}
+Algoritmi su vrednovani pomoću F1-mjere na 20 izvođenja i na slici \ref{fig:u2r-f1} dan je grafički prikaz rezultata. U tablici \ref{tab:u2r} prikazane su srednje vrijednosti svih mjerenih metrika. 
 
-\begin{figure}[htb]
+\begin{figure}[h!]
+\includegraphics[width=1\textwidth]{images/u2r-f1.png}
+\centering
+\caption{Usporedba F1-mjere algoritama na problemu detekcije mrežnog napada \textit{U2R}.}
+\label{fig:u2r-f1}
+\end{figure}
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Usporedba algoritama na skupu podataka s mrežnim napadom \textit{U2R}.}
+    \label{tab:u2r}
+    \begin{tabular}{c|c|c|c} 
+      & \textbf{K-sredine} & \textbf{DBSCAN}  & \textbf{Gaussova mješavina}\\
+      \hline
+      \textbf{Preciznost} & 0.609 & 0.266 & 0.603 \\
+      \textbf{Odziv} & 0.591 & 0.832 & 0.596 \\
+      \textbf{F1-mjera} & 0.600 & 0.403 & 0.599 \\
+      \textbf{AUC mjera} & 0.795 & 0.911 & 0.797 \\
+       \textbf{Koeficijent siluete} & 0.526 & 0.467 & 0.526 \\
+       \textbf{Davies-Bouldin indeks} & 0.552 & 1.699 & 0.585 \\
+     \end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Napad \textit{Probe} kao anomalija}
+Za skup podataka koji kao anomaliju imaju mrežni napad \textit{Probe}, slika \ref{fig:probe-kmeans} prikazuje promjenu F1-mjere algoritma K-sredina pri promjeni graničnog percentila. Odabran je percentil 93.5, iako je to mogao biti i bilo koji u rasponu $[89, 93.5]$ jer za sve njih F1-mjera postiže maksimum. Ovaj percentil je odabran kako bi se 
+
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/probe-kmeans-f1.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
+\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za skup podataka \textit{Probe}.}
 \label{fig:probe-kmeans}
 \end{figure}
+
+Kao i kod skupa podataka s napadom \textit{U2R}, udaljenost $\epsilon$ nije imala velikog utjecaja na izvođenje algoritma DBSCAN, pa je ona fiksirana na $\epsilon = 0.1$. Slika \ref{fig:probe-dbscan} prikazuje ovisnost F1-mjere o minimalnom broju točaka $minPts$ te je odabrano $minPts = 1300$.
 
 \begin{figure}[htb]
 \includegraphics[width=1\textwidth]{images/probe-dbscan-f1.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
+\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 0.1$ za skup podataka \textit{Probe}.}
 \label{fig:probe-dbscan}
 \end{figure}
+
+Slika\ref{fig:probe-gauss} prikazuje promjenu F1-mjere modela Gaussove mješavine ovisno o graničnom percentilu i graf sliči zrcalnoj slici grafa za algoritam K-sredina. Isto kao i kod tog algoritma, maksimum se postiže za više vrijednosti odnosno za svaki percentil iz skupa $[6.5, 11]$. Izabran je percentil 6.5 kako 
 
 \begin{figure}[htb]
 \includegraphics[width=1\textwidth]{images/probe-gauss-f1.png}
@@ -745,7 +790,7 @@ U slučaju modela Gaussove mješavine potrebno je odrediti percentil logaritamsk
 \label{fig:probe-gauss}
 \end{figure}
 
-\section{Detekcija raka}
+\section{Detekcija raka kao anomalije}
 
 \begin{figure}[htb]
 \includegraphics[width=1\textwidth]{images/cancer-kmeans-f1.png}

@@ -21,10 +21,10 @@
 \contentsline {section}{\numberline {5.2}Smanjenje broja uzoraka}{26}{}%
 \contentsline {section}{\numberline {5.3}Algoritmi i ostvarenje detekcije anomalija}{27}{}%
 \contentsline {chapter}{\numberline {6}Rezultati}{29}{}%
-\contentsline {section}{\numberline {6.1}Otkrivanje prijevare s kreditnim karticama}{29}{}%
-\contentsline {section}{\numberline {6.2}Detekcija upada u mre^^c5^^beu}{31}{}%
-\contentsline {subsection}{\numberline {6.2.1}Skup podataka \textit {U2R}}{31}{}%
-\contentsline {subsection}{\numberline {6.2.2}Skup podataka \textit {Probe}}{31}{}%
-\contentsline {section}{\numberline {6.3}Detekcija raka}{31}{}%
-\contentsline {chapter}{\numberline {7}Zaklju^^c4^^8dak}{37}{}%
-\contentsline {chapter}{Literatura}{38}{}%
+\contentsline {section}{\numberline {6.1}Detekcija anomalija u transakcijama}{29}{}%
+\contentsline {section}{\numberline {6.2}Otkrivanje anomalija u mre^^c5^^bei}{31}{}%
+\contentsline {subsection}{\numberline {6.2.1}Napad \textit {U2R} kao anomalija}{32}{}%
+\contentsline {subsection}{\numberline {6.2.2}Napad \textit {Probe} kao anomalija}{34}{}%
+\contentsline {section}{\numberline {6.3}Detekcija raka kao anomalije}{35}{}%
+\contentsline {chapter}{\numberline {7}Zaklju^^c4^^8dak}{38}{}%
+\contentsline {chapter}{Literatura}{39}{}%

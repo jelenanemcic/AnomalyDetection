@@ -31,7 +31,7 @@ def run_DBSCAN():
         davies[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "dbscan-cancer")
 
     helper.save("dbscan-cancer", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
@@ -63,7 +63,7 @@ def run_GaussianMixture():
         davies[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "gaussian-cancer")
 
     helper.save("gaussian-cancer", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
@@ -95,7 +95,7 @@ def run_KMeans():
         davies[j] = d
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "kmeans-cancer")
 
     helper.save("kmeans-cancer", number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls,
                 f1_scores, accuracies, rand, silhouette.mean(), davies.mean())

@@ -29,7 +29,7 @@ def run_DBSCAN():
         davies[j] = db
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "dbscan-u2r")
 
     helper.save("dbscan-u2r", number_of_positives, total_number, auc_roc, average_precisions, precisions,
                 recalls, f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
@@ -39,7 +39,7 @@ def run_DBSCAN():
 
 
 def run_GaussianMixture():
-    n_components = 1    # spherical
+    n_components = 1
     percentile = 0.38
     max_j = 20
 
@@ -61,7 +61,7 @@ def run_GaussianMixture():
         davies[j] = db
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "gaussian-u2r")
 
     helper.save("gaussian-u2r", number_of_positives, total_number, auc_roc, average_precisions, precisions,
                 recalls, f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
@@ -93,7 +93,7 @@ def run_KMeans():
         davies[j] = db
 
     number_of_positives, total_number, auc_roc, average_precisions, precisions, recalls, f1_scores, \
-        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions)
+        accuracies, rand = helper.calculate_metrics(y_trues, y_predictions, "kmeans-u2r")
 
     helper.save("kmeans-u2r", number_of_positives, total_number, auc_roc, average_precisions, precisions,
                 recalls, f1_scores, accuracies, rand, silhouette.mean(), davies.mean())
