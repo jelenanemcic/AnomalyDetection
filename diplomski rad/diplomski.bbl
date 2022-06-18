@@ -1,4 +1,4 @@
-\begin{thebibliography}{41}
+\begin{thebibliography}{42}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -104,6 +104,12 @@ Ginni.
 \newblock What are the challenges of outlier detection?, 2022{\natexlab{b}}.
 \newblock URL
   \url{https://www.tutorialspoint.com/what-are-the-challenges-of-outlier-detection}.
+
+\bibitem[Gumbao(2019)]{BestClusteringAlgorithms}
+María~García Gumbao.
+\newblock Best clustering algorithms for anomaly detection, 2019.
+\newblock URL
+  \url{https://towardsdatascience.com/best-clustering-algorithms-for-anomaly-detection-d5b7412537c8}.
 
 \bibitem[Gupta(2021)]{GaussianMixtureModels2}
 Tufan Gupta.

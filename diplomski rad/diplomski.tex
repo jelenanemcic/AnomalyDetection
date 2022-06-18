@@ -4,6 +4,11 @@
 \usepackage{beramono}
 \usepackage{subcaption}
 \usepackage{listings}
+\usepackage{url}
+
+\def\UrlBreaks{\do\/\do-\do_}
+\usepackage{breakurl}
+\usepackage[breaklinks]{hyperref}
 
 \newcommand\keywordstyle[1]{{\bfseries{#1}}}%
 \lstset{
@@ -12,7 +17,7 @@
     numbers=left,
     numberstyle=\tiny,
     showstringspaces=false,
-     morekeywords={definiraj, inicijaliziraj, za, ako, onda, dok, inače, inace, nastavi, ponavljaj},
+     morekeywords={definiraj, inicijaliziraj, za, ako, onda, dok, inače, nastavi, ponavljaj},
      literate={đ}{{\dj}}1
           		{ž}{{\v{z}}}1
           		{č}{{\v{c}}}1
@@ -68,18 +73,15 @@ Mogući uzroci pojave anomalija su:
 \item Anomalije se razlikuju od ostalih podataka jer pripadaju drugom razredu, koji ima drugačija obilježja.
 \item Primjer takvih anomalija su financijske prijevare, strani upad u sustav i pojava bolesti.
 \end{itemize}
-
 \item Prirodna varijacija.
 \begin{itemize}
 \item Neki skupovi podataka mogu se modelirati normalnom distribucijom, gdje su anomalije oni događaji koji imaju vrlo malu vjerojatnost pojavljivanja.
 \end{itemize}
-
 \item Pogreške u mjerenju ili prikupljanju podataka.
 \begin{itemize}
 \item Do pojave anomalija može doći ako podaci sadrže šum, ako postoji kvar u mjernim instrumentima ili zbog ljudske pogreške.
 \item Krajnji je cilj eliminirati ovakve anomalije jer smanjuju kvalitetu podataka.
 \end{itemize}
-
 \end{enumerate}
 
 U ovom radu razmatrat će se samo anomalije koje se javljaju kao posljedica toga što podaci prirodno pripadaju različitim razredima.
@@ -154,9 +156,9 @@ Metode zasnivane na gustoći koriste broj podataka koji se nalaze unutar definir
 \end{enumerate}
 \item Metode zasnivane na grupiranju
 
-Metode koje se zasnivaju na grupiranju pretpostavljaju da normalni podaci pripadaju velikim i gustim grupama, dok anomalije pripadaju malim i rijetkim grupama ili ne pripadaju niti jednoj. Razlika između grupiranja i metoda zasnivanih na gustoći je u tome što grupiranje dijeli podatke u grupe dok metode zasnivane na gustoći dijele podatkovni prostor.
+Metode koje se zasnivaju na grupiranju pretpostavljaju da normalni podaci pripadaju velikim i gustim grupama, dok anomalije pripadaju malim i rijetkim grupama ili ne pripadaju niti jednoj. Razlika između grupiranja i metoda zasnivanih na gustoći je u tome što grupiranje dijeli podatke u grupe, dok metode zasnivane na gustoći dijele podatkovni prostor.
 \end{enumerate}
-U ovom radu za detekciju anomalija koristit će se algoritmi zasnivani na grupiranju. Za usporedbu su izabrani algoritam K-sredina, algoritam DBSCAN i model Gaussove mješavine.
+U ovom radu za detekciju anomalija koristit će se metode zasnivane na grupiranju odnosno algoritmi grupiranja. Za usporedbu su izabrani algoritam K-sredina, algoritam DBSCAN i model Gaussove mješavine.
 
 
 \chapter{Algoritmi grupiranja}
@@ -175,7 +177,7 @@ Osim po tipu grupiranja koje provode, algoritmi grupiranja razlikuju se i po tom
 
 \begin{enumerate}
 \item Modeli povezanosti - na osnovi udaljenosti podataka stvara se hijerarhijsko stablo grupa 
-\item Centroidni modeli - podaci se organiziraju u nehijerarhijske grupe ovisno o udaljenosti od centroida te grupe
+\item Centroidni modeli - podaci se organiziraju u nehijerarhijske grupe ovisno o udaljenosti od centra te grupe
 \item Modeli distribucije - grupe se modeliraju pomoću vjerojatnosti da podaci pripadaju istoj statističkoj distribuciji
 \item Modeli gustoće - područja veće gustoće povezuju se u grupe
 \end{enumerate}
@@ -302,7 +304,6 @@ U metodi lakta grafički se prikazuje ovisnost funkcije gubitka o broju grupa $K
 \item Analiza siluete (eng. \textit{Silhouette analysis})
 
 Ova je metoda grafička metoda koja se zasniva na ranije objašnjenom koeficijentu siluete. Njegova vrijednost prikaže se za svaki primjer iz skupa podataka ovisno o grupi u koju je primjer raspoređen te se izabere onaj broj grupa za koji svi primjeri imaju približno jednak koeficijent siluete.
-
 \end{itemize}
 
 Osim odabira broja grupa, potrebno je definirati i način odabira početnih centroida. Neki od mogućih prisupa su:
@@ -311,10 +312,9 @@ Osim odabira broja grupa, potrebno je definirati i način odabira početnih cent
 \item Nasumična dodjela grupe svakom primjeru i izračun centroida na osnovi primjera u grupi.
 \item Izračun srednje vrijednosti sviju primjera i dodavanje $K$ slučajnih vektora toj vrijednosti.
 \item Nasumičan odabir prvog centroida, nakon čega se svaki sljedeći bira na način da bude što dalje od postojećih. Verzija algoritma koja ostvaruje ovakav pristup zove se \textit{K-sredine++}.
-
 \end{itemize}
 
-Postupak grupiranja algoritma K-sredina je iterativan. Nakon inicijalizacije početnih centroida, svi se primjeri stavljaju u onu grupu čiji im je centroid najbliži. U sljedećem se koraku, na osnovi razvrstanih primjera, ponovno računaju novi centroidi za svaku grupu. Dalje se ponavljaju ova dva koraka sve do konvergencije odnosno do trenutka kad više nema promjene u podjeli primjera grupama i u vrijednostima centroida. Ovaj postupak prikazan je pseudokodom \ref{alg:kmeans} i na slici \ref{fig:kmeans}.
+Postupak grupiranja algoritma K-sredina je iterativan. Nakon inicijalizacije početnih centroida, svi se primjeri stavljaju u onu grupu čiji im je centroid najbliži. U sljedećem se koraku, na osnovi razvrstanih primjera, ponovno računaju novi centroidi za svaku grupu. Dalje se ponavljaju ova dva koraka sve do konvergencije odnosno do trenutka kad više nema promjene u podjeli primjera grupama i u vrijednostima centroida. Ovaj postupak prikazan je pseudokodom \ref{alg:kmeans}, a rezultat takvog grupiranja vidljiv je na slici \ref{fig:kmeans}.
 
  \begin{lstlisting}[caption = Pseudokod algoritma K-sredina, label = {alg:kmeans}, escapeinside={*}{+}]
  definiraj broj grupa *$K$+
@@ -473,7 +473,7 @@ Gaussova je mješavina funkcija koja se sastoji od onoliko Gaussovih funkcija ko
 \begin{itemize}
 \item Srednju vrijednost $\mu$ koja definira središte.
 \item Kovarijancu $\Sigma$  koja odeđuje ``širinu'' funckije.
-\item Vjerojatnost miješanja $\pi$ koja definira vjerojatnosti pripadnosti primjera toj distribuciji.
+\item Vjerojatnost miješanja $\pi$ koja definira vjerojatnost pripadanja primjera toj distribuciji.
 \end{itemize}
 
 Slika \ref{fig:gauss-mixture} prikazuje kako model Gaussove mješavine grupira podatke u slučaju kada imamo tri grupe.
@@ -525,14 +525,13 @@ Korak maksimizacije ažurira vrijednosti vjerojatnosti miješanja, srednje vrije
 \end{equation}
 
 Vjerojatnost $\pi_j$ računa se kao vjerojatnost da je svaka točka stvorena Gaussovom funkcijom $j$ podijeljeno s ukupnim brojem točaka. Parametri $\mu_j$ i $\Sigma_j$ računaju se kao srednja vrijednost i kovarijacija svih točaka koje su pomnožene s vjerojatnošću $W_{ij}$. Ovaj korak analogan je pomicanju centroida grupa u algoritmu K-sredina.
-
 \end{enumerate}
 
 Ova dva koraka ponavljaju se do konvergencije logaritmske izglednosti podataka, a pseudokod je dan kao pseudokod \ref{alg:gauss}. 
 
 \begin{lstlisting}[caption = Pseudokod modela Gaussove mješavine, label = {alg:gauss}, escapeinside={*}{-}]
  definiraj broj grupa *$K$-
- inicijaliziraj parametre *$\pi$-, *$\mu$- i *$\Sigma$-
+ inicijaliziraj parametre *$\pi_k$-, *$\mu_k$- i *$\Sigma_k$-, *$k = 1, ..., K$-
  ponavljaj
     za svaku točku *$x_i \in N$-
        za svaku distribuciju *$k \in K$-
@@ -547,6 +546,7 @@ dok *$\ln p(X; \mu, \sigma, \pi)$- ne konvergira
 
 Model Gaussove mješavine model je mekog grupiranja i svakoj točki dodijeljuje vektor vjerojatnosti pripadanja svakoj grupi. Iako sporije konvergira od algoritma K-sredina, za razliku od njega može se koristiti i na malim skupovima podataka te kada grupe nisu jasno razdvojene. Također, može pronaći grupe različitih oblika i otporan je na prisutnost anomalija ili loše definiranih podataka.
 
+
 \chapter{Korišteni skupovi podataka}
 \section{Otkrivanje prijevare s kreditnim karticama}
 Važno je da banke mogu prepoznati neobične transakcije kreditnim karticama kako bi se otkrila prijevara i spasili novci korisnika. Prvi skup podataka koristi se za otkrivanje prijevara kreditnim karicama (eng. \textit{Credit Card Fraud Detection}) i preuzet je s \cite{pang2021deep}. Sadrži transakcije koje su europski vlasnici kartica izvršili kreditnim karticama u rujnu 2013. godine u 2 dana. Skup podataka izrazito je neuravnotežen te prijevare čine samo 0,172\% svih transakcija.
@@ -556,13 +556,13 @@ Skup podataka sadrži numeričke značajke koje su rezultat analize glavnih komp
 Skup podataka koji se koristi već je obrađen, maknuta je značajka \textit{Vrijeme} jer ne pomaže u problemu detekcije prijevara i provedena je normalizacija podataka.
 
 \section{Detekcija upada u mrežu}
-Skup podataka \textit{KDD Cup 1999} umjetno je stvoren skup koji se može koristiti za detekciju mrežnog upada ili napada. Taj skup podataka korišten je za Treće međunarodno natjecanje u otkrivanju znanja i alatima za rudarenje podataka. Zadatak natjecanja bio je izgraditi prediktivni model koji će detektirati upade u mrežu i razlikovati ih od normalnih veza. Svaka veza je slijed TCP paketa koji počinje i završava u nekom definiranom vremenu, u kojem se podaci šalju od izvorne IP adrese na ciljnu IP adresu prema nekom definiranom protokolu.
+Skup podataka \textit{KDD Cup 1999} umjetno je stvoren skup koji se može koristiti za detekciju mrežnog upada ili napada. Taj skup podataka korišten je za \textit{Treće međunarodno natjecanje u otkrivanju znanja i alatima za rudarenje podataka}. Zadatak natjecanja bio je izgraditi prediktivni model koji će detektirati upade u mrežu i razlikovati ih od normalnih veza. Svaka veza je slijed TCP paketa koji počinje i završava u nekom definiranom vremenu, u kojem se podaci šalju od izvorne IP adrese na ciljnu IP adresu prema nekom definiranom protokolu.
 
 Ovaj skup podataka sadrži standardni skup podataka za provjeru modela i preuzet je s  \cite{pang2021deep}. Nastao je tako što je \textit{Lincoln Labs} postavio okolinu za prikupljanje neobrađenih TCP podataka za lokalnu mrežu (LAN) tokom devet tjedana simulirajući tipični LAN američkih zračnih snaga. Upravljali su LAN-om kao da se radi o pravoj okolini zračnih snaga uz dodatak višestrukih napada. Prikupljeno je oko 7 milijuna zapisa veza, pri čemu svaka veza ima 41 značajku i označena je kao normalna veza ili kao napad, s točno specificiranom vrstom napada. U skupu za treniranje korišteno je ukupno 24 različita tipa napada.
 
 Za potrebe ovog rada korištena su dva podskupa skupa podataka \textit{KDD Cup 1999}: \textit{U2R} i \textit{Probe}.
 
-Napad \textit{U2R} (eng. \textit{User to Root}) jest napad u kojem napadač na početku pristupa normalnom korisničkom računu, a kasnije dobiva pristup korijenskom korisniku (eng. \textit{root}) iskorištavanjem ranjivosti sustava ili greške korisnika. \textit{Probe} napad skenira mrežu sa svrhom praćenja mreže ili prikupljanje podataka o mreži i mrežnoj aktivnosti.
+Napad \textit{U2R} (eng. \textit{User to Root}) jest napad u kojem napadač na početku pristupa normalnom korisničkom računu, a kasnije dobiva pristup korijenskom korisniku (eng. \textit{root}) iskorištavanjem ranjivosti sustava ili greške korisnika. \textit{Probe} napad skenira mrežu sa svrhom praćenja mreže ili prikupljanja podataka o mreži i mrežnoj aktivnosti.
 
 Novi skupovi podataka izvedeni su iz skupa podataka \textit{KDD Cup 1999} koristeći \textit{U2R} ili \textit{Probe} napad kao anomaliju naspram normalnih veza. Ti skupovi su znatno manji i broj značajki smanjen je na 6 osnovnih: 
 \begin{enumerate}
@@ -574,7 +574,7 @@ Novi skupovi podataka izvedeni su iz skupa podataka \textit{KDD Cup 1999} korist
 \item Prijava ostvarena kao gost
 \end{enumerate}
 
-Prve tri značajke su kategoričkog tipa, a druga tri tipa boolean (točno/netočno).
+Prve tri značajke su kategoričkog tipa, a druge tri tipa boolean (točno/netočno).
 
 \section{Detekcija raka}
 Jedna od važnih primjena otkrivanja anomalija jest u medicini gdje one mogu signalizirati pojavu bolesti. Detekcija anomalija korisiti se za analizu medicinskih slika kako bi se otkrile abnormalne stanice ili tumori. Primjer toga jest predikcija je li tumor dojke dobroćudan ili zloćudan i za tu svrhu korišten je skup podataka preuzet s \cite{Dua:2019}.
@@ -598,6 +598,7 @@ Pregled svih korištenih skupova podataka dan u tablici \ref{tab:datasets}.
   \end{center}
 \end{table}
 
+
 \chapter{Programsko ostvarenje}
 
 \section{Obrada podataka}
@@ -607,14 +608,14 @@ Prvi skup podataka, prijevare s kreditnim karticama, nije bilo potrebno mijenjat
 
 Skupovi podataka \textit{U2R} i \textit{Probe} sadrže kategoričke značajke koje su se morale kodirati jer svi navedeni algoritmi rade isključivo s numeričkim podacima. Provedeno je \textit{One-hot} kodiranje u kojem se svaku kategoričku značajku prikazuje vektorom binarnih vrijednosti. Svaka pozicija u vektoru označava jednu vrijednost te značajke i svaka značajka ima jedinicu samo na mjestu koje odgovara njezinoj vrijednosti te nulu na svim ostalim mjestima. Time se broj dimenzija podataka poveća za broj svih različitih vrijednosti značajki. Budući da značajka \textit{Vrsta aplikacijskog protokola} može poprimiti 65 različitih vrijednosti, odabrano je 5 najčešćih vrijednosti dok su preostale označene kao \textit{ostalo}. Najčešće vrijednosti u oba skupa podataka su: \textit{http}, \textit{private},  \textit{smtp}, \textit{domain\_u}  i \textit{ftp\_data}. Značajka \textit{Zastavica} poprima ukupno 9 različitih vrijednosti, od čega 94.86\% u jednom skupu odnosno 99.51\% podataka u drugom skupu ima vrijednost \textit{SF}. Zbog toga je samo ta vrijednost zadržana, a preostale su označene s \textit{ostalo}. Značajka \textit{Vrsta transportnog protokola} ima samo tri moguće vrijednosti (\textit{tpc}, \textit{udp} i \textit{icmp}) te ovdje reduciranje broja vrijednosti nije bilo potrebno.
 
-U obradi skupa podataka tumora dojke maknute su značajke  \textit{Identifikacijski broj} i \textit{Dijagnoza} budući da nam prva ne daje nikakvu informaciju, dok nam druga daje rješenje problema grupiranja. Zbog toga se značajka \textit{Dijagnoza} koristi u vrednovanju kao oznaka grupe kojoj primjer pripada. Također, provedena je normalizacija podataka koristeći robusno skaliranje (eng. \textit{RobustScaler}). Takvo skaliranje uklanja medijan i skalira podatke prema interkvartilnom rasponu (eng. \textit{Interquartile Range - IQR}), što je raspon između 25. i 75. kvantila. Korištena je ova vrsta skaliranja jer je najotpornija na stršeće vrijednosti te anomalije ostaju prisutne i nakon skaliranja.
+U obradi skupa podataka tumora dojke maknute su značajke  \textit{Identifikacijski broj} i \textit{Dijagnoza} budući da nam prva ne daje nikakvu informaciju, dok nam druga daje rješenje problema grupiranja. Zbog toga se značajka \textit{Dijagnoza} koristi u vrednovanju kao oznaka grupe kojoj primjer pripada. Također, provedena je normalizacija podataka koristeći robusno skaliranje (eng. \textit{Robust Scaler}). Takvo skaliranje uklanja medijan i skalira podatke prema interkvartilnom rasponu (eng. \textit{Interquartile Range - IQR}), što je raspon između 25. i 75. kvantila. Korištena je ova vrsta skaliranja jer je najotpornija na stršeće vrijednosti te anomalije ostaju prisutne i nakon skaliranja.
 
 \section{Smanjenje broja uzoraka}
 Zbog ograničene snage računalnog procesora, bilo je potrebno provesti smanjenje broja uzoraka za neke skupove podataka. 
 
 Za svaki skup podataka definira se udio normalnih (negativnih) primjera i udio anomalija (pozitivnih primjera) koji se žele zadržati u skupu. Kako bi rezultati bili što vjerodostojniji, skup podataka je svaki put prvo izmiješan te su primjeri koji ostaju izabrani slučajnim odabirom. 
 
-U skupu podataka o kreditnim karticama zadržano je 10\% normalnih primjera i sve anomalije, kako bi se povećao udio anomalija u skupu. U slučaju detekcije upada u mrežu, u oba skupa podataka \textit{U2R} i \textit{Probe}, testiranje je provedeno nad 50\% normalnih primjera i 50\% anomalija.
+U skupu podataka o kreditnim karticama zadržano je 10\% normalnih primjera i sve anomalije, kako bi se povećao udio anomalija u skupu. U slučaju detekcije upada u mrežu, u oba skupa podataka \textit{U2R} i \textit{Probe}, ispitivanje je provedeno nad 50\% normalnih primjera i 50\% anomalija.
 
 Skup podataka za detekciju raka nije zahtijevao smanjenje broja uzoraka budući da je skup sam po sebi malen. Međutim, provedeno je smanjenje broja anomalija u skupu jer je njihov originalni udio bio prevelik da bi se takvi primjeri smatrali odstupanjima. Iz tog je razloga zadržano 10\% anomalija i svi normalni primjeri.
 
@@ -635,53 +636,53 @@ U tablici \ref{tab:datasets2} dan je pregled svih korištenih skupova podataka n
   \end{center}
 \end{table}
 
-
 \section{Algoritmi i ostvarenje detekcije anomalija}
 Za algoritme K-sredina, DBSCAN i Gaussovu mješavinu, kao i za sve metrike, korištena su programska ostvarenja iz biblioteke \textit{scikit-learn} \cite{scikit-learn}.
 
-Algoritam K-sredina očekuje hiperparametar \textit{K} odnosno broj grupa. Budući da u korištenim skupovima podataka uvijek postoji samo jedna grupa, koja sadrži određeni postotak odstupanja, broj grupa fiksiran je na 1. Algoritam je testiran i za veći broj grupa, međutim za svaki skup podataka dobije se najbolje rješenje kada postoji samo jedna grupa. Zadatak algoritma je računanje vrijednosti centroida te grupe nakon čega se računa udaljenost svake točke od centroida. One točke koje su najudaljenije smatraju se anomalijama, a granična udaljenost dobiva se kao određeni percentil distrubucije svih udaljenosti. Odabrani percentil najčešće ovisi o očekivanom udjelu anomalija u skupu podataka. Na primjer, ako se očekuje oko 10\% anomalija u skupu, uzima se 90. percentil kao prag udaljenosti. To znači da će 10\% točaka s najvećom udaljenošću biti označeno kao anomalije.
+Algoritam K-sredina očekuje hiperparametar \textit{K} odnosno broj grupa. Budući da u korištenim skupovima podataka uvijek postoji samo jedna grupa, koja sadrži određeni postotak odstupanja, broj grupa fiksiran je na 1. Algoritam je isproban i za veći broj grupa, međutim za svaki skup podataka dobije se najbolje rješenje kada postoji samo jedna grupa. Zadatak algoritma jest računanje vrijednosti centroida te grupe nakon čega se računa udaljenost svake točke od centroida. One točke koje su najudaljenije smatraju se anomalijama, a granična udaljenost dobiva se kao određeni percentil distrubucije svih udaljenosti. Odabrani percentil najčešće ovisi o očekivanom udjelu anomalija u skupu podataka. Na primjer, ako se očekuje oko 10\% anomalija u skupu, uzima se 90. percentil kao prag udaljenosti. To znači da će 10\% točaka s najvećom udaljenošću biti označeno kao anomalije.
 
 Algoritam DBSCAN sam po sebi otkriva anomalije jer proglašava anomalijom svaku točku koja nije niti središnja niti granična točka. Algoritam zahtjeva dva hiperparametra, minimalan broj točaka \textit{minPts} i udaljenost $\epsilon$. Njihovo određivanje pokazalo se kao težak zadatak te je za svaki skup podataka provedeno pretraživanje po rešetci (eng. \textit{Grid Search}). Na taj način otkrivena je kombinacija parametara za koju algoritam dalje najbolju detekciju anomalija. Budući da DBSCAN algoritam sam određuje broj grupa, on može biti i veći od 1. U tom je slučaju prije vrednovanja provedeno označavanje točaka gdje je svaka točka, koja nije prepoznata kao anomalija, označena kao normalna točka. Ovaj korak nije nužan i zapravo mijenja rezultat grupiranja, ali je proveden kako bi se vredovanje fokusiralo na detekciju anomalija, a ne na otkrivanje grupa.
 
-Za model Gaussove mješavine potrebno je definirati broj grupa \textit{K} odnosno broj Gaussovih komponenata u skupu podataka. Kao i u slučaju algoritma K-sredina, model Gaussove mješavine testiran je za različite brojeve komponenata, ali najbolji rezultat ostvaren je kada postoji samo jedna grupa. Korišten je model koji ima sferni tip kovarijance, u kojem svaka komponenta ima vlastitu varijancu koja je ista po svim osima te se zato dobije kružni oblik u grafičkom prikazu. Za inicijalizaciju srednjih vrijednosti, kovarijance i vjerojatnosti miješanja korišten je algoritam K-sredina. Ti su parametri izabrani jer je za njih dobivena najtočnija detekcija anomalija. Algoritam za svaki primjer računa njegovu logaritamsku izglednost u tom skupu podataka te se primjeri s najmanjom izglednošću proglašavaju anomalijama. Granična izglednost uzeta je kao određeni percentil svih izglednosti, koji također ovisi o očekivanom udjelu anomalija. Ako se očekuje 10\% anomalija, 10. percentil uzima se kao granični i sve točke s manjom izglednosti od njegove označuju se kao anomalije.
+Za model Gaussove mješavine potrebno je definirati broj grupa \textit{K} odnosno broj Gaussovih komponenata u skupu podataka. Kao i u slučaju algoritma K-sredina, model Gaussove mješavine ispitan je za različite brojeve komponenata, ali najbolji rezultat ostvaren je kada postoji samo jedna grupa. Korišten je model koji ima sferni tip kovarijance, u kojem svaka komponenta ima vlastitu varijancu koja je ista po svim osima te se zato dobije kružni oblik u grafičkom prikazu. Za inicijalizaciju srednjih vrijednosti, kovarijance i vjerojatnosti miješanja korišten je algoritam K-sredina. Ti su parametri izabrani jer je za njih dobivena najtočnija detekcija anomalija. Algoritam za svaki primjer računa njegovu logaritamsku izglednost u tom skupu podataka te se primjeri s najmanjom izglednošću proglašavaju anomalijama. Granična logaritamska izglednost uzeta je kao određeni percentil svih logaritmaskih izglednosti, koji također ovisi o očekivanom udjelu anomalija. Ako se očekuje 10\% anomalija, 10. percentil uzima se kao granični i sve točke s manjom logaritamskom izglednošću od njegove označuju se kao anomalije.
 
 Prilikom određivanja hiperparametara algoritma i graničnih vrijednosti, odabrane su one vrijednosti koje maksimiziraju F1-mjeru.
 
+
 \chapter{Rezultati}
 
-\section{Detekcija anomalija u transakcijama}
+\section{Anomalije u kartičnim transakcijama}
 Prva usporedba algoritama grupiranja provedena je na skupu podataka o kreditnim karticama, sa ciljem detektiranja prijevara.
 
-Za algoritam K-sredina bilo je potrebno odrediti granični percentil udaljenosti od centroida te je ovisnost F1-mjere o odabranom percentilu prikazana na slici \ref{fig:credit-kmeans}. Kao granični percentil odabran je percentil 98.65 jer je za njega dobivena maksimalna vrijednost F1-mjere.
+Za algoritam K-sredina unaprijed je određen hiperparametar $K$, odnosno broj grupa je fiksiran na 1. Bilo je potrebno odrediti granični percentil udaljenosti od centroida te je ovisnost F1-mjere o odabranom percentilu prikazana na slici \ref{fig:credit-kmeans}. Kao granični percentil odabran je percentil 98.65 jer je za njega dobivena maksimalna vrijednost F1-mjere.
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/credit-kmeans-f1.png}
 \centering
-\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za skup podataka o kreditnim karticama.}
+\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za algoritam K-sredina i problem detekcije kartičnih prijevara.}
 \label{fig:credit-kmeans}
 \end{figure}
 
-Kako bi se definirali hiperparametri algoritma DBSCAN provedeno je pretraživanje po rešetci te su najveće vrijednosti F1-mjere dobivene za $\epsilon = 0.25$ i $minPts = 55$. Slika \ref{fig:credit-dbscan} prikazuje promjenu F1-mjere za različit minimalni broj točaka $minPts$ uz fiksnu udaljenost $\epsilon = 0.25$.
+Kako bi se definirali hiperparametri algoritma DBSCAN, provedeno je pretraživanje po rešetci te su najveće vrijednosti F1-mjere dobivene za $\epsilon = 0.25$ i $minPts = 55$. Slika \ref{fig:credit-dbscan} prikazuje promjenu F1-mjere ovisno o minimalnom broju točaka $minPts$ uz fiksnu udaljenost $\epsilon = 0.25$.
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/credit-dbscan-f1.png}
 \centering
-\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 0.25$ za skup podataka o kreditnim karticama.}
+\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 0.25$ za algoritam DBSCAN i problem detekcije kartičnih prijevara.}
 \label{fig:credit-dbscan}
 \end{figure}
 
-U slučaju modela Gaussove mješavine potrebno je odrediti percentil logaritamske izglednosti ispod kojeg se točke proglašavaju anomalijiama. Ovisnost F1-mjere o tom percentilu prikazana je na slici \ref{fig:credit-gauss} te je percentil 1.35 uzet kao granični percentil. Slučajno je i u algoritmu K-sredina i u modelu Gaussove mješavine odabran granični percentil koji proglašava jednak postotak primjera anomalijama odnosno 1.35\%.
+U slučaju modela Gaussove mješavine broj komponenata unaprijed je postavljen na 1 te je potrebno odrediti percentil logaritamske izglednosti ispod kojeg se točke proglašavaju anomalijiama. Ovisnost F1-mjere o tom percentilu prikazana je na slici \ref{fig:credit-gauss} te je percentil 1.35 uzet kao granični percentil. Slučajno je i u algoritmu K-sredina i u modelu Gaussove mješavine odabran granični percentil koji proglašava jednak postotak primjera anomalijama odnosno 1.35\%.
 
 \begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/credit-gauss-f1.png}
 \centering
-\caption{Graf ovisnosti F1-mjere o percentilu logaritamske izglednosti za skup podataka o kreditnim karticama.}
+\caption{Graf ovisnosti F1-mjere o percentilu logaritamske izglednosti za model Gaussove mješavine i problem detekcije kartičnih prijevara.}
 \label{fig:credit-gauss}
 \end{figure}
 
-Svaki algoritam pokrenut je 20 puta na svakom skupu podataka. Na slici \ref{fig:credit-f1} prikazana je grafička usporedba uspješnosti svih triju algoritama na temelju dobivenih F1-mjera, a u tablici \ref{tab:credit} dana je usporedba algoritama po svim metrikama, pri čemu je uzeta srednja vrijednost u 20 mjerenja.
+Svaki algoritam pokrenut je 20 puta na svakom skupu podataka. Na slici \ref{fig:credit-f1} prikazana je grafička usporedba uspješnosti svih triju algoritama na osnovi dobivenih F1-mjera, a u tablici \ref{tab:credit} dana je usporedba algoritama po svim metrikama, pri čemu je za svaku metriku uzeta srednja vrijednost u 20 mjerenja.
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/credit-f1.png}
 \centering
 \caption{Usporedba F1-mjere algoritama na problemu detekcije kartičnih prijevara.}
@@ -695,48 +696,50 @@ Svaki algoritam pokrenut je 20 puta na svakom skupu podataka. Na slici \ref{fig:
     \begin{tabular}{c|c|c|c} 
       & \textbf{K-sredine} & \textbf{DBSCAN}  & \textbf{Gaussova mješavina}\\
       \hline
-      \textbf{Preciznost} & 0.774 & 0.721 & 0.771 \\
-      \textbf{Odziv} & 0.615 & 0.753 & 0.613 \\
-      \textbf{F1-mjera} & 0.685 & 0.737 & 0.683 \\
-      \textbf{AUC mjera} & 0.806 & 0.874 & 0.805 \\
-       \textbf{Koeficijent siluete} & 0.653 & 0.611 & 0.653 \\
-       \textbf{Davies-Bouldin indeks} & 1.212 & 1.414 & 1.215 \\
+      \textbf{Preciznost} & \textbf{0.774} & 0.721 & 0.771 \\
+      \textbf{Odziv} & 0.615 & \textbf{0.753} & 0.613 \\
+      \textbf{F1-mjera} & 0.685 & \textbf{0.737} & 0.683 \\
+      \textbf{AUC mjera} & 0.806 & \textbf{0.874} & 0.805 \\
+       \textbf{Koeficijent siluete} & \textbf{0.653} & 0.611 & \textbf{0.653} \\
+       \textbf{Davies-Bouldin indeks} & \textbf{1.212} & 1.414 & 1.215 \\
      \end{tabular}
   \end{center}
 \end{table}
 
+Iz grafičkog prikaza, kao i iz tablice rezultata, vidi se da je algoritam DBSCAN ostvario najbolju detekciju anomalija na skupu podataka o kreditnim karticama, dok su algoritmi K-sredina i Gaussove mješavine ostvarili približno isti rezultat. Također, F1-mjera rješenja algoritma DBSCAN više se razlikuje između različitih izvođenja nego F1-mjera rješenja preostala dva algoritma, odnosno rješenja algoritma DBSCAN više variraju. Međutim, usprkos dobroj detekciji i najvećem iznosu F1-mjere, metrike koje ne zahtjevaju oznake podataka ocijenile su algoritme K-sredina i Gaussovu mješavinu kao uspješnije.
+
 \section{Otkrivanje anomalija u mreži}
-U sljedeća dva skupa podataka zadatak je bio prepoznati mrežni napad kao anomaliju. Algoritmi su uspoređeni na skupovima podataka koji sadrže \textit{U2R} i \textit{Probe} mrežne napade.
+U sljedeća dva skupa podataka zadatak je bio prepoznati mrežni napad kao anomaliju. Algoritmi su uspoređeni na skupovima podataka koji sadrže \textit{U2R} i \textit{Probe}  mrežne napade.
 
 \subsection{Napad \textit{U2R} kao anomalija}
-U slučaju skupa podataka \textit{U2R}, za algoritam K-sredina određen je percentil 99.62 kao granični percentil jer on maksimizira vrijednost F1-mjere, kao što se vidi na slici \ref{fig:u2r-kmeans}.
+U slučaju skupa podataka \textit{U2R}, za algoritam K-sredina određen je percentil 99.62 kao granični percentil udaljenosti od centroida jer on maksimizira vrijednost F1-mjere, kao što se vidi na slici \ref{fig:u2r-kmeans}.
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/u2r-kmeans-f1.png}
 \centering
-\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za skup podataka \textit{U2R}.}
+\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za algoritam K-sredina i skup podataka \textit{U2R}.}
 \label{fig:u2r-kmeans}
 \end{figure}
 
 \begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/u2r-dbscan-f1.png}
 \centering
-\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 0.1$ za skup podataka \textit{U2R}.}
+\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 0.1$ za algoritam DBSCAN i skup podataka \textit{U2R}.}
 \label{fig:u2r-dbscan}
 \end{figure}
-
-Za algoritam DBSCAN izabrani su parametri $\epsilon = 0.1$ i $minPts = 150$. Na slici \ref{fig:u2r-dbscan} vidi se da je F1-mjera najveća za $minPts = 150$, iako niti za jednu vrijednosti $minPts$ nije dobivena zadovoljavajuća vrijednost F1-mjere, koja bi bila iznad 0.5. Mijenjanje udaljenosti $\epsilon$ nije imalo utjecaja na rezultat.
-
-Slika \ref{fig:u2r-gauss} prikazuje promjenu F1-mjere ovisno o odabranom graničnom percentilu za model Gaussove mješavine te je, sukladno slici, odabran percentil 0.38. Tako je i u algoritmu K-sredina i u modelu Gaussove mješavine odabran percentil koji upravo odgovara stvarnom udjelu anomalija u skupu podataka.
 
 \begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/u2r-gauss-f1.png}
 \centering
-\caption{Graf ovisnosti F1-mjere o percentilu logaritamske izglednosti za skup podataka \textit{U2R}.}
+\caption{Graf ovisnosti F1-mjere o percentilu logaritamske izglednosti za model Gaussove mješavine i skup podataka \textit{U2R}.}
 \label{fig:u2r-gauss}
 \end{figure}
 
-Algoritmi su vrednovani pomoću F1-mjere na 20 izvođenja i na slici \ref{fig:u2r-f1} dan je grafički prikaz rezultata. U tablici \ref{tab:u2r} prikazane su srednje vrijednosti svih mjerenih metrika. 
+Za algoritam DBSCAN izabrani su hiperparametri $\epsilon = 0.1$ i $minPts = 150$. Na slici \ref{fig:u2r-dbscan} vidi se da je F1-mjera najveća za $minPts = 150$, iako niti za jednu vrijednost hiperparametra $minPts$ nije dobiven zadovoljavajuć iznos F1-mjere, koji bi bio iznad 0.5. Mijenjanje udaljenosti $\epsilon$ nije imalo utjecaja na rezultat jer bi nakon takve promjene algoritam ili prepoznao cijeli skup kao anomaliju ili ne bi pronašao niti jednu anomaliju u skupu. Mogući razlog toga jest primjena \textit{OneHot} kodiranja zbog kojeg velik broj značajki ima vrijednost 0 te se udaljenosti među podacima čine manjima.
+
+Slika \ref{fig:u2r-gauss} prikazuje promjenu F1-mjere modela Gaussove mješavine ovisno o odabranom graničnom percentilu logaritamske izglednosti te je, sukladno slici, odabran percentil 0.38. Time je i u algoritmu K-sredina i u modelu Gaussove mješavine odabran postotak anomalija koji upravo odgovara stvarnom udjelu napada u skupu podataka.
+
+Algoritmi su vrednovani pomoću F1-mjere i na slici \ref{fig:u2r-f1} dan je grafički prikaz rezultata nakon 20 izvođenja. U tablici \ref{tab:u2r} prikazane su srednje vrijednosti svih mjerenih metrika.
 
 \begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/u2r-f1.png}
@@ -752,86 +755,168 @@ Algoritmi su vrednovani pomoću F1-mjere na 20 izvođenja i na slici \ref{fig:u2
     \begin{tabular}{c|c|c|c} 
       & \textbf{K-sredine} & \textbf{DBSCAN}  & \textbf{Gaussova mješavina}\\
       \hline
-      \textbf{Preciznost} & 0.609 & 0.266 & 0.603 \\
-      \textbf{Odziv} & 0.591 & 0.832 & 0.596 \\
-      \textbf{F1-mjera} & 0.600 & 0.403 & 0.599 \\
-      \textbf{AUC mjera} & 0.795 & 0.911 & 0.797 \\
-       \textbf{Koeficijent siluete} & 0.526 & 0.467 & 0.526 \\
-       \textbf{Davies-Bouldin indeks} & 0.552 & 1.699 & 0.585 \\
+      \textbf{Preciznost} & \textbf{0.609} & 0.266 & 0.603 \\
+      \textbf{Odziv} & 0.591 & \textbf{0.832} & 0.596 \\
+      \textbf{F1-mjera} & \textbf{0.600} & 0.403 & 0.599 \\
+      \textbf{AUC mjera} & 0.795 & \textbf{0.911} & 0.797 \\
+       \textbf{Koeficijent siluete} & \textbf{0.526} & 0.467 & \textbf{0.526} \\
+       \textbf{Davies-Bouldin indeks} & \textbf{0.552} & 1.699 & 0.585 \\
      \end{tabular}
   \end{center}
 \end{table}
 
+U slučaju detekcije mrežnog napada \textit{U2R}, algoritmi K-sredina i Gaussove mješavine ostvarili su značajno bolji rezultat nego algoritam DBSCAN. Iako je on postigao puno veći odziv, što je često u problemima detekcije anomalija i poželjno, po vrijednosti ostalih metrika zaostaje za druga dva algoritma. U ovom primjeru vidljivo je i da AUC mjera nije uvijek mjerodavna prilikim otkrivanja anomalija, budući da algoritam DBSCAN ima najveći iznos AUC mjere, a najlošiju sveukupnu izvedbu. Druga dva algoritma ostvarila su sličan rezultat, pri čemu je algoritam K-sredina imao malo bolju izvedbu od modela Gaussove mješavine.
+
 \subsection{Napad \textit{Probe} kao anomalija}
-Za skup podataka koji kao anomaliju imaju mrežni napad \textit{Probe}, slika \ref{fig:probe-kmeans} prikazuje promjenu F1-mjere algoritma K-sredina pri promjeni graničnog percentila. Odabran je percentil 93.5, iako je to mogao biti i bilo koji u rasponu $[89, 93.5]$ jer za sve njih F1-mjera postiže maksimum. Ovaj percentil je odabran kako bi se 
+Za skup podataka koji kao anomaliju imaju mrežni napad \textit{Probe}, slika \ref{fig:probe-kmeans} prikazuje promjenu F1-mjere algoritma K-sredina pri promjeni graničnog percentila udaljenosti od centroida. Kao granični percentil odabran je percentil 93.5, iako je to mogao biti i bilo koji u rasponu $[89, 93.5]$ jer za sve njih F1-mjera postiže maksimum. Međutim, odabran je najveći percentil kako bi što manji broj primjera bio označen kao anomalija.
 
 \begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/probe-kmeans-f1.png}
 \centering
-\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za skup podataka \textit{Probe}.}
+\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za algoritam K-sredina i skup podataka \textit{Probe}.}
 \label{fig:probe-kmeans}
 \end{figure}
 
-Kao i kod skupa podataka s napadom \textit{U2R}, udaljenost $\epsilon$ nije imala velikog utjecaja na izvođenje algoritma DBSCAN, pa je ona fiksirana na $\epsilon = 0.1$. Slika \ref{fig:probe-dbscan} prikazuje ovisnost F1-mjere o minimalnom broju točaka $minPts$ te je odabrano $minPts = 1300$.
-
-\begin{figure}[htb]
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/probe-dbscan-f1.png}
 \centering
-\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 0.1$ za skup podataka \textit{Probe}.}
+\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 0.1$ za algoritam DBSCAN i skup podataka \textit{Probe}.}
 \label{fig:probe-dbscan}
 \end{figure}
 
-Slika\ref{fig:probe-gauss} prikazuje promjenu F1-mjere modela Gaussove mješavine ovisno o graničnom percentilu i graf sliči zrcalnoj slici grafa za algoritam K-sredina. Isto kao i kod tog algoritma, maksimum se postiže za više vrijednosti odnosno za svaki percentil iz skupa $[6.5, 11]$. Izabran je percentil 6.5 kako 
+Kao i kod skupa podataka s napadom \textit{U2R}, manje promjene udaljenosti $\epsilon$ nisu imale utjecaja na rezultate algoritma DBSCAN, dok su veće promjene imale neželjeni učinak, pa je udaljenost fiksirana na $\epsilon = 0.1$. Slika \ref{fig:probe-dbscan} prikazuje ovisnost F1-mjere o minimalnom broju točaka $minPts$ te je odabrano $minPts = 1300$, jer se za tu vrijednost postiže maksimum F1-mjere.
 
-\begin{figure}[htb]
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/probe-gauss-f1.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
+\caption{Graf ovisnosti F1-mjere o percentilu logaritamske izglednosti za model Gaussove mješavine i skup podataka \textit{Probe}.}
 \label{fig:probe-gauss}
 \end{figure}
 
-\section{Detekcija raka kao anomalije}
+Slika \ref{fig:probe-gauss} prikazuje promjenu F1-mjere modela Gaussove mješavine ovisno o graničnom percentilu logaritamske izglednosti. Vidi se da dobiveni graf sliči zrcalnoj slici grafa za algoritam K-sredina te se, isto kao i kod tog algoritma, maksimum postiže za više vrijednosti odnosno za svaki percentil iz skupa $[6.5, 11]$. Kao i kod K-sredina, izabran je percentil 6.5 kako bi se što manji udio podataka proglasio anomalijom.
 
-\begin{figure}[htb]
+Rezultati F1-mjere svih algoritama nakon 20 izvođenja prikazani su na slici \ref{fig:probe-f1}, a u tablici \ref{tab:probe} je dana usporedba srednje vrijednosti svih mjerenih metrika. 
+
+\begin{figure}[h!]
+\includegraphics[width=1\textwidth]{images/probe-f1.png}
+\centering
+\caption{Usporedba F1-mjere algoritama na problemu detekcije mrežnog napada \textit{Probe}.}
+\label{fig:probe-f1}
+\end{figure}
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Usporedba algoritama na skupu podataka s mrežnim napadom \textit{Probe}.}
+    \label{tab:probe}
+    \begin{tabular}{c|c|c|c} 
+      & \textbf{K-sredine} & \textbf{DBSCAN}  & \textbf{Gaussova mješavina}\\
+      \hline
+      \textbf{Preciznost} & \textbf{0.881} & 0.634 & \textbf{0.881} \\
+      \textbf{Odziv} & 0.859 & \textbf{0.944} & 0.858 \\
+      \textbf{F1-mjera} & \textbf{0.870} & 0.759 & 0.869 \\
+      \textbf{AUC mjera} & 0.925 & \textbf{0.953} & 0.925 \\
+       \textbf{Koeficijent siluete} & \textbf{0.518} & 0.497 & \textbf{0.518} \\
+       \textbf{Davies-Bouldin indeks} & \textbf{1.031} & 1.417 & 1.035 \\
+     \end{tabular}
+  \end{center}
+\end{table}
+
+Rezultati detekcije napada \textit{Probe} grafički nalikuju rezultatima detekcije napada \textit{U2R}. Kao i tada, algoritmi K-sredina i Gaussove mješavine ostvarili su gotovo pa jednak rezultat i nadmašili su algoritam DBSCAN. Međutim, ovaj je put razlika između algoritma DBSCAN i ostalih algoritama manja i svi su algoritmi postigli bolje rezultate nego na skupu podataka \textit{U2R}. Mogući razlog toga jest veći ukupni udio anomalija u ovom skupu podataka. Algoritam DBSCAN ponovno je prvi po broju točno detektiranih anomalija odnosno ima najveći odziv, ali zato ima manje vrijednosti ostalih metrika.
+
+\section{Detekcija raka kao anomalije}
+Cilj posljednjeg eksperimenta bio je detekcija zloćudnog tumora na malom skupu podataka koji sadrži mjerenja više dobroćudnih i zloćudnih tumora dojke.
+
+Za otkrivanje anomalija pomoću algoritma K-sredina odabran je granični percentil udaljenosti 93.5 jer je za njega dobivena najbolja detekcija anomalija, kao što se vidi na slici \ref{fig:cancer-kmeans}.
+
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/cancer-kmeans-f1.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
+\caption{Graf ovisnosti F1-mjere o percentilu udaljenosti za algoritam K-sredina i problem detekcije raka.}
 \label{fig:cancer-kmeans}
 \end{figure}
 
-\begin{figure}[htb]
-\includegraphics[width=1\textwidth]{images/cancer-dbscan-f1.png}
+\begin{figure}[h!]
+\includegraphics[width=1\textwidth]{images/cancer-dbscan-f1eps.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
-\label{fig:cancer-dbscan}
+\caption{Graf ovisnosti F1-mjere o udaljenosti $\epsilon$ uz $minPts=60$ za algoritam DBSCAN i problem detekcije raka.}
+\label{fig:cancer-dbscan1}
 \end{figure}
 
-\begin{figure}[htb]
+Za algoritam DBSCAN odabran je minimalni broj točaka $minPts$ po pravilu $minPts =2*D$, gdje je broj dimenzija $D$ jednak 30. Iz slike \ref{fig:cancer-dbscan1} vidi se da optimalna udaljenost uz $minPts = 60$ iznosi $\epsilon = 5.3$. Slika \ref{fig:cancer-dbscan2} prikazuje i promjenu F1-mjere za različite vrijednosti minimalnog broja točaka $minPts$ uz $\epsilon = 5.3$ te je vidljivo da se maksimalna vrijednost F1-mjere postiže, među ostalim, i za $minPts = 60$. Isto ispitivanje provedeno je i za druge početne vrijednosti hiperparametra $minPts$ i najbolji rezultati ostvareni su korištenjem ove kombinacije hiperparametara algoritma. Takva detaljna analiza nije provedena za preostale skupove podataka zbog zahtjevnosti izvođenja algoritma DBSCAN na velikim skupovima podataka, naročito uz veće variranje udaljenosti $\epsilon$.
+
+\begin{figure}[h!]
+\includegraphics[width=1\textwidth]{images/cancer-dbscan-f1.png}
+\centering
+\caption{Graf ovisnosti F1-mjere o minimalnom broju točaka $minPts$ uz $\epsilon = 5.3$ za algoritam DBSCAN i problem detekcije raka.}
+\label{fig:cancer-dbscan2}
+\end{figure}
+
+\begin{figure}[h!]
 \includegraphics[width=1\textwidth]{images/cancer-gauss-f1.png}
 \centering
-\caption{Primjer Gaussove mješavine za $K = 3$. Preuzeto s  \cite{GaussianMixtureExplained}}
+\caption{Graf ovisnosti F1-mjere o percentilu logaritamske izglednosti za model Gaussove mješavine i problem detekcije raka.}
 \label{fig:cancer-gauss}
 \end{figure}
 
+Ovisnost F1-mjere o graničnom percentilu logaritamske izglednosti za model Gaussove mješavine prikazana je na slici \ref{fig:cancer-gauss} te je kao granični percentil odabrana vrijednost 6.5.
+
+Grafička usporedba rezultata F1-mjere nakon 20 pokretanja svakog algoritama dana je na slici \ref{fig:cancer-f1}. Tablica \ref{tab:cancer} sadrži usporedbu algoritama na osnovi srednjih vrijednosti svih mjerenih metrika.
+
+\begin{figure}[h!]
+\includegraphics[width=1\textwidth]{images/cancer-f1.png}
+\centering
+\caption{Usporedba F1-mjere algoritama na problemu detekcije raka.}
+\label{fig:cancer-f1}
+\end{figure}
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Usporedba algoritama na skupu podataka za detekciju raka.}
+    \label{tab:cancer}
+    \begin{tabular}{c|c|c|c} 
+      & \textbf{K-sredine} & \textbf{DBSCAN}  & \textbf{Gaussova mješavina}\\
+      \hline
+      \textbf{Preciznost} & 0.544 & 0.503 & \textbf{0.548} \\
+      \textbf{Odziv} & 0.648 & \textbf{0.712} & 0.652 \\
+      \textbf{F1-mjera} & 0.591 & 0.589 & \textbf{0.596} \\
+      \textbf{AUC mjera} & 0.808 & \textbf{0.836} & 0.810 \\
+       \textbf{Koeficijent siluete} & \textbf{0.591} & 0.565 & 0.582 \\
+       \textbf{Davies-Bouldin indeks} & 1.434 & 1.517 & \textbf{1.415} \\
+     \end{tabular}
+  \end{center}
+\end{table}
+
+Na problemu detekcije raka sva tri algoritma ostvarila su vrlo slične rezultate,  što je vidljivo i iz grafičkog prikaza i iz srednjih vrijednosti različitih metrika. Gledajući F1-mjeru, model Gaussove mješavine daje nešto bolje rezultate od preostala dva algoritma. Algoritam DBSCAN ima najveću vrijednosti odziva i postigao je najveću vrijednost F1-mjere od svih algoritama na ovom skupu podataka. Međutim, on također ima i najveću varijaciju vrijednosti F1-mjere u različitim izvođenjima te mu je zato srednja vrijednost niža od ostalih. S druge strane, algoritam K-sredina ima najmanju promjenu F1-mjere između izvođenja, ali je i maksimalna vrijednost koju postiže najniža. Stoga bi u ovom slučaju odabir najboljeg algoritma ovisio o problema koji se rješava i okolnostima izvođenja. Ponekad je mala varijacija rješenja pri više pokretanja poželjno svojstvo, ali postoje i slučajevi kada je bitnije od toga dobiti jedno odlično rješenje, čak i ako je za to potrebno više puta pokrenuti algoritam.
+
 \chapter{Zaključak}
-Zaključak.
+U ovom radu napravljena je usporedba nekoliko algoritama grupiranja pri rješavanju problema otkrivanja anomalija. Anomalije su opažanja koja se znantno razlikuju od drugih i čije otkrivanje može biti izuzetno važno radi proučavanja novog obrasca ponašanja ili izvlačenja određenih zaključaka.
+
+Ispitane su mogućnosti detekcije anomalija tri različita algoritma grupiranja: algoritma K-sredina, algoritma DBSCAN i modela Gaussove mješavine. Za ispitivanje su korištena četiri skupa podataka koji u sebi sadrže određena odstupanja. Algoritmi su ispitani na problemu detekcije kartičnih prijevara, detekcije upada u mrežu odnosno otkrivanja dva tipa mrežnog napada te na problemu detekcije zloćudnog tumora.
+
+Algoritam DBSCAN dao je daleko najbolji rezultat u slučaju otkrivanja anomalija u kartičnim transakcijama, dok su se algoritmi K-sredina i Gaussove mješavine na svim skupovima podataka vrlo slično ponašali. Nadmašili su algoritam DBSCAN na problemu detekcije mrežnog napada te je algoritam K-sredina imao neznatno bolje vrijednosti metrika. U slučaju problema otkivanja raka, sva tri algoritma postigla su približno jednake rezultate, od kojih je model Gaussove mješavine bio nešto bolji od preostala dva.
+
+Iz ovih rezultata može se zaključiti da je algoritam DBSCAN prikladan za velike i normalizirane skupove podataka, veće dimenzionalnosti i s oko 1-2\% anomalija. Algoritmi K-sredina i Gaussove mješavine generalno daju slične rezultate i uspješniji su od algoritma DBSCAN na velikim skupovima podataka nešto manje dimenzionalnosti koji sadrže \textit{OneHot} kodirane značajke. Na manjem skupu podataka sva tri algoritma daju približno jednako dobra rješenja, pri čemu algoritam DBSCAN postiže najbolji ukupni rezultat. Međutim, algoritam DBSCAN ima i veliku varijaciju rješenja, dok algoritam K-sredina ima najmanju varijancu i uvijek daje približno isto rješenje.
+
+Odabir algoritma grupiranja uvijek ovisi o problemu otkivanja anomalija koji se rješava i njegovim svojstvima te o okolnostima eksperimenta. U obzir se mora uzeti veličina skupa podataka, dimenzionalnost, vrsta značajki i očekivani udio anomalija. Također, u ispitivanjima koja nije moguće ponavljati ili se moraju događati u stvarnom vremenu, veliku ulogu igra i varijanca rješenja algoritma, koja bi tada trebala biti što niža. 
+
+Daljnja analiza algoritama grupiranja u postupcima detekcije anomalija može se provesti ispitivanjem na više novih skupova podataka, dodavanjem šuma u podatke ili korištenjem skupa podataka koji ima više od jedne grupe.
 
 \nocite{*}
 \bibliography{literatura}
 \bibliographystyle{fer}
 
 \begin{sazetak}
-Sažetak na hrvatskom jeziku.
+Ovaj rad daje usporedbu algoritama grupiranja na različitim problemima otkrivanja anomalija u skupu podataka. Opisana je pojava anomalija, njeni uzroci, klasifikacija i moguće metode detekcije. Dan je detaljan opis algoritama K-sredina, DBSCAN i Gaussove mješavine te postojećih metrika za vrednovanje uspješnosti algoritama grupiranja. Odabrana su i opisana četiri skupa podataka s odstupanjima nad kojima je provedena usporedba algoritama. Objašnjeno je programsko ostvarenje sustava i detalji vrednovanja algoritama. Dobiveni rezultati prikazani su grafički i u obliku tablice te analizirani.
 
-\kljucnerijeci{Ključne riječi, odvojene zarezima.}
+\kljucnerijeci{algoritmi grupiranja, anomalije, usporedba, k-sredine, dbscan, gaussova mješavina}
 \end{sazetak}
 
 % TODO: Navedite naslov na engleskom jeziku.
-\engtitle{Title}
+\engtitle{Comparison Of Clustering Algorithms in Anomaly Detection Procedures}
 \begin{abstract}
-Abstract.
+This paper provides a comparison of clustering algorithms in different anomaly detection procedures. The occurrence of anomalies, its causes, classification and possible detection methods are described. A detailed description of algorithms K-means, DBSCAN and Gaussian mixture models is given, as well as of the existing metrics for evaluating the performance of clustering algorithms. Four data sets with outliers were selected for the algorithm comparison and described. The implementation of the system and the details of algorithm evaluation are explained. The obtained results are shown both graphically and in the form of a table and analyzed.
 
-\keywords{Keywords.}
+\keywords{clustering algorithms, anomalies, comparison, k-means, dbscan, gaussian mixture}
 \end{abstract}
 
 \end{document}
