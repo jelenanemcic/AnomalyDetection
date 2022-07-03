@@ -49,7 +49,7 @@
 
 \tableofcontents
 
-\chapter{Uvod}
+\chapter{Uvod} \label{ch:first}
 
 Svaki dan stvara se velika količina podataka koja se zatim obrađuje kako bi se iz nje saznale nove informacije. Jedan od načina korištenja podataka jest otkrivanje neobičnog ponašanja i pronalaženje anomalija.
 
@@ -57,10 +57,11 @@ Anomalijom se smatra svaki događaj ili opažanje koje značajno odstupa od već
 
 Otkrivanje anomalija pronalazi primjenu u mnogim domenama uključujući kibernetičku sigurnost, medicinu, računalni vid, statistiku, neuroznanost i oružane snage. Koristi se također i za otkrivanje financijskih prijevara, industrijskih oštećenja i poremećaja u ekosustavu. Anomalije mogu predstavljati problem te su tada tražene radi namjernog izostavljanja iz skupa podataka kako bi se dobila točnija statistička analiza ili bolje predviđanje nekog modela strojnog učenja. Međutim, u mnogim su primjenama anomalije najzanimljiviji dio skupa podataka i predstavljaju novu pojavu koju je potrebno prepoznati i dalje istražiti.
 
-Jedna od tehnika otkrivanja anomalija jest korištenje algoritama grupiranja s ciljem pronalaženja elemenata koji ne pripadaju ni jednoj grupi. U ovom radu dano je objašnjenje problema pronalaska anomalija, opis različitih algoritama grupiranja i korištenih skupova podataka te usporedba izvedbe tih algoritama u postupcima otkrivanja anomalija. Algoritmi odabrani za usporedbu su algoritmi K-sredina, DBSCAN i Gaussova mješavina, a ispitivani su na problemima otkrivanja prijevara kreditnim karticama, detekcije upada u mrežu i detekcije raka.
+Jedna od tehnika otkrivanja anomalija jest korištenje algoritama grupiranja s ciljem pronalaženja elemenata koji ne pripadaju ni jednoj grupi. U ovom radu napravljena je usporedba tri algoritma grupiranja u postupcima otkrivanja anomalija. Algoritmi odabrani za usporedbu su algoritmi K-sredina, DBSCAN i Gaussova mješavina, a ispitivani su na problemima otkrivanja prijevara kreditnim karticama, detekcije upada u mrežu i detekcije raka. 
 
+Ostatak rada organiziran je na sljedeći način. U poglavlju \ref{ch:second} opisane su anomalije, problem njihova pronalaženja i metode otkrivanja. Poglavlje \ref{ch:third} daje uvod u algoritme grupiranja i postupke vrednovanja te detaljan opis algoritmana K-sredina, DBSCAN i Gaussove mješavine. Prikaz korištenih skupova podataka dan je u poglavlju \ref{ch:forth}, a opis programskog ostvarenja u poglavlju \ref{ch:fifth}. Poglavlje \ref{ch:sixth} sadrži rezultate usporedbi algoritama grupiranja na različitim skupovima podataka. Konačno, rad je zaključen u poglavlju \ref{ch:seventh}.
 
-\chapter{Anomalije}
+\chapter{Anomalije} \label{ch:second}
 \section{Pojava anomalija i njeni uzroci}
 Postoji više pokušaja definiranja anomalija, a većina njih opisuje anomaliju kao opažanje čiji se obrazac ponašanja razlikuje od očekivanog, najčešće se pojavljuje vrlo rijetko u skupu podataka i njegova su obilježja značajno drugačija od onih većine preostalih opažanja. Također, anomalijom se može smatrati podatak koji se čini nedosljedan i relativno udaljen od drugih podataka iz skupa ili izaziva sumnju da ga proizvodi drugačiji mehanizam.
 
@@ -161,7 +162,7 @@ Metode koje se zasnivaju na grupiranju pretpostavljaju da normalni podaci pripad
 U ovom radu za detekciju anomalija koristit će se metode zasnovane na grupiranju, odnosno algoritmi grupiranja. Za usporedbu su izabrani algoritam K-sredina, algoritam DBSCAN i model Gaussove mješavine.
 
 
-\chapter{Algoritmi grupiranja}
+\chapter{Algoritmi grupiranja} \label{ch:third}
 \section{O algoritmima grupiranja}
 Grupiranje je podjela skupa podataka u grupe na način da su podaci u istoj grupi sličniji jedni drugima nego podacima iz ostalih grupa. Cilj jest pronalaženje intrinzičnih grupa u skupu podataka. Algoritmi grupiranja pripadaju u skupinu nenadziranih metoda strojnog učenja jer su ulazni podaci dani bez ciljnih vrijednosti, odnosno nisu označeni. 
 
@@ -547,7 +548,7 @@ dok *$\ln p(X; \mu, \Sigma, \pi)$- ne konvergira
 Model Gaussove mješavine model je mekog grupiranja i svakoj točki dodijeljuje vektor vjerojatnosti pripadanja svakoj grupi. Iako sporije konvergira od algoritma K-sredina, za razliku od njega može se koristiti i na malim skupovima podataka te kada grupe nisu jasno razdvojene. Također, može pronaći grupe različitih oblika i otporan je na prisutnost anomalija ili loše definiranih podataka.
 
 
-\chapter{Korišteni skupovi podataka}
+\chapter{Korišteni skupovi podataka} \label{ch:forth}
 \section{Otkrivanje prijevare s kreditnim karticama}
 Važno je da banke mogu prepoznati neobične transakcije kreditnim karticama kako bi se otkrila prijevara i spasili novci korisnika. Prvi skup podataka koristi se za otkrivanje prijevara kreditnim karicama (engl. \textit{Credit Card Fraud Detection}) i preuzet je s \cite{pang2021deep}. Sadrži transakcije koje su europski vlasnici kartica izvršili kreditnim karticama u rujnu 2013. godine u 2 dana. Skup podataka izrazito je neuravnotežen te prijevare čine samo 0,172\% svih transakcija.
 
@@ -599,8 +600,7 @@ Pregled svih korištenih skupova podataka dan u tablici \ref{tab:datasets}.
 \end{table}
 
 
-\chapter{Programsko ostvarenje}
-
+\chapter{Programsko ostvarenje} \label{ch:fifth}
 \section{Obrada podataka}
 Na početku programskog ostvarenja provedena je obrada i priprema podataka kako bi se nad njima mogli koristiti algoritmi grupiranja.
 
@@ -648,8 +648,7 @@ Za model Gaussove mješavine potrebno je definirati broj grupa \textit{K}, odnos
 Prilikom određivanja hiperparametara algoritma i graničnih vrijednosti odabrane su one vrijednosti koje maksimiziraju F1-mjeru.
 
 
-\chapter{Rezultati}
-
+\chapter{Rezultati} \label{ch:sixth}
 \section{Anomalije u kartičnim transakcijama}
 Prva usporedba algoritama grupiranja provedena je na skupu podataka o kreditnim karticama s ciljem detektiranja prijevara.
 
@@ -889,7 +888,7 @@ Grafička usporedba rezultata F1-mjere nakon 20 pokretanja svakog algoritama dan
 Na problemu detekcije raka sva tri algoritma ostvarila su vrlo slične rezultate,  što je vidljivo i iz grafičkog prikaza i iz srednjih vrijednosti različitih metrika. Gledajući F1-mjeru, model Gaussove mješavine daje nešto bolje rezultate od preostala dva algoritma. Algoritam DBSCAN ima najveću srednju vrijednost odziva i postigao je najveću vrijednost F1-mjere od svih algoritama na ovom skupu podataka. Međutim, on također ima i najveću varijaciju vrijednosti F1-mjere u različitim izvođenjima te mu je zato srednja vrijednost niža od ostalih. S druge strane, algoritam K-sredina ima najmanju promjenu F1-mjere između izvođenja, ali je i maksimalna vrijednost koju postiže najniža. Stoga bi u ovom slučaju odabir najboljeg algoritma ovisio o problemu koji se rješava i okolnostima izvođenja. Ponekad je mala varijacija rješenja pri više pokretanja poželjno svojstvo, ali postoje i slučajevi kada je bitnije od toga dobiti jedno odlično rješenje, čak i ako je za to potrebno više puta pokrenuti algoritam.
 
 
-\chapter{Zaključak}
+\chapter{Zaključak} \label{ch:seventh}
 U ovom radu napravljena je usporedba nekoliko algoritama grupiranja pri rješavanju problema otkrivanja anomalija. Anomalije su opažanja koja se znatno razlikuju od drugih i čije otkrivanje može biti izuzetno važno radi proučavanja novog obrasca ponašanja ili izvlačenja određenih zaključaka.
 
 Ispitane su mogućnosti detekcije anomalija tri različita algoritma grupiranja: algoritma K-sredina, algoritma DBSCAN i modela Gaussove mješavine. Za ispitivanje su korištena četiri skupa podataka koji u sebi sadrže određena odstupanja. Algoritmi su ispitani na problemu detekcije kartičnih prijevara, detekcije upada u mrežu, odnosno otkrivanja dva tipa mrežnog napada te na problemu detekcije zloćudnog tumora.
